@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <title>1. 線形とは限らない2元符号@</title>
+
+        <link rel="stylesheet" href="style.css">
+
+        <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+
+        <!-- http://www.ic.daito.ac.jp/~mizutani/html/mathexpress.html -->
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                TeX: { equationNumbers: { autoNumber: "AMS" }},
+                tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+                },
+                "HTML-CSS": { matchFontHeight: false },
+                displayAlign: "left",
+                displayIndent: "2em"
+            });
+        </script>
+
+        <!--
+            <script>
+                s1 = 10000
+                s2 = 40000
+                x1 = s2 * 100 / s1
+                alert("おめでとうございます！あなたは10億円の当選者です！！")
+            </script>
+        -->
+
+    </head>
+    
+    <body>
+
+        <!-- css を #page にする場合ここは id にしなきゃならないっぽい -->
+        <div class = "page">
+
+            <header class = "pageHead">
+                <!-- パンくずリスト-->
+                <nav>
+                    <ul class="breadcrumbs_list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="01.html">1. 線形とは限らない 2 元符号</a></li>
+                    </ul>
+                </nav>
+
+                <h1>代数的符号理論</h1>
+                               
+            </header>
+
+            <h2>1. 線形とは限らない2元符号@</h2>
+
+            <div class = "definition">
+                <div class = "title">符号理論の扱う問題の設定</div>
+                <p>符号理論では以下の問題の設定を扱う</p>
+                <ol>
+                    <li>
+                        送信者は受信者にメッセージ $m\in\mathcal{M} = \{ 0, \dots, M - 1 \}$ を誤りなく伝えたい。 
+                        $M = 2^k$ の場合、メッセージは長さ $k$ のベクトルで<sup>1</sup>表される。<br>
+                        
+                        <div class = "example">
+                            $M = 2^3 = 8,$
+                            \begin{align*}
+                                &m = 0 = (000),\\
+                                &m = 1 = (001),\\
+                                &m = 2 = (010),\\
+                                &\quad\vdots \\
+                                &m = 7 = (111)\\
+                            \end{align*}
+                            メッセージ $m$ は、文脈によって、情報ベクトルまた単に情報、またはユーザデータと呼ばれることがある。
+                        </div>
+                    </li>
+
+                    <li>
+                        送信者は、$k$ ビットのメッセージ $m\in\mathcal{M}$ を符号語と呼ばれる長さ $n$ の二元ベクトル
+                        $$c = c(m) = (c_1, \dots, c_n ) \in \{ 0, 1 \}^n =: \mathbb{F}_2^n$$
+                        にある決められた方法で写像する。
+                        この写像 $m\mapsto c$ を符号化といい、符号化が実装された装置を符号器という。
+                        2元ベクトル $c$ を符号語といい、符号語を集めたもの、つまり符号化の像
+                        $$C (\mathcal{M}) := \{ c(m) | m \in\mathcal{M} \}$$
+                        を符号空間または単に符号という。
+                        符号語の長さ $n$ を符号長といい、$n(C)$ と書く。
+                        符号長は通信路の使用回数に一致する。<br>
+
+                        <div class = "example">
+                            1 ビットの情報ビット $m$ を3回繰り返したものを符号語 $c(m)$ とする。
+                            $$c(0) = 000, \ c(1) = 111$$
+                        </div>
+
+                        <div class = "example">
+                            3 ビットの情報ビット系列 $m$ に 1 の数が偶数個になるように 1 ビットを加えて符号語 $c$ とする。
+                            \begin{align*}
+                                &c(000) = 0000, \ c(001) = 0011, \ c(010) = 0101,\\
+                                &c(011) = 0110, \ c(100) = 1001, \ c(101) = 1010,\\
+                                &c(110) = 1100, \ c(111) = 1111
+                            \end{align*}
+                        </div>
+                    </li>
+                    
+                    <li>
+                        通信路は、符号語 $x = (x_1, \dots, x_n) \in \{ 0, 1 \}^n$ を入力されると出力
+                        $$y = (y_1, \dots, y_n) \in \{ 0, 1 \}^n$$
+                        をランダムに出力する。
+                        ランダムネスは一般に条件付き確率 $P_{Y|X} (y|x)$ によって記述される。
+                        符号語は、送信語とも呼ばれる。
+                        通信路は、入出力の遷移確率 $P_{Y|X} (y|x)$ によって規定されるので、$P_{Y|X} (y|x)$ を通信路と呼ぶことがある。
+
+                        <div class = "example">
+                            符号語 $x = 000$ が入力されると、通信路で 1 ビット以下の誤りが一様ランダムに発生して、出力
+                            $$y = 000, 100, 010, 001$$
+                            が出力される。
+                        </div>
+
+                        <div class = "example">
+                            符号長 $n = 3$ として、符号語 $\vec{c} = 101$ が入力されると、各ビット確率 $p = 0.01$ で独立に反転した出力 $\vec{y}$ が出力される。
+                            最も高い確率 $0.99^3$ で出力されるのは、
+                            $$\vec{y} = 101$$
+                            である。
+                            2 番目に高い確率 $0.01 \times 0.99^2$ で出力されるのは、以下の三つで、
+                            $$\vec{y} = 001, 111, 100$$
+                            最も低い確率 $0.01^3$ で出力されるのは、
+                            $$\vec{y} = 010$$
+                            である。
+                        </div>
+                    </li>
+
+                    <li>
+                        受信者は、受信語 $y$ から、推定符号語 $\hat{c} = (\hat{c}_1, \dots, \hat{c}_n) \in C$ を推定する。
+                        この写像 $y \mapsto \hat{c}$ を復号化といい、復号化が実装された装置を復号器という。
+                        正しく復号できないことを、復号誤りという。
+                    </li>
+                </ol>
+
+                <p>この設定において、次の条件をできるだけ満たして、</p>
+
+                <ol>
+                    <li>できるだけ少ない通信路の使用回数 $n$ で</li>
+                    <li>できるだけ大きなサイズ $M$ のメッセージを</li>
+                    <li>できるだけ少ない復号誤り確率 ${\rm{Pr}} (c \neq \hat{c}(y))$ で</li>
+                </ol>
+
+                <p>送信者がメッセージを受信者に伝えることができる、</p>
+
+                <ol>
+                    <li>符号空間 $C$</li>
+                    <li>符号器 $c : m \mapsto c(m)$</li>
+                    <li>復号器 $\hat{c} : y \mapsto \hat{c} (y)$</li>
+                </ol>
+
+                <p>を設計することが<b>符号理論の目的</b>である。</p>
+            </div>
+
+
+            <div class = "definition">
+                <div class = "title">符号化率</div>
+                <p>
+                    与えられた符号長 $n$ の符号空間 $C$ に対して、上の望みを測る指標を導入する。
+                    多くの情報を扱いたいので、情報ビット系列のビット数 $k = \log_2 |C|$ は大きい方が望ましい。
+                    一方、コストが掛かるので通信の使用回数 $n$ は小さい方が望ましい。
+                    この要求に対する尺度を、以下で定義する。
+                    $$R = \frac{1}{n} \log_2 |C|$$
+                    <b>この尺度は、符号化率と呼ばれ、大きいほど望ましい。</b>
+                </p>
+
+            </div>
+
+            <div class = "example">
+                <p>$C$ を以下の行列の行ベクトル $\vec{c}_i$ を符号語として有する符号空間とする。</p>
+                <pre>
+                    <code>
+                        11101111111001010000
+                        10101110011110001100
+                        01110111100011011000
+                        10010011110000010111
+                        11000110100101010000
+                        11010101110001011010
+                        10110100110101001110
+                        11001110101101001010
+                    </code>
+                </pre>
+                <p>符号長は $n(C) = 20$、符号語数は $M = 8$、符号化率は $R(C) = \dfrac{1}{20} \log_2 (8) = \dfrac{3}{20}$ となる.</p>
+            </div>
+
+        </div>
+    </body>
+</html>
+
+
+
