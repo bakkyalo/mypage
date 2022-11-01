@@ -1,1 +1,7 @@
-
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+358-2.pdf

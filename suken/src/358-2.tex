@@ -1,0 +1,260 @@
+\documentclass[dvipdfmx, 11pt]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{ascmac}			% \screen
+\usepackage{exscale}		% \small \largeのときに和記号、積分記号のバランスをよくする
+\usepackage{txfonts}		% \leqq
+
+% フォントエンコーディングの名前をオプションで指定する
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}		% Latin Modern フォントを使う
+
+\usepackage[dvipdfmx]{hyperref, color}  % \hyperref用
+\usepackage{pxjahyper}		% ハイパーリンク
+
+\setlength{\headheight}{7mm}		
+\setlength{\topmargin}{-8.4truemm}	
+\addtolength{\textheight}{20truemm}	
+
+% 行間調整
+\renewcommand{\baselinestretch}{1.2}
+
+% ローマン体
+\newcommand{\A}[0]{\mathrm{A}}
+\newcommand{\PP}[0]{\mathrm{P}}
+
+% 大括弧
+\renewcommand{\(}[0]{\left(}
+\renewcommand{\)}[0]{\right)}
+\renewcommand{\[}[0]{\left[}
+\renewcommand{\]}[0]{\right]}
+
+\renewcommand{\labelenumi}{\textbf{問題\arabic{enumi}.}}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\title{第358回 実用数学技能検定1級 \\ 2次: 数理技能検定  問題}
+\author{\href{https://twitter.com/bakkyalo_}{@bakkyalo\_}}
+\date{2020/07/18 \ 実施}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	これは 2020年7月18日に行われた第358回実用数学技能検定1級の2次試験の検定問題を\,
+	\href{https://twitter.com/bakkyalo_}{@bakkyalo\_} \, が \LaTeX で焼き直した代物です。
+	ただ、書いている際に、問題用紙での印字が全角か半角かよく分からなかったり、私の \LaTeX レベルが未熟なのも相まって、
+	実際の問題の紙面を完全に再現することはできませんでした (そもそも問題が \LaTeX で作られているのかどうかすら分からない)。
+	また、巻末の$\chi^2$分布表は (書くのが面倒なので) 略させていただきました。
+	
+	なお、検定問題の著作権は日本数学検定協会に帰属しており、この文書はそれを \href{https://twitter.com/bakkyalo_}{@bakkyalo\_} のブログ記事における引用および勉強用という形で利用させていただいているものです。
+	協会より注意等なされた場合は速やかに削除いたしますのでよろしくお願いいたします。
+\end{abstract}
+
+\newpage \ \thispagestyle{empty}
+\newpage
+
+\begin{enumerate}
+% \addcontentsline{toc}{section}{}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (選択)\\
+	　$3$ 以上の素数 $p$ と，$p$ の倍数でない整数 $a$ に対して，記号 $\( \dfrac{a}{p} \)$ を
+	\begin{equation*}
+		\( \frac{a}{p} \) = \left\{
+			\begin{alignedat}{2}
+				&1		&\qquad		& (\mbox{合同式} x^2 \equiv a \, ( \mathrm{mod} \, p) が整数解をもつとき)\\
+				&-1	&\qquad		& (\mbox{合同式} x^2 \equiv a \, (\mathrm{mod} \, p) が整数解をもたないとき)\\
+			\end{alignedat}
+		\right.
+	\end{equation*}
+	によって定めます。
+	$\( \dfrac{a}{p} \)$ をルジャンドル記号といいます。
+	
+	　$3$ 以上の素数 $p$，$q \, (p \neq q)$ と，$p$ の倍数でない整数 $a$，$b$ に対して，次が成り立ちます (これらのことを証明する必要はありません)。\\
+		
+	\begin{quote}
+		\begin{quotation}
+			\begin{enumerate}
+				\renewcommand{\labelenumii}{\textbf{性質\arabic{enumii}.}}
+				\setlength{\itemsep}{4pt}
+				\item $\( \dfrac{q}{p} \) \( \dfrac{p}{q} \) = (-1)^{\frac{p - 1}{2} \cdot \frac{q - 1}{2}}$
+				\item $\( \dfrac{-1}{p} \)  = (-1)^{\frac{p - 1}{2}}$
+				\item $\( \dfrac{2}{p} \) = (-1)^{\frac{p^2 - 1}{8}}$
+				\item $\( \dfrac{ab}{p} \) = \( \dfrac{a}{p} \) \( \dfrac{b}{p} \)$
+			\end{enumerate} \ 
+		\end{quotation}
+	\end{quote}
+
+	　合同式 $x^2 \equiv 15 \, (\mathrm{mod} \, 271)$ を満たす $x$ は存在しますか。
+	存在するならばそのような $x$ をすべて求め，存在しないならばそのことを証明しなさい。
+	
+	\newpage
+		
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	\item \quad (選択)\\
+	　$N$を正の整数，$i$ を虚数単位とし，$\zeta = \cos \dfrac{2\pi}{N} + i \sin \dfrac{2\pi}{N}$ とします。\\
+	　$N$項の数列$\{ x_0，x_1，…，x_{N - 1} \}$を $N$項の数列$\{ X_0，X_1，…，X_{N - 1} \}$に対応させる変換
+	\begin{equation*}
+		X_k = \sum_{n = 0}^{N - 1} x_n \zeta^{-nk} \quad (k = 0， 1，…， N - 1)
+	\end{equation*}
+	
+	を離散フーリエ変換といいます。
+	これについて，次の問いに答えなさい。
+	\begin{enumerate}
+		% \renewcommand{\labelenumii}{(\arabic{enumii})}
+		\item
+		 　上の式によりすべての整数 $k$ に対して$X_k$ を定義することができます。
+		 \begin{equation*}
+		 	X_{N - k} = X_{-k} \quad (k = 0，1，…，N - 1)
+		 \end{equation*}
+		 が成り立つことを示しなさい。
+		 
+		 \item
+		 　$N$を正の偶数とします。
+		 ある波$w(t)$ を$T$秒間 $(0 \leqq t \leqq T)$ 観測し，$N$等分点$t = 0$，$\dfrac{T}{N}$，…，$\dfrac{(N - 1)T}{N}$での値
+		 \begin{equation*}
+		 	w(0) = x_0，\ \,
+		 		w \( \frac{T}{N} \) = x_1，…，\ \,
+		 		w \( \frac{(N - 1)T}{N} \) = x_{N - 1}
+		 \end{equation*}
+		 が得られたとき，これらの離散フーリエ変換$\{ X_0，X_1，…，X_{N - 1} \}$を用いて
+		 
+		 \begin{equation*}
+		 	\left\{
+		 	\begin{aligned}
+		 		&w(t) \fallingdotseq 
+		 			\frac{a_0}{2} 
+		 				+ \sum_{j = 1}^{\frac{N}{2} - 1} 
+		 					\( a_j \cos\frac{2\pi j}{T}t + b_j \sin \frac{2\pi j}{T}t \)
+						+ \frac{a_{\frac{N}{2}}}{2} \cos \frac{\pi N}{T}t\\
+				&\mbox{ただし， } a_j = \frac{1}{N} (X_j + X_{-j})，\ \,
+					b_j = \frac{i}{N} (X_j - X_{-j})
+		 	\end{aligned}
+		 	\right.
+		 \end{equation*}\ 
+		 
+		 と$w(t)$を近似することができます(このことを証明する必要はありません)。
+		
+		 　波$w(t)$を$8$秒間観測し，$4$等分点での値$０，０，１，１$が得られたとき，上の方法で$w(t)$の近似を求めなさい。
+		 
+	\end{enumerate}
+	
+	\newpage
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (選択)
+	
+	　$n$次元ユークリッド空間内の$k$個の点$\PP_1$，$\PP_2$，…，$\PP_k$について，その重心Gを次のように定めます。
+	
+	\begin{screen}
+		　点Gの第$i$成分 $(i = １，２，…，n)$は，$k$個の点$\PP_1$，$\PP_2$，…，$\PP_k$の第$i$成分の平均$(k\mbox{数の相加平均})$に等しい。
+	\end{screen}
+
+	これについて，次の問いに答えなさい。
+	
+	\begin{enumerate}
+		% \renewcommand{\labelenumii}{(\arabic{enumii})}
+		\item
+		　$n$次元空間内に相異なる$(n + 1)$個の点$\A_0$，$\A_1$，…，$\A_n$をとります。
+		そのうちの$n$点$\A_1$，$\A_2$，…，$\A_n$の重心をGとするとき
+		\begin{equation*}
+			{\A_0 \A_1}^2 + {\A_0 \A_2}^2 + … + {\A_0 \A_n}^2 - n \cdot \A_0 \mathrm{G}^2
+				= \frac{1}{n} \sum_{1 \leqq i < j \leqq n} {\A_i \A_j}^2
+		\end{equation*}
+		が成り立つことを証明しなさい。\hspace{\fill} (証明技能) \\
+		
+		\item 
+		　$n$次元空間内にあって互いの距離がすべて等しいような$(n + 1)$個の点のなす図形(それらの凸包)を$n$次元の正単体といい，
+		そのときの$(n + 1)$個の点の重心を正単体の重心と定めます。
+		
+		　1辺の長さが1の$\! n \!$次元正単体について，重心から各頂点までの距離$\ell$を求めなさい。
+	\end{enumerate}
+	
+	\newpage
+	
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (選択)
+	
+	　X社で，ある製品Mを製造する機械Aを新しく開発しました。
+	この機械から製造された製品Mからサンプルとして$20$個抽出し，重量を測定して標準偏差を求めたところ$\, 5.10 \, \mathrm{g} \,$でした。
+	これについて，次の問いに答えなさい。
+	ただし，機械Aから製造された製品Mの重量は母平均未知の正規分布にしたがうものとし，解答の際には1-2-6ページの$\chi^2$分布表の値を用いなさい。
+	\hspace{\fill} (統計技能)
+	
+	\begin{enumerate}
+		\item 
+		　機械\! A \!を開発する前に使用していた機械\! B \!から製造された製品\! M \!の重量の標準偏差は$8.50\, \mathrm{g}$でした。
+		製品\! M \!の重量について，機械\! A \!で製造したものは機械\! B \!で製造したものより母分散が小さくなったといえますか。
+		帰無仮説 $ H_0$：$\sigma^2 = 8.5^2 $ ，対立仮説 $\ H_1 $：$\sigma^2 < 8.5^2 \ $のもと，有意水準$0.01$で検定しなさい。
+		ただし，機械\! B \!から製造された製品\! M \!の重量も正規分布に従うものとします。\\
+		
+		\item
+		　機械\! A \!から製造された製品\! M \!の重量の母分散$\sigma^2$を信頼度$95\, \%$ で推定しなさい。
+		求める信頼区間$s \leqq \sigma^2 \leqq t$について，$s$は小数第$3$位を切り捨て，$t$は小数第$3$位を切り上げて答えなさい。
+	\end{enumerate}
+	
+	\ \\[32pt]
+	
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (選択)
+	
+	　$\! A$，$B \!$を有限集合とします。
+	$A \!$の各要素に対して$\! B \!$の要素をただ$1$つに定める定め方$\! f \!$を，$A$から$B$への写像といいます。
+	写像$f$によって，$A$の要素$a$に対してただ$1$つに定まる$B$の要素$b$を$f(a)$$=$$\, b$と表します。
+	
+	　$A$から$B \!$への写像について，$B \!$のどの要素$b$に対しても$f(a)$$=$$\, b$を満たす$\! A \!$の要素$a$が少なくとも$1$つ存在するとき，$\! f \!$は全射であるといいます。
+	また，$\! A \!$のどの要素$a_1$，$a_2 \, (a_1 \neq a_2)$に対しても$f(a_1)$$\neq$$f(a_2)$を満たすとき，$f$は単射であるといいます。
+	
+	　$n$を正の整数とするとき，集合$X = \{ x_1，x_2，…，x_n \}$と集合$Y = \{ y_1，y_2，y_3 \}$について，次の問いに答えなさい。
+	\hspace{\fill} (整理技能)
+	
+	\begin{enumerate}
+		\item
+		　$Y$から$X$への写像，単射の総数をそれぞれ求めなさい。\\
+		
+		\item
+		　$X$から$Y$への写像，全射の総数をそれぞれ求めなさい。
+	\end{enumerate}
+
+	\newpage
+	
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (必須)
+	
+	\renewcommand{\arraystretch}{0.7}
+	　行列$A = \begin{pmatrix} 1 & -1 & 1\\ 1 & 0 & 1 \\ 1 & -1 & 2 \end{pmatrix}$について，次の問いに答えなさい。\\
+	
+	\begin{enumerate}
+		\item
+		　ジョルダン標準形$J$を求めなさい。\\
+		
+		\item
+		　$P^{-1} A P = J$を満たす行列$P$を$1$つ挙げなさい。
+	\end{enumerate}
+
+	\ \\[138pt]
+	
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	\item \quad (必須)
+	
+	　$xyz$空間内において，次の不等式で表される領域の体積$V$を求めなさい。
+	\hspace{\fill} (測定技能)
+	
+	\begin{equation*}
+		x^{\frac{2}{3}} + y^{\frac{2}{3}} + z^{\frac{2}{3}} \leqq 1
+	\end{equation*}
+
+\end{enumerate}
+
+\newpage
+
+\end{document}

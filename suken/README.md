@@ -1,14 +1,26 @@
 # suken
 
 2020年7月18日実施、第358回 実用数学技能検定 1級 2次試験の問題と再現答案です。
+~~本来 GitHub に PDF なんか載せるべきではないと思われる~~
 
-検定問題の模範解答は2020年9月30日までであれば [日本数学検定協会のHP](https://www.su-gaku.net/suken/result/model_answer/) よりダウンロードできます。
+検定問題の模範解答は2020年9月30日までであれば [日本数学検定協会のHP](https://www.su-gaku.net/suken/result/model_answer/) よりダウンロードできます。(もうできません。。。)
 
 9月30日を過ぎた場合は公式の模範解答を見ることができなくなりますが、のちに私自身による解答例を作成し公開するかもしれません。
 ただ、ひどく私の気分によりますのであまり期待はしないでください。
 
 
-## pdf 
+## src
+
+検定問題を出力する pLaTeX + dvipdfmx 用 tex ファイルおよび latexmkrc
+
+```Shell
+$ latexmk 358-2.tex
+```
+
+で PDF が生成されるはずです。
+
+
+## saigen_toan.pdf 
 
 - [saigen_toan.pdf](https://github.com/bakkyalo/mypage/blob/master/suken/saigen_toan.pdf)
   
