@@ -1,8 +1,10 @@
 body {
     max-width: 980px;
+    margin-left: 5%;
+    margin-right: 5%;
+    /*
     margin-left: auto;
     margin-right: auto;
-    /*
     background-image: url("../favicons/icon-72x72.png");
     */
 }
@@ -68,6 +70,8 @@ ul.links li {
 
 
 footer {
+    margin-top: 10%;
+    margin-bottom: 5%;
     text-align: center;
     color: darkgrey;
 }
