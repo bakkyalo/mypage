@@ -4,29 +4,47 @@
     <head>
         <meta charset="utf-8">
         <title>あかり描像のページ</title>
+        <link rel="stylesheet" href="css/style.css">
         <link rel="icon" type="image/x-icon" href="favicons/favicon.ico">
         <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">　
+        <script type="text/javascript" src="js/include.js"></script>
+        <!--
+        <script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
+        -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                include_html('side-bar.html', [["sub", "page"]]);
+                console.log('hello');
+            });
+        </script>
     </head>
 
     <body>
         <h1>あかり描像のページ</h1>
 
-            <h2>自己紹介</h2>
-            あかり描像です。<br />
-            ゆるゆりの <b>赤座あかりちゃん</b> が大好きです。
-            端的に申し上げてゴミ屑です。<br /><br />
+        <div class="two-column">
+            <div class="main">
+                <h2>自己紹介</h2>
+                <p>あかり描像です。<br /></p>
+                <p>ゆるゆりの <b>赤座あかりちゃん</b> が大好きです。
+                端的に申し上げてゴミ屑です。<br /></p>
 
 
-            ここには私が作成したゴミ同然の PDF 等をまとめておきます。<br />
-            誤りやご意見等がありましたら 
-            <a href="https://twitter.com/bakkyalo_">@bakkyalo_</a>
-            または
-            <a href="https://twitter.com/bakayalo_">@bakayalo_</a>
-            までご連絡お願いいたします。
-            <br /><br />
-            
+                <p>ここには私が作成したゴミ同然の PDF 等をまとめておきます。<br />
+                誤りやご意見等がありましたら
+                <!--
+                <a href="https://twitter.com/bakkyalo_">@bakkyalo_</a>
+                または
+                <a href="https://twitter.com/bakayalo_">@bakayalo_</a>
+                -->
+                <a href="https://twitter.com/bakkyalo">@bakkyalo</a>
+                までご連絡お願いいたします。
+                <br /><br />
+                </p>
 
-            <h2>作成したPDF等</h2>
+
+                <h2>作成したPDF等</h2>
                 <ul>
                     <li><a href="gauss.pdf">ガウス積分を漸化式で記憶する</a></li>
                         2019.6.6  公開 <br><br>
@@ -36,12 +54,54 @@
                 </ul>
 
 
-
-            <h2>リンク</h2>
+                <h2>ノート</h2>
                 <ul>
-                    <li><a href="https://twitter.com/bakkyalo_">Twitter</a></li>
-                    <li><a href="https://bakkyalo.hatenablog.jp/">はてなブログ</a></li>
                     <li><a href="../coding_theory/index.html">符号理論のノート</a></li>
                 </ul>
+
+                <h2>リンク</h2>
+                <ul>
+                    <li><a href="https://twitter.com/bakkyalo">Twitter</a></li>
+                    <li><a href="https://bakkyalo.hatenablog.jp/">はてなブログ</a></li>
+                    <li><a href="https://github.com/bakkyalo/mypage">このページのレポジトリ (GitHub)</a></li>
+                </ul>
+            </div>
+
+
+            <div class="side">
+                <div id="page">dst</div>
+
+                <!--
+                <script>input_side();</script>
+                -->
+
+                <!--
+                <div class="profile">
+                    <h2>プロフィール</h2>
+                    <img src="favicons/icon-96x96.png">
+                    <p>bakkyalo</p>
+                </div>
+
+                <div class="history">
+                    <h2>更新履歴</h2>
+                </div>
+
+                <p>ここはサイドバーなんだぁああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああ
+                </p>
+                -->
+
+            </div>
+        </div>
     </body>
+
+
+    <footer>Powered by GitHub Pages</footer>
 </html>

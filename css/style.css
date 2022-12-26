@@ -1,0 +1,73 @@
+body {
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    /*
+    background-image: url("../favicons/icon-72x72.png");
+    */
+}
+
+h1 {
+    padding: 2%;
+    background-color: aquamarine;
+}
+
+li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ul.links {
+    list-style: none;
+    padding-left: 0px;
+}
+
+ul.links li {
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+
+.two-column {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.main {
+    width: 700px;
+    /*
+    padding-left: 1%;
+    padding-right: 1%;
+    */
+}
+
+.side {
+    width: 200px;
+    padding-left: 20px;
+    border-left: 1px solid darkgrey;
+}
+
+.profile {
+    padding-bottom: 10px;
+}
+
+/* スマホでサイドバー非表示 */
+@media screen and (max-width: 768px) {
+    .main {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .side {
+        width: 0%;
+        display: none;
+    }
+}
+
+
+footer {
+    text-align: center;
+    color: darkgrey;
+}
