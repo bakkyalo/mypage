@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Basic Tetris Game</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/tetris.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/include.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+            console.log('hello');
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Welcome to Basic Tetris Game!</h1>
+
+    <!--
+    <div id = "gameCanvas"></div>
+    -->
+
+    <div class="two-column">
+        <div class="main">
+            <canvas id="gameCanvas" width="240" height="480"></canvas>
+            <script type ="text/javascript" src="js/tetris.js"></script>
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>

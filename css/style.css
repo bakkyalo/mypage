@@ -1,7 +1,12 @@
 body {
+    font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    width: 100%;
     max-width: 980px;
+    /*
     margin-left: 5%;
     margin-right: 5%;
+     */
+    margin: auto;
     /*
     margin-left: auto;
     margin-right: auto;
@@ -29,6 +34,24 @@ ul.links li {
     padding-left: 0px;
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+dl {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 2.5em;
+}
+
+dt {
+    display: list-item;
+    list-style-type: disc;
+    padding-left: 0px;
+}
+
+dd { 
+    margin-left: 0px;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 
