@@ -4,12 +4,16 @@ img.src = "png/block.png";
 
 let context = canvas.getContext("2d");
 
-class Board {
+let nextCanvas = document.getElementById("nextCanvas");
+let nextContext = nextCanvas.getContext("2d");
 
+class Board {
     constructor () {
+        this.score = -100;     // 点数
+        this.line = 0;      // 消したラインの数。
         this.isGameOvered = false;
+
         // 盤面を初期化する
-        // this.board = [];
         this.board = new Array(22).fill().map( () => new Array(12).fill(-1) );
 
         for( let j = 0; j <= 21; j++) {
@@ -23,7 +27,7 @@ class Board {
     }
 
 
-    // 実際に画面に映すのはここだけ
+    // 実際に画面に映す
     show() {
         // まずは消す
         context.clearRect(0, 0, 24 * 10, 24 * 20);
@@ -45,9 +49,13 @@ class Board {
                 context.drawImage(img, image_x, image_y, 24, 24, pos_x, pos_y, 24, 24);
             }
         }
-        // console.log(this.board);
+
+        // score や line を表示する
+        document.getElementById("scoreArea").innerText = "Score: " + this.score;
+        document.getElementById("lineArea").innerText = "Lines: " + this.line;
     }
 
+    // 新しく board に mino を追加する。
     putMino(mino) {
         if(! mino instanceof Mino) return;
         context.globalAlpha = 0.9;
@@ -70,13 +78,14 @@ class Board {
             // 別に draw する必要はない。内部データを変えるだけ
             // context.drawImage(img, image_x, image_y, 24, 24, x, y, 24, 24);
         }
+        // 置いたらとりあえず点数を +100
+        this.score += 100;
     }
 
+    // mino を (dx, dy) 方向に動かす。
     moveMino(mino, dx, dy) {
         if( ! mino instanceof Mino) return;
-
         if(mino.rot < 0) mino.rot = (mino.rot + 400400) % 4;
-
 
         // 移動先の座標を格納しておく
         let next_pos = [];
@@ -86,8 +95,6 @@ class Board {
             for(let r = 0; r < mino.rot; r++) {
                 [i, j] = [j, -i];
             }
-            // console.log("i: ", i, "j: ", j);
-
 
             // なんかおかしい。this.boad の書き換えが 1 回しか起きていないように見える
             // 消す処理と置く処理は別々にしないとダメなんだぁ～
@@ -97,8 +104,8 @@ class Board {
             let ny = y + dy;
             next_pos.push([nx, ny]);
 
-            if(x <= 0 || x >= 11 || y <= 0 || y >= 21) continue;
-            if(nx <= 0 || nx >= 11 || ny <= 0 || ny >= 21) continue;
+            if(x <= 0 || x >= 11 || y <= -1 || y >= 21) continue;
+            if(nx <= 0 || nx >= 11 || ny <= -1 || ny >= 21) continue;
 
             // 消す処理
             this.board[y][x] = 0;
@@ -114,11 +121,12 @@ class Board {
         mino.posy += dy;
     }
 
+    // mino が(dx, dy) 方向に動けるかどうかの判定。
     canMove(mino, dx, dy) {
         if( ! mino instanceof Mino) return;
         if(mino.rot < 0) mino.rot = (mino.rot + 400400) % 4;
         // board をコピーしておく
-        let board_tmp = this.board;
+        let board_tmp = structuredClone(this.board);
         let next_pos = [];
 
         for(let [i, j] of Tetrominos[mino.id]) {
@@ -139,6 +147,7 @@ class Board {
 
         // 衝突判定
         for(let [nx, ny] of next_pos) {
+            if(nx <= -1 || nx >= 12 || ny <= -1 || ny >= 22) return false;
             if(board_tmp[ny][nx] != 0) return false;
         }
 
@@ -146,17 +155,21 @@ class Board {
     }
 
 
+    // mino を回転させる。
     rotateMino(mino, plus_or_minus) {
 
         // 例に習って次の場所を格納
         let next_pos = [];
+
         // 回転できるかの判定用に board をコピーしておく
         // let board_tmp = this.board;
         // ↑ これだと参照渡しみたいになるため NG
         // let board_tmp = Object.assign( {}, this.board);
         // let board_tmp = this.board.slice();
-        let board_tmp = structuredClone(this.board);
         // board_tmp = Object.assign(this.board.concat();
+        // ↑ この辺全部ダメ。
+
+        let board_tmp = structuredClone(this.board);
 
         for(let [i, j] of Tetrominos[mino.id]) {
             // まずは回転
@@ -175,21 +188,18 @@ class Board {
 
             // 仮に消してみる
             board_tmp[y][x] = 0;
-            // this.board[y][x] = 0;
         }
 
         // 次の場所に回転できるか判定
         for(let [nx, ny] of next_pos) {
+            if(nx <= -1 || nx >= 12 || ny <= -1 || ny >= 22) return false;
 
             if(board_tmp[ny][nx] != 0) {
                 // 回転できないということなので、何もせずに終了
-                // console.log("回転できないので終わりです。");
                 return false;
             } else {
-                // console.log("nx: ", nx, "ny: ", ny, " は ", mino.id, " に変わりました。");
                 board_tmp[ny][nx] = mino.id;
             }
-            
         }
 
         // console.log("来ちゃった...//");
@@ -202,6 +212,56 @@ class Board {
         if(plus_or_minus >= 0) mino.rot++;
         else mino.rot--;
         mino.rot = (mino.rot + 400400) % 4;
+    }
+
+    // 消せるラインがないか探す。あったら消す。
+    deleteLine() {
+        let countLine = 0;
+        for(let j = 1; j <= 20; j++) {
+            let canDelete = Boolean(true);
+            for(let i = 1; i <= 10; i++) {
+                if(this.board[j][i] == 0) canDelete = false;
+            }
+            // 消せる行が来たら消す!
+            if(canDelete) {
+                countLine++;
+                for(let row = j; row > 0; row--) {
+                    for(let i = 1; i <= 10; i++)  {
+                        this.board[row][i] = this.board[row - 1][i];
+                    }
+                }
+            }
+        }
+
+        // 折角なので、消せたラインの数に応じて点数やメッセージを変えてみる
+        this.line += countLine;
+        let msg;
+
+        switch(countLine) {
+            case 0:
+                msg = "&nbsp";
+                break;
+            case 1:
+                this.score += 1000;
+                msg = "&nbsp";
+                break;
+            case 2:
+                this.score += 3000;
+                msg = "Double!";
+                break;
+            case 3:
+                this.score += 6000;
+                msg = "Triple!";
+                break;
+            case 4:
+                this.score += 10000;
+                msg = "Tetris!";
+                break;
+            default:
+                alert("そんなことはありえない");
+                break
+        }
+        document.getElementById("messageArea").innerHTML = msg;
     }
 
 
@@ -224,6 +284,7 @@ class Board {
 
     gameOver() {
         console.log("Game Over.");
+        document.getElementById("messageArea").innerHTML = "Game Over!";
         this.isGameOvered = true;
 
         // まずは消す
@@ -245,6 +306,19 @@ class Board {
         }
     }
 
+    showNext(id) {
+        // まずは消す
+        nextContext.clearRect(0, 0, 24 * 4, 24 * 4);
+
+        for(let [i, j] of Tetrominos[id]) {
+            let image_x = 24 * id;
+            let image_y = 0;
+            let pos_x = 24 * (i + 1);
+            let pos_y = 24 * (j + 1);
+
+            nextContext.drawImage(img, image_x, image_y, 24, 24, pos_x, pos_y, 24, 24);
+        }
+    }
 }
 
 
@@ -271,67 +345,41 @@ class Mino {
         this.tetromino = Tetrominos[_id];
     }
 
-
-    // 移動に伴う property と board の書き換え
-    move(dx, dy) {
-        // 移動前の位置の board を 0 にする
-        /*
-        for([i, j] of this.tetromino) {
-            board[this.posy + j][this.posx + i] = 0;
-        }
-         */
-        // と思ったけどいいのか
-
-        // 移動後の位置をミノ番号 (kind) にする
-        this.posx += dx;
-        this.posy += dy;
-
-        /*
-        for([i, j] of this.tetromino) {
-            board[posy + j][dx + i] = this.kind;
-        }
-         */
-    }
-
-    // 動けるかどうか
-    canMove(dx, dy) {
-        const next_posx = this.posx + dx;
-        const next_posy = this.posy + dy;
-
-        // 移動先に何かあったら false
-        for(let [i, j] of this.tetromino) {
-            if(board[next_posy + j][next_posx + i]) return false;
-        }
-        return true;
-    }
 }
 
 
-const showTetromino = (minoID, posx, posy, rot) => {
-    const tetromino = Tetrominos[minoID];
-    for ( let [dx, dy] of tetromino ) {
-        // 回転する
-        if(rot < 0) {
-            for(let r = 0; r >= rot; r--) {
-                [dx, dy] = [-dy, dx];
-            }
-        } else {
-            for (let r = 0; r <= rot; r++) {
-                [dx, dy] = [dy, -dx];
-            }
-        }
-
-        // 実際に挿入する
-        let x = 24 * (posx + dx);
-        let y = 24 * (posy + dy);
 
 
-        context.drawImage(img, 24 * minoID, 0, 24, 24, x, y, 24, 24);
+// akkarin
+let akkarin = () => {
+    // let reader = new FileReader();
+    // reader.readAsText("./akari.txt");
+    /*
+    const fsr = WScript.CreateObject("Scripting.FileSystemObject", 1);
+    const file = fsr.OpenTextFile("akari.txt");
+    let str = file.ReadLine();
+    WScript.Echo(str);
+    alert("あっかり～ん");
+     */
+
+
+    let request = new XMLHttpRequest();
+    request.open('GET', "./akari.txt");
+
+    request.onload = () => {
+        let htmlStr = "<pre>" + request.responseText + "</pre>";
+        document.getElementById("akari").innerHTML = htmlStr;
+
+
+        // let debugArea = document.getElementById("debugArea");
+        // debugArea.setAttribute("cols", "100");
+        // debugArea.setAttribute("rows", "80");
+        // debugArea.setAttribute("style", "font-size: 30%;");
+
+        // document.getElementById("debugArea").value = htmlStr;
     }
-
+    request.send();
 }
-
-
 
 
 // 実質 main 関数
@@ -351,8 +399,15 @@ window.onload = () => {
     // showTetromino(6, 2, 18, 5);
     // showTetromino(7, 7, 8, 4);
     
-    let mino = new Mino(1, 5, 1, 1);
+    // random id を生成する
+    const randomID = 1 + Math.floor( Math.random() * 7);
+    let mino = new Mino(randomID, 5, 1, 3);
     bd.putMino(mino);
+
+
+    // Next を実装しよう
+    let nextID = 1 + Math.floor( Math.random() * 7 );
+    bd.showNext(nextID);
     // bd.putMino(new Mino(1, 3, 2, 1));
     // bd.putMino(new Mino(2, 7, 2, 3));
     // bd.putMino(new Mino(3, 5, 10, 4));
@@ -362,66 +417,71 @@ window.onload = () => {
     // bd.putMino(new Mino(7, 7, 8, 5));
     bd.show();
 
+    // 押されたキーに応じて処理
     document.onkeydown = (e) => {
         if(!bd.isGameOvered) {
-        // console.log(e);
-        switch(e.key) {
-            case "s":
-                // 動けたら動く
-                if(bd.canMove(mino, 0, 1)) {
-                    bd.moveMino(mino, 0, 1);
-                }
-                // 動けなかったら設置して新しいミノを作る, 重なったらゲームオーバー
-                else {
-                    bd.putMino(mino);
-                    bd.show();
-
-                    // random id を生成する
-                    const randomID = 1 + Math.floor( Math.random() * 7);
-                    mino = new Mino(randomID, 5, 1, 3);
-
-                    // game over か判定する
-                    if(bd.judgeGameOver(mino) == true) {
-                        bd.gameOver();
-                        break;
+            // console.log(e);
+            switch(e.key) {
+                case "s":
+                    // 動けたら動く
+                    if(bd.canMove(mino, 0, 1)) {
+                        bd.moveMino(mino, 0, 1);
                     }
-                }
-                bd.show();
-                break;
-            case "w":
-                if(bd.canMove(mino, 0, -1)) {
-                    bd.moveMino(mino, 0, -1);
-                    bd.show();
-                }
-                break;
-            case "a":
-                if(bd.canMove(mino, -1, 0)) {
-                    bd.moveMino(mino, -1, 0);
-                    bd.show();
-                }
-                break;
-            case "d":
-                if(bd.canMove(mino, 1, 0)) {
-                    bd.moveMino(mino, 1, 0);
-                    bd.show();
-                }
-                break;
-            case "k":
-                bd.rotateMino(mino, -1);
-                bd.show();
-                break;
-            case "m":
-                bd.rotateMino(mino, +1);
-                bd.show();
-                break;
-            default:
-        }
+                    // 動けなかったら設置して新しいミノを作る, 重なったらゲームオーバー
+                    else {
+                        bd.putMino(mino);
+                        // 消す
+                        bd.deleteLine();
+                        bd.show();
 
+                        // random id を生成して次のミノを作る
+                        mino = new Mino(nextID, 5, 1, 3);
+                        nextID = 1 + Math.floor( Math.random() * 7);
+                        bd.showNext(nextID);
+
+                        // game over か判定する
+                        if(bd.judgeGameOver(mino) == true) {
+                            bd.gameOver();
+
+                            if(bd.score >= 50000) {
+                                akkarin();
+                            }
+                            break;
+                        }
+                    }
+                    bd.show();
+                    break;
+                case "w":
+                    if(bd.canMove(mino, 0, -1)) {
+                        bd.moveMino(mino, 0, -1);
+                        bd.show();
+                    }
+                    break;
+                case "a":
+                    if(bd.canMove(mino, -1, 0)) {
+                        bd.moveMino(mino, -1, 0);
+                        bd.show();
+                    }
+                    break;
+                case "d":
+                    if(bd.canMove(mino, 1, 0)) {
+                        bd.moveMino(mino, 1, 0);
+                        bd.show();
+                    }
+                    break;
+                case "k":
+                    bd.rotateMino(mino, -1);
+                    bd.show();
+                    break;
+                case "m":
+                    bd.rotateMino(mino, +1);
+                    bd.show();
+                    break;
+                default:
+            }
         }
         debug();
     }
-
-
 
     // debug
     let debug = () => {
@@ -437,7 +497,6 @@ window.onload = () => {
             element.value += "\n";
         }
     }
-
 }
 
 
