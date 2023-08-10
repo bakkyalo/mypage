@@ -7,6 +7,7 @@ let context = canvas.getContext("2d");
 class Board {
 
     constructor () {
+        this.isGameOvered = false;
         // 盤面を初期化する
         // this.board = [];
         this.board = new Array(22).fill().map( () => new Array(12).fill(-1) );
@@ -101,18 +102,6 @@ class Board {
 
             // 消す処理
             this.board[y][x] = 0;
-            // console.log("deleted at ", x, ", ", y);
-            // console.log(this.board);
-            
-            // this.board[ny][nx] = mino.id;
-            // console.log("put at ", nx, ", ", ny);
-            // console.log(this.board);
-
-
-            // console.log("Now moved to ", nx, ", ", ny, ",\t this.board[ny][nx]: ", this.board[ny][nx]);
-
-            // console.log(mino);
-
         }
 
         // 次の場所に置く
@@ -123,17 +112,51 @@ class Board {
         // 最後に mino の座標も変える
         mino.posx += dx;
         mino.posy += dy;
+    }
 
-        // console.log("in moveMino");
-        // console.log(this.board);
+    canMove(mino, dx, dy) {
+        if( ! mino instanceof Mino) return;
+        if(mino.rot < 0) mino.rot = (mino.rot + 400400) % 4;
+        // board をコピーしておく
+        let board_tmp = this.board;
+        let next_pos = [];
+
+        for(let [i, j] of Tetrominos[mino.id]) {
+            // まずは回転
+            for(let r = 0; r < mino.rot; r++) {
+                [i, j] = [j, -i];
+            }
+
+            let x = mino.posx + i;
+            let y = mino.posy + j
+            let nx = x + dx;
+            let ny = y + dy;
+
+            next_pos.push( [nx, ny] );
+            // とりあえず消す
+            board_tmp[y][x] = 0;
+        }
+
+        // 衝突判定
+        for(let [nx, ny] of next_pos) {
+            if(board_tmp[ny][nx] != 0) return false;
+        }
+
+        return true;
     }
 
 
     rotateMino(mino, plus_or_minus) {
 
-
         // 例に習って次の場所を格納
         let next_pos = [];
+        // 回転できるかの判定用に board をコピーしておく
+        // let board_tmp = this.board;
+        // ↑ これだと参照渡しみたいになるため NG
+        // let board_tmp = Object.assign( {}, this.board);
+        // let board_tmp = this.board.slice();
+        let board_tmp = structuredClone(this.board);
+        // board_tmp = Object.assign(this.board.concat();
 
         for(let [i, j] of Tetrominos[mino.id]) {
             // まずは回転
@@ -150,19 +173,76 @@ class Board {
             let ny = mino.posy + j;
             next_pos.push([nx, ny]);
 
-            // 消す
-            this.board[y][x] = 0;
+            // 仮に消してみる
+            board_tmp[y][x] = 0;
+            // this.board[y][x] = 0;
         }
 
-        // 次の場所に置く
+        // 次の場所に回転できるか判定
         for(let [nx, ny] of next_pos) {
-            this.board[ny][nx] = mino.id;
+
+            if(board_tmp[ny][nx] != 0) {
+                // 回転できないということなので、何もせずに終了
+                // console.log("回転できないので終わりです。");
+                return false;
+            } else {
+                // console.log("nx: ", nx, "ny: ", ny, " は ", mino.id, " に変わりました。");
+                board_tmp[ny][nx] = mino.id;
+            }
+            
         }
+
+        // console.log("来ちゃった...//");
+
+        // ここまで来れて回転できることが分かるので、実際に回転させる。
+        // tmp を board に入れ直すだけ
+        this.board = board_tmp;
 
         // mino の rot を書き換え
         if(plus_or_minus >= 0) mino.rot++;
         else mino.rot--;
         mino.rot = (mino.rot + 400400) % 4;
+    }
+
+
+    // Game Over するかどうかの処理
+    judgeGameOver(mino) {
+        for(let [i, j] of Tetrominos[mino.id]) {
+            // まずは回転
+            for(let r = 0; r < mino.rot; r++) {
+                [i, j] = [j, -i];
+            }
+
+            let x = mino.posx + i;
+            let y = mino.posy + j;
+            if(this.board[y][x] != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    gameOver() {
+        console.log("Game Over.");
+        this.isGameOvered = true;
+
+        // まずは消す
+        context.clearRect(0, 0, 24 * 10, 24 * 20);
+        // 硬くする
+        context.globalAlpha = 0.99;
+
+        for(let j = 1; j <= 20; j++) {
+            for(let i = 1; i <= 10; i++) {
+                if(this.board[j][i] != 0) {
+                    let image_x = 0;      // 画像のどの部分を drawImage するか
+                    let image_y = 0;
+                    let pos_x =  24 * (i - 1);
+                    let pos_y = 24 * (j - 1);
+
+                    context.drawImage(img, image_x, image_y, 24, 24, pos_x, pos_y, 24, 24);
+                }
+            }
+        }
     }
 
 }
@@ -219,7 +299,7 @@ class Mino {
         const next_posy = this.posy + dy;
 
         // 移動先に何かあったら false
-        for([i, j] of this.tetromino) {
+        for(let [i, j] of this.tetromino) {
             if(board[next_posy + j][next_posx + i]) return false;
         }
         return true;
@@ -252,32 +332,10 @@ const showTetromino = (minoID, posx, posy, rot) => {
 }
 
 
-// 操作
-
-
-
 
 
 // 実質 main 関数
 window.onload = () => {
-    // let context = document.getElementById("gameCanvas").getContext("2d");
-
-    // let img = new Image();
-    // img.src = "./block.png";
-
-    // img.onload = () => {
-    // Create first board
-    /*
-    for(let i = 0; i < 10; i++) {
-        for(let j = 0; j < 20; j++) {
-            let x = 24 * i;
-            let y = 24 * j;
-            context.globalAlpha = 0.2;  // 不透明度 (opacity)
-            context.drawImage(img, 0, 0, 24, 24, x, y, 24, 24);
-        }
-    }
-     */
-    // }
 
     let bd = new Board();
     bd.show();
@@ -293,7 +351,7 @@ window.onload = () => {
     // showTetromino(6, 2, 18, 5);
     // showTetromino(7, 7, 8, 4);
     
-    let mino = new Mino(1, 5, 2, 1);
+    let mino = new Mino(1, 5, 1, 1);
     bd.putMino(mino);
     // bd.putMino(new Mino(1, 3, 2, 1));
     // bd.putMino(new Mino(2, 7, 2, 3));
@@ -305,35 +363,61 @@ window.onload = () => {
     bd.show();
 
     document.onkeydown = (e) => {
+        if(!bd.isGameOvered) {
         // console.log(e);
         switch(e.key) {
             case "s":
-                bd.moveMino(mino, 0, 1);
+                // 動けたら動く
+                if(bd.canMove(mino, 0, 1)) {
+                    bd.moveMino(mino, 0, 1);
+                }
+                // 動けなかったら設置して新しいミノを作る, 重なったらゲームオーバー
+                else {
+                    bd.putMino(mino);
+                    bd.show();
+
+                    // random id を生成する
+                    const randomID = 1 + Math.floor( Math.random() * 7);
+                    mino = new Mino(randomID, 5, 1, 3);
+
+                    // game over か判定する
+                    if(bd.judgeGameOver(mino) == true) {
+                        bd.gameOver();
+                        break;
+                    }
+                }
                 bd.show();
                 break;
             case "w":
-                bd.moveMino(mino, 0, -1);
-                bd.show();
+                if(bd.canMove(mino, 0, -1)) {
+                    bd.moveMino(mino, 0, -1);
+                    bd.show();
+                }
                 break;
             case "a":
-                bd.moveMino(mino, -1, 0);
-                bd.show();
+                if(bd.canMove(mino, -1, 0)) {
+                    bd.moveMino(mino, -1, 0);
+                    bd.show();
+                }
                 break;
             case "d":
-                bd.moveMino(mino, 1, 0);
-                bd.show();
+                if(bd.canMove(mino, 1, 0)) {
+                    bd.moveMino(mino, 1, 0);
+                    bd.show();
+                }
                 break;
             case "k":
-                bd.rotateMino(mino, +1);
+                bd.rotateMino(mino, -1);
                 bd.show();
                 break;
             case "m":
-                bd.rotateMino(mino, -1);
+                bd.rotateMino(mino, +1);
                 bd.show();
                 break;
             default:
         }
 
+        }
         debug();
     }
 
