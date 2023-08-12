@@ -36,6 +36,18 @@ ul.links li {
     padding-bottom: 2px;
 }
 
+ul.histories {
+    list-style: none;
+    padding-left: 0px;
+}
+
+ul.histories li {
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 dl {
     margin-top: 1em;
     margin-bottom: 1em;

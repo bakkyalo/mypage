@@ -21,3 +21,23 @@ body {
     height: 400px;
     align-self: flex-end;
 }
+
+.aa { 
+    font: normal normal 12pt/18px Mona,
+        "IPA モナー Pゴシック",
+        "IPA mona PGothic",
+        "IPA MONAPGOTHIC",
+        IPAMonaPGothic,
+        "MS PGothic AA",
+        "ＭＳ Ｐゴシック",
+        "MS Pゴシック",
+        "MS PGothic",
+        "MS Pｺﾞｼｯｸ",
+        "ＭＳＰゴシック",
+        "MSPゴシック",
+        sans-serif;
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1.1;
+    word-wrap: normal;
+}
