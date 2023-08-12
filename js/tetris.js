@@ -7,6 +7,9 @@ let context = canvas.getContext("2d");
 let nextCanvas = document.getElementById("nextCanvas");
 let nextContext = nextCanvas.getContext("2d");
 
+
+let isGameStarted = new Boolean(false);
+
 class Board {
     constructor () {
         this.score = -100;     // 点数
@@ -37,7 +40,7 @@ class Board {
             for(let i = 1; i <= 10; i++) {
 
                 let alpha = 0.9;    // opacity
-                if(this.board[j][i] == 0 ) alpha = 0.2;
+                if(this.board[j][i] == 0 ) alpha = 0.1;
                 if(this.board[j][i] == -1) alert("そんなことはあり得ない");
 
                 let image_x = 24 * (this.board[j][i]);      // 画像のどの部分を drawImage するか
@@ -152,6 +155,80 @@ class Board {
         }
 
         return true;
+    }
+
+    // mino が置くことになる場所のガイドを表示するためのもの
+    putGuide(mino) {
+        if(! mino instanceof Mino) return -1;
+
+        let guidePos = 0;
+
+        let board_tmp = structuredClone(this.board);
+        // 自身を消さないといけない
+        for(let [i, j] of Tetrominos[mino.id]){
+            for(let r = 0; r < mino.rot; r++) {
+                [i, j] = [j, -i];
+            }
+            let x = mino.posx + i;
+            let y = mino.posy + j;
+            board_tmp[y][x] = 0;
+        }
+
+        for(let dy = 0; dy <= 20; dy++) {
+            let canPut = new Boolean(true);
+
+            for(let [i, j] of Tetrominos[mino.id]) {
+                // まずは回転
+                for(let r = 0; r < mino.rot; r++) {
+                    [i, j] = [j, -i];
+                }
+
+                let x = mino.posx + i;
+                let y = mino.posy + j;
+
+                let nx = x;
+                let ny = y + dy;
+
+                if(ny >= 22) canPut = false;
+                if(board_tmp[ny][nx] != 0) canPut = false;
+            }
+
+
+            if(canPut) guidePos = dy;
+            else break;
+        }
+
+
+        // 実際に +dy の位置にガイドを書く
+        if(guidePos === 0) return 0;
+        for(let [i, j] of Tetrominos[mino.id]) {
+            // まずは回転
+            for(let r = 0; r < mino.rot; r++) {
+                [i, j] = [j, -i];
+            }
+
+            let nx = mino.posx + i;
+            let ny = mino.posy + j + guidePos;
+
+            // 実際にガイドを置く
+
+            let image_x = 24 * mino.id;
+            let image_y = 0;
+            let pos_x = 24 * (nx - 1);
+            let pos_y = 24 * (ny - 1);
+
+            if(this.board[ny][nx] != 0) continue;
+
+            context.clearRect(pos_x, pos_y, 24, 24);
+
+            context.globalAlpha = 0.3;
+            context.drawImage(img, image_x, image_y, 24, 24, pos_x, pos_y, 24, 24);
+
+
+        }
+
+        return guidePos;
+
     }
 
 
@@ -385,6 +462,11 @@ let akkarin = () => {
 // 実質 main 関数
 window.onload = () => {
 
+    isGameStarted = false;
+
+    let msgArea = document.getElementById("messageArea");
+    msgArea.innerHTML = "Press y to start the game.";
+
     let bd = new Board();
     bd.show();
 
@@ -415,13 +497,47 @@ window.onload = () => {
     // bd.putMino(new Mino(5, 2, 10, 5));
     // bd.putMino(new Mino(6, 2, 18, 6));
     // bd.putMino(new Mino(7, 7, 8, 5));
-    bd.show();
 
+    bd.show();
+    // put guide
+    bd.putGuide(mino);
+
+    let pressedY = false;
     // 押されたキーに応じて処理
     document.onkeydown = (e) => {
-        if(!bd.isGameOvered) {
-            // console.log(e);
+
+        if(e.key == "y" && !pressedY && !isGameStarted) {
+            pressedY = true;
+            msgArea.innerHTML = "3";
+
+            setTimeout(
+                () => {
+                    msgArea.innerHTML = "2";
+                }
+                , 1000
+            );
+            setTimeout(
+                () => {
+                    msgArea.innerHTML = "1";
+                }
+                , 2000
+            );
+            setTimeout(
+                () => {
+                    isGameStarted = true;
+                    msgArea.innerHTML = "Start!";
+                }
+                , 3000
+            );
+
+        }
+
+
+        if(!bd.isGameOvered && isGameStarted) {
+
             switch(e.key) {
+
+                // 下
                 case "s":
                     // 動けたら動く
                     if(bd.canMove(mino, 0, 1)) {
@@ -430,14 +546,57 @@ window.onload = () => {
                     // 動けなかったら設置して新しいミノを作る, 重なったらゲームオーバー
                     else {
                         bd.putMino(mino);
+
+                        // 消す
+                        bd.deleteLine();
+
+                        // random id を生成して次のミノを作る
+                        mino = new Mino(nextID, 5, 1, 3);
+                        if(mino.id === 1) mino.posy = 2;  // 汚いけどこうするわ
+                        nextID = 1 + Math.floor( Math.random() * 7 );
+
+                        bd.show();
+                        bd.showNext(nextID);
+
+
+                        // game over か判定する
+                        if(bd.judgeGameOver(mino) == true) {
+                            bd.gameOver();
+
+                            clearInterval(timerID);
+                            if(bd.score >= 50000) {
+                                akkarin();
+                            }
+                            break;
+                        }
+                        
+                    }
+
+                    bd.show();
+                    // put guide
+                    bd.putGuide(mino);
+                    break;
+                
+                // 上
+                case "w":
+                    // direct put
+                    let dy = bd.putGuide(mino);
+                    if(dy >= 0) {
+                        bd.moveMino(mino, 0, dy);
+                        bd.putMino(mino);
+
                         // 消す
                         bd.deleteLine();
                         bd.show();
 
                         // random id を生成して次のミノを作る
                         mino = new Mino(nextID, 5, 1, 3);
-                        nextID = 1 + Math.floor( Math.random() * 7);
+                        if(mino.id === 1) mino.posy = 2;  // 汚いけどこうするわ
+                        nextID = 1 + Math.floor( Math.random() * 7 );
+
                         bd.showNext(nextID);
+                        bd.show();
+
 
                         // game over か判定する
                         if(bd.judgeGameOver(mino) == true) {
@@ -450,38 +609,108 @@ window.onload = () => {
                         }
                     }
                     bd.show();
+                    // put guide
+                    bd.putGuide(mino);
+
                     break;
-                case "w":
+
+                    // 上に上がる
+                    /*
                     if(bd.canMove(mino, 0, -1)) {
                         bd.moveMino(mino, 0, -1);
+                        // put guide
+                        bd.putGuide(mino);
                         bd.show();
                     }
                     break;
+                     */
+
+                // 左
                 case "a":
                     if(bd.canMove(mino, -1, 0)) {
                         bd.moveMino(mino, -1, 0);
                         bd.show();
+
+                        // put guide
+                        bd.putGuide(mino);
+
                     }
                     break;
+                
+                // 右
                 case "d":
                     if(bd.canMove(mino, 1, 0)) {
                         bd.moveMino(mino, 1, 0);
                         bd.show();
+
+                        // put guide
+                        bd.putGuide(mino);
                     }
                     break;
                 case "k":
                     bd.rotateMino(mino, -1);
                     bd.show();
+
+                    // put guide
+                    bd.putGuide(mino);
                     break;
                 case "m":
                     bd.rotateMino(mino, +1);
                     bd.show();
+
+                    // put guide
+                    bd.putGuide(mino);
                     break;
                 default:
             }
         }
         debug();
     }
+
+    // 自動で降らせる
+    const timerID = setInterval( () => {
+        if (bd.isGameOvered) return;
+        if( !isGameStarted) return;
+
+        if(bd.canMove(mino, 0, 1)) {
+            bd.moveMino(mino, 0, 1);
+        }
+        // 動けなかったら設置して新しいミノを作る, 重なったらゲームオーバー
+        else {
+            bd.putMino(mino);
+
+            // 消す
+            bd.deleteLine();
+
+            // random id を生成して次のミノを作る
+            mino = new Mino(nextID, 5, 1, 3);
+            if(mino.id === 1) mino.posy = 2;  // 汚いけどこうするわ
+            nextID = 1 + Math.floor( Math.random() * 7 );
+
+            bd.show();
+            bd.showNext(nextID);
+
+
+            // game over か判定する
+            if(bd.judgeGameOver(mino) == true) {
+                bd.gameOver();
+                clearInterval(timerID); // clear
+
+                if(bd.score >= 50000) {
+                    akkarin();
+                }
+                return;
+            }
+
+        }
+
+        bd.show();
+        // put guide
+        bd.putGuide(mino);
+    }
+    , 1000
+    );
+
 
     // debug
     let debug = () => {
