@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>はてなブログ用成形器</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/tetris.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/include.js"></script>
+    <!--
+    <script type="text/javascript" src="./js/kinako.js"></script>
+    -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        // 一通り読み込んだ後に getElementById() します
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttonElem = document.getElementById("convert");
+            const hatenaElem = document.getElementById("hatena-notation");
+            const htmlElem = document.getElementById("html-notation");
+
+            // button が押されたら発火します
+            buttonElem.addEventListener("click", function() {
+                let inputCode = hatenaElem.value;
+
+                let outputCode = inputCode;
+                htmlElem.value = outputCode;
+            });
+
+        });
+
+    </script>
+
+
+</head>
+
+<body>
+    <h1>はてな記法を HTML に変える君</h1>
+
+    <p>画像挿入時に自動で入力されるはてな記法を HTML に書き直します。</p>
+
+    <div class="two-column">
+        <div class="main">
+
+            <h2>はてな記法</h2>
+            <textarea id="hatena-notation" rows="10" cols="80"></textarea>
+
+            <br>
+
+            <input id="convert" type="button" value="変換">
+
+
+            <h2>HTML</h2>
+            <textarea id="html-notation" rows="10" cols="80"></textarea>
+
+
+
+            <br>
+
+            <h2>外部リンク</h2>
+            <ul>
+                <li><a href="https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js">https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js</a></li>
+            </ul>
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>
