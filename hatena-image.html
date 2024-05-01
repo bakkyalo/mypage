@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>はてなブログ用整形器</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/tetris.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/include.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+
+    <style>
+        #hatena-notation::placeholder {
+            color: #bbbbbb;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        // 一通り読み込んだ後に getElementById() します
+        document.addEventListener("DOMContentLoaded", function() {
+            const convertButtonElem = document.getElementById("convert");       // 変換ボタン
+            const deleteButtonElem = document.getElementById("delete");         // 削除ボタン
+            const hatenaElem = document.getElementById("hatena-notation");      // はてな記法を入力する textarea
+            const htmlNotationElem = document.getElementById("html-notation");  // HTML 記法が出力される textarea
+            const copyButtonElem = document.getElementById("copy");             // Copy ボタン
+            const copyMessageElem = document.getElementById("copy-message");    // Copy ボタン横のメッセージ欄
+
+            // const imageCanvasElem = document.getElementById("image-canvas");    // 画像を表示する canvas
+            const imageDivElem = document.getElementById("image-div");             // 画像を表示する div
+            const imageMessageElem = document.getElementById("image-message");     // 画像表示のメッセージ欄
+
+            const insertNewlineElem = document.getElementById("insert-newline");   // HTML に改行文字を挿入するかどうかの checkbox
+
+            // placeholder
+            const defaultString = "><figure class=\"figure-image figure-image-fotolife\" title=\"メイクアップかすみん。\">[f:id:bakkyalo:20240123010524p:plain]<figcaption>メイクアップかすみん。</figcaption></figure><"
+            hatenaElem.placeholder = defaultString;
+            // hatenaElem.value = defaultString;
+
+            // カーソルを textarea に置く
+            hatenaElem.focus();
+
+            // 変換ボタンが押されたら発火します
+            convertButtonElem.addEventListener("click", function() {
+                // はてな記法欄が空欄だったら placeholder で実行させる
+                if(hatenaElem.value.trim() === "") {
+                    hatenaElem.value = hatenaElem.placeholder;
+                }
+
+                let inputCode = hatenaElem.value.trim();
+
+                // 多少の整形
+                if(inputCode.charAt(inputCode.length - 1) === "<") {
+                    inputCode = inputCode.slice(0, -1);
+                }
+                if(inputCode.charAt() === ">") {
+                    inputCode = inputCode.slice(1);
+                }
+                // console.log(inputCode);
+
+                //////////////////////////////////////////////////////////
+                // 論理部分
+                //////////////////////////////////////////////////////////
+                const parser = new DOMParser();
+                const htmlDoc = parser.parseFromString(inputCode, 'text/xml');
+                // console.log(htmlDoc);
+
+                // parsererror 確認
+                let errors = htmlDoc.getElementsByTagName("parsererror");
+                if (errors.length > 0) {
+                    imageMessageElem.textContent = "Parser error occured. Please check if source is entered correctly.";
+                    console.error("Parser error occured. Please check if source is entered correctly.");
+                    return;
+                }
+
+                
+                const figureElem = htmlDoc.querySelector('figure');
+                const figureText = figureElem.textContent.trim();       // trim() は余計な空白があっても対応するためのもの。figcaption 以下も取ってきてしまう
+
+                // id, 日付                                     
+                // console.log(figureText);                     // [f:id:bakkyalo:20240123010524p:plain]メイクアップかすみん。
+                let idName = figureText.split(":")[2];          // bakkyalo
+                let dateFormat = figureText.split(":")[3];      // 20240123010524p
+                let idFirst = idName[0];                        // b
+                let date = dateFormat.slice(0, 8);              // 20240123
+                let dateTime = dateFormat.slice(0, -1);         // 20240123010524
+                let format = dateFormat.slice(-1)               // p
+
+                // 拡張子
+                let extension = "";
+                if(format === "p") {
+                    extension = "png";
+                } else if(format === "j") {
+                    extension = "jpg";
+                }
+
+                let imageSource = `https://cdn-ak.f.st-hatena.com/images/fotolife/${idFirst}/${idName}/${date}/${dateTime}.${extension}`;
+
+
+                // 画像を div に表示する
+                // TODO: 変換の度に読み込むのはアカン気がする
+                let aElem = document.createElement("a");
+                aElem.href = imageSource;
+
+                let imageObject = new Image();
+                imageObject.src = imageSource;
+
+                // 画像を div に表示する
+                imageObject.onload = function() {
+                    // width, height どうするか問題
+                    // style から width と height を取り出すのはこんなに面倒
+                    let divWidth = parseInt(imageDivElem.style.width, 10);
+                    let divHeight = parseInt(imageDivElem.style.height, 10);
+
+                    let displayWidth, displayHeight; // canvas に描画する画像のサイズ
+                    if (this.width / this.height >= divWidth / divHeight) {
+                        // 横の方が長くなるので横を固定
+                        displayWidth = divWidth
+                        displayHeight = displayWidth / this.width * this.height;
+                    } else { 
+                        // 縦の方が長くなるので縦を固定
+                        displayHeight = divHeight;
+                        displayWidth = displayHeight / this.height * this.width;
+                    }
+
+                    this.width = displayWidth;
+                    this.height = displayHeight;
+
+                    aElem.appendChild(this);
+                    imageDivElem.innerHTML = aElem.outerHTML;
+
+                    /* canvas の場合これではダメ。
+                     * imageCanvasElem.appendChild(this);
+                     *
+                     * // 画像の挿入
+                     * const ctx = imageCanvasElem.getContext("2d");
+                     * ctx.drawImage(this, 0, 0, displayWidth, displayHeight);
+                     * // 画像を中央揃えで挿入
+                     * // ctx.drawImage(this, (imageCanvasElem.width - displayWidth) / 2, (imageCanvasElem.height - displayHeight) / 2, displayWidth, displayHeight);
+                     */
+
+                    console.log("Display succeeded.");
+                    imageMessageElem.textContent = "";
+                }
+
+                imageObject.onerror = function() {
+                    console.error("Image not found. Make sure your input is correct.");
+                    imageMessageElem.textContent = "Image not found. Make sure your input is correct.";
+                }
+
+                ///////////////////////////////////////////////////////////
+
+                // HTML 形式用の img 要素を新しく作る
+                let img = document.createElement("img");
+                img.src = imageSource;
+
+                // figure の textContent を img に差し替え
+                let result = "";
+                for (elem of figureElem.childNodes) {
+                    if(elem.nodeType === Node.TEXT_NODE) {
+                        result += elem.textContent;
+                        console.log(elem.textContent);
+                        elem.textContent = elem.textContent.replace(result, "");
+                    }
+                }
+
+                // img.removeAttribute("xmlns");
+                figureElem.insertBefore(img, figureElem.firstChild);
+
+
+                // 出力する HTML 形式
+                let outputCode = figureElem.outerHTML;
+
+                // 改行文字を入れるかどうか
+                if (insertNewlineElem.checked === true) {
+                    htmlNotationElem.value = outputCode.replace(/(>)(<)/g, "$1\n$2");
+                } else {
+                    htmlNotationElem.value = outputCode;
+                }
+
+            });
+
+            // 削除ボタン
+            deleteButtonElem.addEventListener("click", function() {
+                hatenaElem.value = "";
+            });
+
+
+            // Copy の動作
+            copyButtonElem.addEventListener("click", function() {
+                try {
+                    navigator.clipboard.writeText(htmlNotationElem.value);
+                    copyMessageElem.textContent = "Copied to clipboard!";
+                } catch (err) {
+                    copyMessageElem.textContent = "Something error occured.";
+                }
+            });
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <h1>画像挿入のはてな記法を HTML に変える君</h1>
+
+    <p>画像挿入時に自動で入力されるはてな記法を HTML に書き直します。
+        <a style="font-size: small;" href="https://github.com/bakkyalo/mypage/blob/master/hatena-image.html">(ソースコード)</a>
+        <br> caption のない形式ではうまく動きません。
+    </p>
+
+    <div class="two-column">
+        <div class="main">
+
+            <h2>はてな記法</h2>
+            <textarea id="hatena-notation" rows="10" cols="80"></textarea>
+
+            <br>
+
+            <input id="convert" type="button" value="変換">
+            <input id="delete" type="button" value="削除">
+
+
+            <h2>HTML</h2>
+            <textarea id="html-notation" rows="10" cols="80"></textarea>
+
+            <br>
+
+            <input id="copy" type="button" value="Copy">
+            <span id="copy-message" style="font-size: small;"></span>
+
+            <br><br>
+
+            <div id="image-div" style="width: 160px; height: 90px; display: inline-block;"></div>
+            <span id="image-message" style="font-size: small; display: inline-block;"></span>
+            
+            <br>
+
+            <details>
+                <summary>高度な設定</summary>
+                <label>
+                    <input id="insert-newline" type="checkbox" checked><span>HTML に改行文字を挿入する</span>
+                </label>
+            </details>
+
+            <br>
+
+            <h2>外部リンク</h2>
+            <ul>
+                <li><a href="https://bakkyalo.hatenablog.jp/entry/2024/03/07/145144">はてなブログのメモ - あかり描像のブログ</a> &nbsp; (元ブログ)</li>
+                <li><a href="https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js">https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js</a></li>
+                <li><a href="https://nixeneko.hatenablog.com/entry/2016/05/29/025438">HTMLのある要素の直下のテキストだけを取り出す - にせねこメモ</a></li>
+                <li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboar">クリップボードとのやりとり - Mozilla | MDN</a></li>
+                <li><a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">MutationObserver - Web API | MDN</a></li>
+                <li><a href="https://qiita.com/munieru_jp/items/a6f1433652124a2165e4">JavaScriptのMutationObserverでDOMの変化を監視する方法 #JavaScript - Qiita</a></li>
+            </ul>
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>
