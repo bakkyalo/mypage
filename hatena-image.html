@@ -23,6 +23,47 @@
     </style>
 
     <script type="text/javascript">
+        // 画像 URL から幅と高さを取得
+        function getImageDimensions(url) {
+            return new Promise((resolve, reject) => {
+                let img = new Image();
+                img.onload = () => {
+                    resolve({
+                        width: img.width,
+                        height: img.height
+                    });
+                    console.log(img, img.width, img.height);
+                }
+                img.onerror = reject;
+                img.src = url;
+            });
+        }
+
+        // 画像が存在するかどうか
+        function isImageExists(url) {
+            return new Promise((resolve, reject) => {
+                let img = new Image();
+                img.onload = () => {
+                    resolve({
+                        exists: true
+                    });
+                };
+                img.onerror = () => {
+                    reject({
+                        exists: false
+                    });
+                };
+                img.src = url;
+            })
+        }
+
+        function imageExists(url, callback) {
+            let img = new Image();
+            img.onload = function () { callback(true); };
+            img.onerror = function() { callback(false); };
+            img.src = url;
+        }
+
 
         // 一通り読み込んだ後に getElementById() します
         document.addEventListener("DOMContentLoaded", function() {
@@ -36,8 +77,10 @@
             // const imageCanvasElem = document.getElementById("image-canvas");    // 画像を表示する canvas
             const imageDivElem = document.getElementById("image-div");             // 画像を表示する div
             const imageMessageElem = document.getElementById("image-message");     // 画像表示のメッセージ欄
+            const imageSizeElem = document.getElementById("image-size");           // 画像サイズ取得欄
 
             const insertNewlineElem = document.getElementById("insert-newline");   // HTML に改行文字を挿入するかどうかの checkbox
+            const insertOriginalElem = document.getElementById("insert-original"); // original size を挿入するかどうかの checkbox
 
             // placeholder
             const defaultString = "><figure class=\"figure-image figure-image-fotolife\" title=\"メイクアップかすみん。\">[f:id:bakkyalo:20240123010524p:plain]<figcaption>メイクアップかすみん。</figcaption></figure><"
@@ -49,6 +92,9 @@
 
             // 変換ボタンが押されたら発火します
             convertButtonElem.addEventListener("click", function() {
+                // まずメッセージを消す
+                imageMessageElem.textContent = "";
+
                 // はてな記法欄が空欄だったら placeholder で実行させる
                 if(hatenaElem.value.trim() === "") {
                     hatenaElem.value = hatenaElem.placeholder;
@@ -67,7 +113,7 @@
 
                 //////////////////////////////////////////////////////////
                 // 論理部分
-                //////////////////////////////////////////////////////////
+               
                 const parser = new DOMParser();
                 const htmlDoc = parser.parseFromString(inputCode, 'text/xml');
                 // console.log(htmlDoc);
@@ -101,18 +147,50 @@
                     extension = "jpg";
                 }
 
+                // non original and original image source
                 let imageSource = `https://cdn-ak.f.st-hatena.com/images/fotolife/${idFirst}/${idName}/${date}/${dateTime}.${extension}`;
+                let imageOriginalSource = `https://cdn-ak.f.st-hatena.com/images/fotolife/${idFirst}/${idName}/${date}/${dateTime}_original.${extension}`;
 
 
                 // 画像を div に表示する
                 // TODO: 変換の度に読み込むのはアカン気がする
-                let aElem = document.createElement("a");
-                aElem.href = imageSource;
-
+                const aElem = document.createElement("a");
                 let imageObject = new Image();
-                imageObject.src = imageSource;
+                let existsOriginal = false;     // original が存在するかどうか。
 
-                // 画像を div に表示する
+                // original size の画像があればそちらに URL を変更する
+                // 非同期処理が本当にダリィ
+                if(insertOriginalElem.checked === true) {
+                    isImageExists(imageOriginalSource).then( e => {
+                        // check されていてかつ original が存在した場合
+                        console.log(e);
+                        console.log(imageOriginalSource);
+                        if(e.exists) {
+                            console.log("Original Images found.");
+
+                            // original image の処理をここに書く
+                            aElem.href = imageOriginalSource;
+                            imageObject.src = imageSource   // origina image に link する場合でもサムネに表示するのは non-original
+                            existsOriginal = true;
+                        }
+                    }).catch(er => {
+                        // check はされていたが original が存在しなかった場合
+                        console.log("Original image not found.");
+                        imageMessageElem.textContent = "Original image not found.";
+
+                        // non-original image の処理をここに書く
+                        aElem.href = imageSource;
+                        imageObject.src = imageSource;
+                    })
+                } else {
+                    aElem.href = imageSource;
+                    imageObject.src = imageSource;
+                }
+
+
+                //////////////// 画像を div に表示する ///////////////////
+                let imageWidth = 0;
+                let imageHeight = 0;        // 取得した画像のサイズ
                 imageObject.onload = function() {
                     // width, height どうするか問題
                     // style から width と height を取り出すのはこんなに面倒
@@ -136,54 +214,54 @@
                     aElem.appendChild(this);
                     imageDivElem.innerHTML = aElem.outerHTML;
 
-                    /* canvas の場合これではダメ。
-                     * imageCanvasElem.appendChild(this);
-                     *
-                     * // 画像の挿入
-                     * const ctx = imageCanvasElem.getContext("2d");
-                     * ctx.drawImage(this, 0, 0, displayWidth, displayHeight);
-                     * // 画像を中央揃えで挿入
-                     * // ctx.drawImage(this, (imageCanvasElem.width - displayWidth) / 2, (imageCanvasElem.height - displayHeight) / 2, displayWidth, displayHeight);
-                     */
-
                     console.log("Display succeeded.");
-                    imageMessageElem.textContent = "";
+
+                    // 画像サイズの表示
+                    getImageDimensions((existsOriginal) ? imageOriginalSource : imageSource).then(dimensions => {
+                        imageWidth = dimensions.width;
+                        imageHeight = dimensions.height;
+                        console.log(imageWidth, imageHeight);
+                        imageSizeElem.textContent = `${imageWidth}×${imageHeight}`;     // ここに入れないと順番がおかしくなる
+                    }).catch(error => {
+                        console.error("Error occured.");
+                    });
+
+                    ///////////// 出力する HTML 形式用の img 要素を新しく作る ///////////////////////
+                    let img = document.createElement("img");
+                    img.src = (existsOriginal) ? imageOriginalSource : imageSource;
+
+                    // figure の textContent を img に差し替え
+                    let result = "";
+                    for (elem of figureElem.childNodes) {
+                        if(elem.nodeType === Node.TEXT_NODE) {
+                            result += elem.textContent;
+                            console.log(elem.textContent);
+                            elem.textContent = elem.textContent.replace(result, "");
+                        }
+                    }
+
+                    // img.removeAttribute("xmlns");
+                    figureElem.insertBefore(img, figureElem.firstChild);
+
+                    // 出力する HTML 形式
+                    let outputCode = figureElem.outerHTML;
+
+                    // 改行文字を入れるかどうか
+                    if (insertNewlineElem.checked === true) {
+                        htmlNotationElem.value = outputCode.replace(/(>)(<)/g, "$1\n$2");
+                    } else {
+                        htmlNotationElem.value = outputCode;
+                    }
+
                 }
 
+                // 画像が見つからなかった場合
                 imageObject.onerror = function() {
                     console.error("Image not found. Make sure your input is correct.");
                     imageMessageElem.textContent = "Image not found. Make sure your input is correct.";
                 }
 
                 ///////////////////////////////////////////////////////////
-
-                // HTML 形式用の img 要素を新しく作る
-                let img = document.createElement("img");
-                img.src = imageSource;
-
-                // figure の textContent を img に差し替え
-                let result = "";
-                for (elem of figureElem.childNodes) {
-                    if(elem.nodeType === Node.TEXT_NODE) {
-                        result += elem.textContent;
-                        console.log(elem.textContent);
-                        elem.textContent = elem.textContent.replace(result, "");
-                    }
-                }
-
-                // img.removeAttribute("xmlns");
-                figureElem.insertBefore(img, figureElem.firstChild);
-
-
-                // 出力する HTML 形式
-                let outputCode = figureElem.outerHTML;
-
-                // 改行文字を入れるかどうか
-                if (insertNewlineElem.checked === true) {
-                    htmlNotationElem.value = outputCode.replace(/(>)(<)/g, "$1\n$2");
-                } else {
-                    htmlNotationElem.value = outputCode;
-                }
 
             });
 
@@ -213,7 +291,7 @@
 
     <p>画像挿入時に自動で入力されるはてな記法を HTML に書き直します。
         <a style="font-size: small;" href="https://github.com/bakkyalo/mypage/blob/master/hatena-image.html">(ソースコード)</a>
-        <br> caption のない形式ではうまく動きません。
+        <br> Markdown 記法も文法は同じなので動きますが、caption のない形式ではうまく動きません。
     </p>
 
     <div class="two-column">
@@ -243,10 +321,17 @@
             
             <br>
 
-            <details>
+            <div id="image-size" style="font-size: x-small;"></div>
+
+            <br>
+
+            <details open>
                 <summary>高度な設定</summary>
                 <label>
                     <input id="insert-newline" type="checkbox" checked><span>HTML に改行文字を挿入する</span>
+                </label><br>
+                <label>
+                    <input id="insert-original" type="checkbox"><span>オリジナルサイズが存在すれば挿入する</span>
                 </label>
             </details>
 
