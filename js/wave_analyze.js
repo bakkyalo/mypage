@@ -13,11 +13,20 @@ document.addEventListener( "DOMContentLoaded" , function() {
         height: 480,    // これがないと死ぬ
         width: 640,
         fsElement: containerElement,
+        peakLine: true,
         showPeaks: true,
+        // showFPS: true,
+        showScaleY: true,
         outlineBars: true,
     });
 
     document.getElementById("version").innerText = AudioMotionAnalyzer.version; // バージョン番号の表示
+
+    // canvas に id を付与
+    const canvas = containerElement.querySelector("canvas");
+    if( canvas ) {
+        canvas.id = "CanvasDrawPanel";
+    }
 
 });
 
