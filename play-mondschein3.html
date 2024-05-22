@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Play Mondschein3</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/tetris.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/include.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+    <script src="http://unpkg.com/tone"></script>
+</head>
+
+<body>
+    <header>
+    <a href="./">Home</a> &gt; <a href="./category-music.html">音楽関連</a> &gt; <span>Tone.js で月光 3 楽章を弾く</span>
+    <h1>Tone.js で月光 3 楽章を弾く</h1>
+    </header>
+
+    <div class="two-column">
+        <div class="main">
+            <p><a href="https://tonejs.github.io/">Tone.js</a> を用いて月光 3 楽章の冒頭 14 小節分だけ弾きます</p>
+
+            <input type="button" value="Play" id="playButton">
+            <input type="button" value="Stop" id="stopButton">
+
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+
+    <script>
+        // JSON の楽譜を取り出す
+        // const fs = require("fs");
+        // const rawData = fs.readFileSync("./json/mondschein3.json", "utf8");
+        fetch("./json/mondschein3.json")
+            .then( response => {
+                if(!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then( json => {
+                const rightHandScore = json.rightHandScore;
+                const leftHandScore = json.leftHandScore;
+                const tempo = json.tempo;
+
+                // ここに addEventListener 書くのキモくね？
+                // Play button が押された時の操作
+                document.getElementById("playButton").addEventListener("click", function() {
+                
+                    const piano = new Tone.Sampler({
+                        urls: {
+                        	A0: "A0.mp3",
+        					C1: "C1.mp3",
+        					"D#1": "Ds1.mp3",
+        					"F#1": "Fs1.mp3",
+        					A1: "A1.mp3",
+        					C2: "C2.mp3",
+        					"D#2": "Ds2.mp3",
+        					"F#2": "Fs2.mp3",
+        					A2: "A2.mp3",
+        					C3: "C3.mp3",
+        					"D#3": "Ds3.mp3",
+        					"F#3": "Fs3.mp3",
+        					A3: "A3.mp3",
+        					C4: "C4.mp3",
+        					"D#4": "Ds4.mp3",
+        					"F#4": "Fs4.mp3",
+        					A4: "A4.mp3",
+        					C5: "C5.mp3",
+        					"D#5": "Ds5.mp3",
+        					"F#5": "Fs5.mp3",
+        					A5: "A5.mp3",
+        					C6: "C6.mp3",
+        					"D#6": "Ds6.mp3",
+        					"F#6": "Fs6.mp3",
+        					A6: "A6.mp3",
+        					C7: "C7.mp3",
+        					"D#7": "Ds7.mp3",
+        					"F#7": "Fs7.mp3",
+        					A7: "A7.mp3",
+        					C8: "C8.mp3",
+                        },
+                        baseUrl: "https://tonejs.github.io/audio/salamander/", 
+                        onload: () => {
+                            const rightHandPart = new Tone.Part(((time, note) => {
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.volume);
+                            }), rightHandScore).start();
+                        
+                        
+                            const leftHandPart = new Tone.Part(((time, note) => {
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.volume);
+                            }), leftHandScore).start();
+                            
+                            Tone.Transport.start();
+                        }
+                    
+                    }).toDestination();
+                
+                    Tone.Transport.bpm.value = tempo;
+                
+                });
+
+
+            })
+            .catch( error => {
+                console.error("Fetch Error:", error);
+            });
+        // const data = JSON.parse(rawData);
+
+        // 左手の楽譜
+        /*
+        let kadenzLeftHandScore = [
+            {"time": "0:0:0", "note": ["C2", "C3"], "duration": "4n", "volume": 0.5},
+            {"time": "0:1:0", "note": ["F2", "F3"], "duration": "4n", "volume": 0.5},
+            {"time": "0:2:0", "note": ["G2", "G3"], "duration": "4n", "volume": 0.5},
+            {"time": "0:3:0", "note": ["G1", "G2"], "duration": "4n", "volume": 0.5},
+            {"time": "1:0:0", "note": ["C2", "C3"], "duration": "2n", "volume": 0.5},
+        ];
+         */
+
+    </script>
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>
