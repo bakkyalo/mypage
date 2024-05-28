@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>Piano</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/tetris.css" rel="stylesheet" />
+    <link href="./css/piano.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/include.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://tonejs.github.io/build/Tone.js"></script>
+    <!--
+    <script src="https://tonejs.github.io/examples/js/tone-ui.js"></script>
+    -->
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+    <a href="./index.html">Home</a> &gt; <a href="category-music.html">音楽関連</a> &gt; ぴあの
+    <h1>ぴあの</h1>
+    </header>
+
+    <div class="two-column">
+        <div class="main">
+
+            <p>Tone.js でっていうより、CSS をガチってピアノを作る</p>
+            <p>※あなたはこのピアノは弾けません</p>
+
+            <br>
+            
+            <!--
+            <div id="container">
+            <tone-play-toggle></tone-play-toggle>
+            </div>
+        -->
+
+
+            <div id="original">
+                <tone-keyboard>
+                    <tone-keyboard-octave octave="4">
+                        <div class="white-notes">
+                            <tone-keyboard-note color="#ccc" note="48">
+                                <button id="C4">C4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="50">
+                                <button id="D4">D4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="52">
+                                <button id="E4">E4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="53">
+                                <button id="F4">F4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="55">
+                                <button id="G4">G4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="57">
+                                <button id="A4">A4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="59">
+                                <button id="B4">B4</button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note color="#ccc" note="49">
+                                <button id="C#4">C#4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="51">
+                                <button id="D#4">D#4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note class="dummy" note="0">
+                                <button></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="54">
+                                <button id="F#4">F#</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="56">
+                                <button id="G#4">G#4</button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note color="#ccc" note="58">
+                                <button id="A#4">A#4</button>
+                            </tone-keyboard-note>
+                        </div>
+
+                    </tone-keyboard-octave>
+                </tone-keyboard>
+
+                <br>
+                <input type="button" value="Play" id="playButton">
+                <input type="button" value="Stop" id="stopButton">
+            </div>
+
+            <h2>todo</h2>
+            <ul>
+                <li>赤くするのを setTimeout() で 0.9 倍の時間で実装しているが、何かの不具合でちょっと長引くと簡単にバグるので、その辺を何とか解消する</li>
+                <li>button で実装する意味がないっぽいので別の要素を検討。li とか span とか</li>
+            </ul>
+
+            <h2>参考</h2>
+            <ul>
+                <li><a href="https://tonejs.github.io/Midi/">https://tonejs.github.io/Midi/</a></li>
+                <li><a href="https://tonejs.github.io/examples/sampler">https://tonejs.github.io/examples/sampler</a></li>
+                <li><a href="https://dev.to/shimphillip/building-a-piano-with-tone-js-5c2f">https://dev.to/shimphillip/building-a-piano-with-tone-js-5c2f</a></li>
+                <li><a href="https://scale-player.vercel.app/">https://scale-player.vercel.app/</a></li>
+            </ul>
+
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+
+
+    <script>
+        const playButton = document.getElementById("playButton");
+        const stopButton = document.getElementById("stopButton");
+
+        stopButton.style.display = "none";
+
+
+        const twinkleStarScore = [
+            {"time": "0:0:0", "note": "C4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:1:0", "note": "C4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:2:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:3:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:0:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:1:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:2:0", "note": "G4", "duration": "2n", "velocity": 0.2},
+
+            {"time": "2:0:0", "note": "F4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:1:0", "note": "F4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:2:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:3:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:0:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:1:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:2:0", "note": "C4", "duration": "2n", "velocity": 0.2},
+        ];
+
+        const twinkleStarDdurScore = [
+            {"time": "0:0:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:1:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:2:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+            {"time": "0:3:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:0:0", "note": "B4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:1:0", "note": "B4", "duration": "4n", "velocity": 0.2},
+            {"time": "1:2:0", "note": "A4", "duration": "2n", "velocity": 0.2},
+
+            {"time": "2:0:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:1:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:2:0", "note": "F#4", "duration": "4n", "velocity": 0.2},
+            {"time": "2:3:0", "note": "F#4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:0:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:1:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+            {"time": "3:2:0", "note": "D4", "duration": "2n", "velocity": 0.2},
+        ];
+
+        playButton.addEventListener("click", () => {
+            playButton.style.display = "none";
+            stopButton.style.display = "inline-block";
+
+            const piano = new Tone.Sampler({
+                urls: {
+                	A0: "A0.mp3",
+    		    	C1: "C1.mp3",
+    		    	"D#1": "Ds1.mp3",
+    		    	"F#1": "Fs1.mp3",
+    		    	A1: "A1.mp3",
+    		    	C2: "C2.mp3",
+    		    	"D#2": "Ds2.mp3",
+    		    	"F#2": "Fs2.mp3",
+    		    	A2: "A2.mp3",
+    		    	C3: "C3.mp3",
+    		    	"D#3": "Ds3.mp3",
+    		    	"F#3": "Fs3.mp3",
+    		    	A3: "A3.mp3",
+    		    	C4: "C4.mp3",
+    		    	"D#4": "Ds4.mp3",
+    		    	"F#4": "Fs4.mp3",
+    		    	A4: "A4.mp3",
+    		    	C5: "C5.mp3",
+    		    	"D#5": "Ds5.mp3",
+    		    	"F#5": "Fs5.mp3",
+    		    	A5: "A5.mp3",
+    		    	C6: "C6.mp3",
+    		    	"D#6": "Ds6.mp3",
+    		    	"F#6": "Fs6.mp3",
+    		    	A6: "A6.mp3",
+    		    	C7: "C7.mp3",
+    		    	"D#7": "Ds7.mp3",
+    		    	"F#7": "Fs7.mp3",
+    		    	A7: "A7.mp3",
+    		    	C8: "C8.mp3",
+                },
+                baseUrl: "https://tonejs.github.io/audio/salamander/", 
+                onload: () => {
+                    const rightHandPart = new Tone.Part(((time, note) => {
+                        // 音を鳴らす
+                        piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+
+                        // 鍵盤に反映させる
+                        const keyElem = document.getElementById(note.note);
+                        const computedStyle = window.getComputedStyle(keyElem);
+                        const previousBGColor = computedStyle.backgroundColor; //  押す前の色
+
+                        console.log(window.getComputedStyle(keyElem).backgroundColor);      // 
+
+                        keyElem.style = "background-color: red;";
+
+                        // 押下する秒数を計算する
+                        const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+
+                        // 秒数だけ押す
+                        // 正直ここが懸念点。赤い時にもう一回押すと終わる
+                        setTimeout( () => {
+                            // keyElem.style = "background-color: white;";
+                            keyElem.style.backgroundColor = previousBGColor;
+                        }, noteLengthInSeconds * 900);
+                        
+
+                    }), twinkleStarDdurScore).start();
+                
+                    rightHandPart.onended = () => {
+                        console.log("Ended.");
+                    };
+                    Tone.Transport.start();
+                }
+            
+            }).toDestination();
+
+
+            Tone.Transport.bpm.value = 80;
+
+       });
+
+       // https://stackoverflow.com/questions/24025165/simulating-a-mousedown-click-mouseup-sequence-in-tampermonkey
+       function triggerMousevent(node, eventType) {
+        let clickEvent = new Event(eventType, { bubbles: true, cancelable: true});
+        node.dispatchEvent(clickEvent);
+       }
+
+
+        stopButton.addEventListener("click", () => {
+            stopButton.style.display = "none";
+            playButton.style.display = "inline-block";
+
+            Tone.Transport.stop();
+            Tone.Transport.cancel();
+
+       });
+    </script>
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>

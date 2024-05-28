@@ -1,0 +1,83 @@
+tone-keyboard {
+    margin: 10px 20px 20px 20px;
+    display: flex;
+    position: relative;
+    width: 80%;
+}
+
+.white-notes {
+    display: flex;
+    flex-direction: row;
+
+    tone-keyboard-note button {
+        color: #ccc;
+
+        background-color: white;
+        border-width: thin;     /* 白鍵の外線 */
+        display: inline-block;
+
+
+        /*
+        background: linear-gradient(#fff 96%, #eee 4%);
+        */
+
+        z-index: 5;
+        height: 100px;
+        width: 40px;
+
+        /*
+        &:hover {
+            background-color: red;
+        }
+        &:active {
+            background-color: blue;
+        }
+         */
+    }
+}
+
+.black-notes {
+    display: flex;
+    flex-direction: row;
+
+    /* この辺から黒鍵を白鍵の上部に重ねて書く設定 */
+    position: absolute;
+    top: 0px;
+    left: 20px;
+
+    tone-keyboard-note button {
+
+        font-size: x-small;
+        text-align: left;
+
+        color: #ccc;
+        background-color: black;
+        display: inline-block;
+        /* position: absolute; */
+
+        z-index: 10;
+        height: 65px;
+        width: 25px;
+
+        margin: 0 7.5px 0 7.5px;
+
+        /*
+        &:hover {
+            background-color: red;
+        }
+        &:active {
+            background-color: blue;
+        }
+         */
+    }
+
+    .dummy {
+        /* display: none; では存在そのものが消えてしまう */
+        visibility: hidden;
+        pointer-events: none;
+
+        button {
+            z-index: 0;
+        }
+    }
+}
