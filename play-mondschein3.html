@@ -43,6 +43,7 @@
         // JSON の楽譜を取り出す
         // const fs = require("fs");
         // const rawData = fs.readFileSync("./json/mondschein3.json", "utf8");
+        // fetch("./json/twinkleStarDdur.json")
         fetch("./json/mondschein3.json")
             .then( response => {
                 if(!response.ok) {
@@ -95,12 +96,12 @@
                         baseUrl: "https://tonejs.github.io/audio/salamander/", 
                         onload: () => {
                             const rightHandPart = new Tone.Part(((time, note) => {
-                                piano.triggerAttackRelease(note.note, note.duration, time, note.volume);
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
                             }), rightHandScore).start();
                         
                         
                             const leftHandPart = new Tone.Part(((time, note) => {
-                                piano.triggerAttackRelease(note.note, note.duration, time, note.volume);
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
                             }), leftHandScore).start();
                             
                             Tone.Transport.start();
@@ -122,11 +123,11 @@
         // 左手の楽譜
         /*
         let kadenzLeftHandScore = [
-            {"time": "0:0:0", "note": ["C2", "C3"], "duration": "4n", "volume": 0.5},
-            {"time": "0:1:0", "note": ["F2", "F3"], "duration": "4n", "volume": 0.5},
-            {"time": "0:2:0", "note": ["G2", "G3"], "duration": "4n", "volume": 0.5},
-            {"time": "0:3:0", "note": ["G1", "G2"], "duration": "4n", "volume": 0.5},
-            {"time": "1:0:0", "note": ["C2", "C3"], "duration": "2n", "volume": 0.5},
+            {"time": "0:0:0", "note": ["C2", "C3"], "duration": "4n", "velocity": 0.5},
+            {"time": "0:1:0", "note": ["F2", "F3"], "duration": "4n", "velocity": 0.5},
+            {"time": "0:2:0", "note": ["G2", "G3"], "duration": "4n", "velocity": 0.5},
+            {"time": "0:3:0", "note": ["G1", "G2"], "duration": "4n", "velocity": 0.5},
+            {"time": "1:0:0", "note": ["C2", "C3"], "duration": "2n", "velocity": 0.5},
         ];
          */
 

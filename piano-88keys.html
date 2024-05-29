@@ -1,0 +1,661 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <title>88 keys Piano Simulation</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/piano-88keys.css" />
+    <script type="text/javascript" src="http://unpkg.com/tone"></script>
+    <script type="text/javascript" src="./js/include.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+</head>
+
+<body>
+    <h1>88 キーのピアノのテスト</h1>
+
+    <div class="two-column">
+        <div class="main">
+
+            <p>※あなたはこのピアノは弾けません</p>
+
+            <div id="original">
+                <tone-keyboard>
+                    <tone-keyboard-octave octave="0">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="9">
+                                <button id="A0"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="11">
+                                <button id="B0"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="10">
+                                <button id="A#0"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0" class="dummy">
+                                <button></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave> 
+
+                    <tone-keyboard-octave octave="1">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="12">
+                                <button id="C1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="14">
+                                <button id="D1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="16">
+                                <button id="E1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="17">
+                                <button id="F1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="19">
+                                <button id="G1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="21">
+                                <button id="A1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="23">
+                                <button id="B1"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="13">
+                                <button id="C#1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="15">
+                                <button id="D#1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0" class="dummy">
+                                <button></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="18">
+                                <button id="F#1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="20">
+                                <button id="G#1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="22">
+                                <button id="A#1"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0" class="dummy">
+                                <button></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="2">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="24">
+                                <button id="C2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="26">
+                                <button id="D2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="28">
+                                <button id="E2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="29">
+                                <button id="F2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="31">
+                                <button id="G2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="33">
+                                <button id="A2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="35">
+                                <button id="B2"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="25">
+                                <button id="C#2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="27">
+                                <button id="D#2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="30">
+                                <button id="F#2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="32">
+                                <button id="G#2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="34">
+                                <button id="A#2"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="3">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="36">
+                                <button id="C3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="38">
+                                <button id="D3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="40">
+                                <button id="E3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="41">
+                                <button id="F3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="43">
+                                <button id="G3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="45">
+                                <button id="A3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="47">
+                                <button id="B3"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="37">
+                                <button id="C#3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="39">
+                                <button id="D#3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="42">
+                                <button id="F#3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="44">
+                                <button id="G#3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="46">
+                                <button id="A#3"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="4">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="48">
+                                <button id="C4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="50">
+                                <button id="D4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="52">
+                                <button id="E4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="53">
+                                <button id="F4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="55">
+                                <button id="G4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="57">
+                                <button id="A4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="59">
+                                <button id="B4"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="49">
+                                <button id="C#4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="51">
+                                <button id="D#4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="54">
+                                <button id="F#4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="56">
+                                <button id="G#4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="58">
+                                <button id="A#4"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="5">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="60">
+                                <button id="C5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="62">
+                                <button id="D5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="64">
+                                <button id="E5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="65">
+                                <button id="F5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="67">
+                                <button id="G5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="69">
+                                <button id="A5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="71">
+                                <button id="B5"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="61">
+                                <button id="C#5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="63">
+                                <button id="D#5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="66">
+                                <button id="F#5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="68">
+                                <button id="G#5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="70">
+                                <button id="A#5"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="6">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="72">
+                                <button id="C6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="74">
+                                <button id="D6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="76">
+                                <button id="E6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="77">
+                                <button id="F6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="79">
+                                <button id="G6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="81">
+                                <button id="A6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="83">
+                                <button id="B6"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="73">
+                                <button id="C#6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="75">
+                                <button id="D#6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="78">
+                                <button id="F#6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="80">
+                                <button id="G#6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="82">
+                                <button id="A#6"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="7">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="84">
+                                <button id="C7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="86">
+                                <button id="D7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="88">
+                                <button id="E7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="89">
+                                <button id="F7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="91">
+                                <button id="G7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="93">
+                                <button id="A7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="95">
+                                <button id="B7"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                        <div class="black-notes">
+                            <tone-keyboard-note note="85">
+                                <button id="C#7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="87">
+                                <button id="D#7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="90">
+                                <button id="F#7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="92">
+                                <button id="G#7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="94">
+                                <button id="A#7"></button>
+                            </tone-keyboard-note>
+                            <tone-keyboard-note note="0">
+                                <button class="dummy"></button>
+                            </tone-keyboard-note>
+                        </div>
+                    </tone-keyboard-octave>
+
+                    <tone-keyboard-octave octave="8">
+                        <div class="white-notes">
+                            <tone-keyboard-note note="96">
+                                <button id="C8"></button>
+                            </tone-keyboard-note>
+                        </div>
+
+                    </tone-keyboard-octave>
+                </tone-keyboard>
+            </div>
+
+            <br>
+            <input type="button" value="Play" id="playButton">
+            <input type="button" value="Stop" id="stopButton">
+
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+
+    </div>
+    <script>
+        // ボタンの定義
+        const playButton = document.getElementById("playButton");
+        const stopButton = document.getElementById("stopButton");
+
+        stopButton.style.display = "none";
+
+        // JSON の楽譜を取り出す
+        fetch("./json/mondschein3.json")
+            .then( response => {
+                if(!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then( json => {
+                const rightHandScore = json.rightHandScore;
+                const leftHandScore = json.leftHandScore;
+                const tempo = json.tempo;
+
+                // ここに addEventListener 書くのキモくね？
+                // Play button が押された時の操作
+                playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    stopButton.style.display = "inline-block";
+                    
+                
+                    const piano = new Tone.Sampler({
+                        urls: {
+                        	A0: "A0.mp3",
+        					C1: "C1.mp3",
+        					"D#1": "Ds1.mp3",
+        					"F#1": "Fs1.mp3",
+        					A1: "A1.mp3",
+        					C2: "C2.mp3",
+        					"D#2": "Ds2.mp3",
+        					"F#2": "Fs2.mp3",
+        					A2: "A2.mp3",
+        					C3: "C3.mp3",
+        					"D#3": "Ds3.mp3",
+        					"F#3": "Fs3.mp3",
+        					A3: "A3.mp3",
+        					C4: "C4.mp3",
+        					"D#4": "Ds4.mp3",
+        					"F#4": "Fs4.mp3",
+        					A4: "A4.mp3",
+        					C5: "C5.mp3",
+        					"D#5": "Ds5.mp3",
+        					"F#5": "Fs5.mp3",
+        					A5: "A5.mp3",
+        					C6: "C6.mp3",
+        					"D#6": "Ds6.mp3",
+        					"F#6": "Fs6.mp3",
+        					A6: "A6.mp3",
+        					C7: "C7.mp3",
+        					"D#7": "Ds7.mp3",
+        					"F#7": "Fs7.mp3",
+        					A7: "A7.mp3",
+        					C8: "C8.mp3",
+                        },
+                        baseUrl: "https://tonejs.github.io/audio/salamander/", 
+                        onload: () => {
+                            const rightHandPart = new Tone.Part(((time, note) => {
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+
+                                // 鍵盤に反映させる
+                                // 単音
+                                if(!(note.note instanceof Array)) {
+                                    const keyElem = document.getElementById(note.note);
+                                    const computedStyle = window.getComputedStyle(keyElem);
+                                    let previousBGColor = computedStyle.backgroundColor;
+                                    if (note.note.includes("#")) {
+                                        previousBGColor = "black";
+                                        keyElem.style.backgroundColor = "#2ab8c8";
+                                    } else {
+                                        previousBGColor = "white";
+                                        keyElem.style.backgroundColor = "#51dff2";
+                                    }
+
+
+                                    const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+                                    setTimeout( () => {
+                                        keyElem.style.backgroundColor = previousBGColor;
+                                    }, noteLengthInSeconds * 1000);
+                                }
+                                // 和音
+                                else {
+                                    for (let i = 0; i < note.note.length; i++) {
+                                        const keyElem = document.getElementById(note.note[i]);
+                                        const computedStyle = window.getComputedStyle(keyElem);
+                                        let previousBGColor = computedStyle.backgroundColor;
+                                        if (note.note[i].includes("#")) {
+                                            previousBGColor = "black";
+                                            keyElem.style.backgroundColor = "#2ab8c8";
+                                        } else {
+                                            previousBGColor = "white";
+                                            keyElem.style.backgroundColor = "#51dff2";
+                                        }
+
+
+                                        // duration も配列かどうかで分かれる
+                                        if (!(note.duration instanceof Array)) {
+                                            const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+                                            setTimeout( () => {
+                                                keyElem.style.backgroundColor = previousBGColor;
+                                            }, noteLengthInSeconds * 1000);
+                                        }
+                                        else {
+                                            const noteLengthInSeconds = Tone.Time(note.duration[i]).toSeconds();
+                                            setTimeout( () => {
+                                                keyElem.style.backgroundColor = previousBGColor;
+                                            }, noteLengthInSeconds * 1000);
+                                        }
+
+
+                                    }
+
+
+                                    // async function processElements(elements) {
+                                    //     const processData = await Promise.all(
+                                    //         elements.map(async(item) => {
+                                    //             // ここで各要素の処理を行う
+
+                                    //             const keyElem  = document.getElementById(item);
+                                    //             const computedStyle = window.getComputedStyle(keyElem);
+                                    //             const previousBGColor = computedStyle.backgroundColor;
+
+                                    //             keyElem.style.backgroundColor = "red";
+
+                                    //             // 押下する秒数の計算
+                                    //             const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+
+                                    //             setTimeout( () => {
+                                    //                 keyElem.style.backgroundColor = previousBGColor;
+                                    //             }, noteLengthInSeconds * 800);
+
+                                    //             return item.toUpperCase();
+
+                                    //         })
+                                    //     );
+                                    // }
+                                    // processElements(note.note);
+                                }
+                            }), rightHandScore).start();
+                        
+                        
+                            const leftHandPart = new Tone.Part(((time, note) => {
+                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+
+                                // 鍵盤に反映させる
+                                // 単音
+                                if(!(note.note instanceof Array)) {
+                                    const keyElem = document.getElementById(note.note);
+                                    const computedStyle = window.getComputedStyle(keyElem);
+                                    let previousBGColor = computedStyle.backgroundColor;
+                                    if (note.note.includes("#")) {
+                                        previousBGColor = "black";
+                                        keyElem.style.backgroundColor = "#6ec578";
+                                    } else {
+                                        previousBGColor = "white";
+                                        keyElem.style.backgroundColor = "#92eca2";
+                                    }
+
+
+                                    const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+                                    setTimeout( () => {
+                                        keyElem.style.backgroundColor = previousBGColor;
+                                    }, noteLengthInSeconds * 1000);
+                                }
+                                // 和音
+                                else {
+                                    for (let i = 0; i < note.note.length; i++) {
+                                        const keyElem = document.getElementById(note.note[i]);
+                                        const computedStyle = window.getComputedStyle(keyElem);
+                                        let previousBGColor = computedStyle.backgroundColor;
+                                        if (note.note[i].includes("#")) {
+                                            previousBGColor = "black";
+                                            keyElem.style.backgroundColor = "#6ec578";
+                                        } else {
+                                            previousBGColor = "white";
+                                            keyElem.style.backgroundColor = "#92eca2";
+                                        }
+
+
+                                        // duration も配列かどうかで分かれる
+                                        if (!(note.duration instanceof Array)) {
+                                            const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
+                                            setTimeout( () => {
+                                                keyElem.style.backgroundColor = previousBGColor;
+                                            }, noteLengthInSeconds * 1000);
+                                        }
+                                        else {
+                                            const noteLengthInSeconds = Tone.Time(note.duration[i]).toSeconds();
+                                            setTimeout( () => {
+                                                keyElem.style.backgroundColor = previousBGColor;
+                                            }, noteLengthInSeconds * 1000);
+                                        }
+
+                                    }
+                                }
+                            }), leftHandScore).start();
+                            
+                            Tone.Transport.start();
+                        }
+                    
+                    }).toDestination();
+                
+                    Tone.Transport.bpm.value = tempo;
+                
+                });
+
+                stopButton.addEventListener("click", function() {
+                    stopButton.style.display = "none";
+                    playButton.style.display = "inline-block";
+
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+
+                });
+
+
+            })
+            .catch( error => {
+                console.error("Fetch Error:", error);
+            });
+        // const data = JSON.parse(rawData);
+
+
+    </script>
+
+
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+
+</html>

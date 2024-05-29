@@ -1,0 +1,57 @@
+@charset "UTF-8";
+tone-keyboard {
+  margin: 10px 10px 20px 10px;
+  display: flex;
+  position: relative;
+  /*
+  min-width: 90%;
+  max-width: 100%;
+  */
+  align-items: center;
+  justify-content: center;
+}
+
+.white-notes {
+  display: flex;
+  flex-direction: row;
+  /* 固定してしまおう */
+}
+.white-notes tone-keyboard-note {
+  width: 12px;
+}
+.white-notes tone-keyboard-note button {
+  background-color: white;
+  border-width: thin;
+  border-color: lightgray;
+  /*
+  border: 0;
+  box-shadow: -2px -2px 5px gray, 2px 2px 5px gray;
+   */
+  display: inline-block;
+  z-index: 5;
+  height: 100px;
+}
+
+.black-notes {
+  display: flex;
+  flex-direction: row;
+  /* この辺から黒鍵を白鍵の上部に重ねて書く設定 */
+  position: absolute;
+  top: 0px;
+  margin-left: 6px;
+}
+.black-notes tone-keyboard-note {
+  width: 12px;
+}
+.black-notes tone-keyboard-note button {
+  background-color: black;
+  border-width: thin;
+  display: inline-block;
+  z-index: 10;
+  height: 65px;
+}
+.black-notes .dummy {
+  flex-grow: 0.5;
+  visibility: hidden;
+  pointer-events: none;
+}/*# sourceMappingURL=piano-88keys.css.map */
