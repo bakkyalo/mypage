@@ -1,0 +1,20 @@
+{
+    "tempo": 100,
+    "rightHandScore": [
+        {"time": "0:0:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+        {"time": "0:1:0", "note": "D4", "duration": "4n", "velocity": 0.2},
+        {"time": "0:2:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+        {"time": "0:3:0", "note": "A4", "duration": "4n", "velocity": 0.2},
+        {"time": "1:0:0", "note": "B4", "duration": "4n", "velocity": 0.2},
+        {"time": "1:1:0", "note": "B4", "duration": "4n", "velocity": 0.2},
+        {"time": "1:2:0", "note": "A4", "duration": "2n", "velocity": 0.2},
+
+        {"time": "2:0:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+        {"time": "2:1:0", "note": "G4", "duration": "4n", "velocity": 0.2},
+        {"time": "2:2:0", "note": "F#4", "duration": "4n", "velocity": 0.2},
+        {"time": "2:3:0", "note": "F#4", "duration": "4n", "velocity": 0.2},
+        {"time": "3:0:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+        {"time": "3:1:0", "note": "E4", "duration": "4n", "velocity": 0.2},
+        {"time": "3:2:0", "note": "D4", "duration": "2n", "velocity": 0.2}
+    ]
+}

@@ -4,45 +4,36 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Wave Analyze</title>
+    <title>Category - Music</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
     <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/tetris.css" rel="stylesheet" />
     <script type="text/javascript" src="./js/include.js"></script>
-    <script type="text/javascript" src="./js/kinako.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
         });
     </script>
-
-    <style>
-        /* audio */
-        audio {
-            display: block;
-            width: 640px;
-        }
-    </style>
 </head>
 
 <body>
-    <h1>音の解析</h1>
+    <header>
+    <a href="./">Home</a> &gt; <span>音楽関連</span>
+    <h1>音楽関連</h1>
+    </header>
 
     <div class="two-column">
         <div class="main">
-            <p><a href="https://audiomotion.dev/">audioMotion-analyer</a> <span id="version"></span> を用いた音源の解析ツール</p>
+            <ul>
+                <li><a href="./play-kadenz.html">Tone.js でカデンツを弾く</a></li>
+                <li><a href="./play-mondschein3.html">Tone.js で月光 3 楽章を弾く</a></li>
+                <li><a href="./piano.html">ピアノのテスト</a></li>
+                <li><a href="./piano-88keys.html">88 キーのピアノのテスト</a></li>
+                <li><a href="./tonejs-ui-piano.html">Tone-ui.js で作れるもんならやりたいってやつ。よく分かってない</a></li>
+            </ul>
 
-            <div>
-                <label for="file-upload">音声ファイル選択:</label>
-                <input type="file" id="file-upload" name="file-upload" accept="audio/*">
-            </div>
-
-            <div id="container"> </div>
-            <audio id="audio" controls crossorigin="anonymous"></audio>
-
-            <script type="module" src="./js/wave_analyze.js"></script>
         </div>
 
         <div class="side">
@@ -50,7 +41,6 @@
         </div>
 
     </div>
-
 
 </body>
 <footer>
