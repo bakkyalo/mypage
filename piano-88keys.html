@@ -20,7 +20,10 @@
 </head>
 
 <body>
+    <header>
+    <a href="./">Home</a> &gt; <a href="./category-music.html">音楽関連</a> &gt; 88 キーのピアノのテスト
     <h1>88 キーのピアノのテスト</h1>
+    </header>
 
     <div class="two-column">
         <div class="main">
@@ -421,6 +424,7 @@
         </div>
 
     </div>
+
     <script>
         // ボタンの定義
         const playButton = document.getElementById("playButton");
@@ -484,11 +488,13 @@
                         },
                         baseUrl: "https://tonejs.github.io/audio/salamander/", 
                         onload: () => {
+
+                            // 右手
                             const rightHandPart = new Tone.Part(((time, note) => {
                                 piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
 
                                 // 鍵盤に反映させる
-                                // 単音
+                                // 単音の場合
                                 if(!(note.note instanceof Array)) {
                                     const keyElem = document.getElementsByClassName(note.note)[0];
                                     const computedStyle = window.getComputedStyle(keyElem);
@@ -507,7 +513,7 @@
                                         keyElem.style.backgroundColor = previousBGColor;
                                     }, noteLengthInSeconds * 1000);
                                 }
-                                // 和音
+                                // 和音の場合
                                 else {
                                     for (let i = 0; i < note.note.length; i++) {
                                         const keyElem = document.getElementsByClassName(note.note[i])[0];
@@ -568,11 +574,12 @@
                             }), rightHandScore).start();
                         
                         
+                            // 左手
                             const leftHandPart = new Tone.Part(((time, note) => {
                                 piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
 
                                 // 鍵盤に反映させる
-                                // 単音
+                                // 単音の場合
                                 if(!(note.note instanceof Array)) {
                                     const keyElem = document.getElementsByClassName(note.note)[0];
                                     const computedStyle = window.getComputedStyle(keyElem);
@@ -591,7 +598,7 @@
                                         keyElem.style.backgroundColor = previousBGColor;
                                     }, noteLengthInSeconds * 1000);
                                 }
-                                // 和音
+                                // 和音の場合
                                 else {
                                     for (let i = 0; i < note.note.length; i++) {
                                         const keyElem = document.getElementsByClassName(note.note[i])[0];
