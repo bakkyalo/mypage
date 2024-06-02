@@ -19,6 +19,7 @@ tone-keyboard {
   background-color: white;
   border-width: thin;
   border-color: lightgray;
+  width: 12px;
   /*
   box-shadow: -2px -2px 5px gray, 2px 2px 5px gray;
    */
@@ -42,6 +43,7 @@ tone-keyboard {
   background-color: black;
   border-width: thin;
   display: inline-block;
+  width: 12px;
   z-index: 10;
   height: 65px;
 }
