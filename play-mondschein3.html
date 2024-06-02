@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Mondschein3</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
@@ -29,6 +30,7 @@
             <p><a href="https://tonejs.github.io/">Tone.js</a> を用いて月光 3 楽章の冒頭 14 小節分だけ弾きます</p>
 
             <input type="button" value="Play" id="playButton">
+            <input type="button" value="Pause" id="pauseButton">
             <input type="button" value="Stop" id="stopButton">
 
         </div>
@@ -40,6 +42,11 @@
     </div>
 
     <script>
+        const playButton = document.getElementById("playButton");
+        const pauseButton = document.getElementById("pauseButton");
+        const stopButton = document.getElementById("stopButton");
+        pauseButton.style.display = "none";
+
         // JSON の楽譜を取り出す
         // const fs = require("fs");
         // const rawData = fs.readFileSync("./json/mondschein3.json", "utf8");
@@ -58,59 +65,86 @@
 
                 // ここに addEventListener 書くのキモくね？
                 // Play button が押された時の操作
-                document.getElementById("playButton").addEventListener("click", function() {
+                playButton.addEventListener("click", function() {
+                    playButton.style.display = "none";
+                    pauseButton.style.display = "inline-block";
+
+                    console.log(Tone.Transport.state);
+                    // paused かどうか
+                    if(Tone.Transport.state === "paused") {
+                        Tone.Transport.start();
+                    }
+                    // stopped
+                    else {
                 
-                    const piano = new Tone.Sampler({
-                        urls: {
-                        	A0: "A0.mp3",
-        					C1: "C1.mp3",
-        					"D#1": "Ds1.mp3",
-        					"F#1": "Fs1.mp3",
-        					A1: "A1.mp3",
-        					C2: "C2.mp3",
-        					"D#2": "Ds2.mp3",
-        					"F#2": "Fs2.mp3",
-        					A2: "A2.mp3",
-        					C3: "C3.mp3",
-        					"D#3": "Ds3.mp3",
-        					"F#3": "Fs3.mp3",
-        					A3: "A3.mp3",
-        					C4: "C4.mp3",
-        					"D#4": "Ds4.mp3",
-        					"F#4": "Fs4.mp3",
-        					A4: "A4.mp3",
-        					C5: "C5.mp3",
-        					"D#5": "Ds5.mp3",
-        					"F#5": "Fs5.mp3",
-        					A5: "A5.mp3",
-        					C6: "C6.mp3",
-        					"D#6": "Ds6.mp3",
-        					"F#6": "Fs6.mp3",
-        					A6: "A6.mp3",
-        					C7: "C7.mp3",
-        					"D#7": "Ds7.mp3",
-        					"F#7": "Fs7.mp3",
-        					A7: "A7.mp3",
-        					C8: "C8.mp3",
-                        },
-                        baseUrl: "https://tonejs.github.io/audio/salamander/", 
-                        onload: () => {
-                            const rightHandPart = new Tone.Part(((time, note) => {
-                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
-                            }), rightHandScore).start();
-                        
-                        
-                            const leftHandPart = new Tone.Part(((time, note) => {
-                                piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
-                            }), leftHandScore).start();
+                        const piano = new Tone.Sampler({
+                            urls: {
+                            	A0: "A0.mp3",
+            					C1: "C1.mp3",
+            					"D#1": "Ds1.mp3",
+            					"F#1": "Fs1.mp3",
+            					A1: "A1.mp3",
+            					C2: "C2.mp3",
+            					"D#2": "Ds2.mp3",
+            					"F#2": "Fs2.mp3",
+            					A2: "A2.mp3",
+            					C3: "C3.mp3",
+            					"D#3": "Ds3.mp3",
+            					"F#3": "Fs3.mp3",
+            					A3: "A3.mp3",
+            					C4: "C4.mp3",
+            					"D#4": "Ds4.mp3",
+            					"F#4": "Fs4.mp3",
+            					A4: "A4.mp3",
+            					C5: "C5.mp3",
+            					"D#5": "Ds5.mp3",
+            					"F#5": "Fs5.mp3",
+            					A5: "A5.mp3",
+            					C6: "C6.mp3",
+            					"D#6": "Ds6.mp3",
+            					"F#6": "Fs6.mp3",
+            					A6: "A6.mp3",
+            					C7: "C7.mp3",
+            					"D#7": "Ds7.mp3",
+            					"F#7": "Fs7.mp3",
+            					A7: "A7.mp3",
+            					C8: "C8.mp3",
+                            },
+                            baseUrl: "https://tonejs.github.io/audio/salamander/", 
+                            onload: () => {
+                                const rightHandPart = new Tone.Part(((time, note) => {
+                                    piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+                                }), rightHandScore).start();
                             
-                            Tone.Transport.start();
-                        }
+                            
+                                const leftHandPart = new Tone.Part(((time, note) => {
+                                    piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
+                                }), leftHandScore).start();
+
+                                Tone.Transport.start();
+                            }
+                        
+                        }).toDestination();
                     
-                    }).toDestination();
+                        Tone.Transport.bpm.value = tempo;
+                    }
                 
-                    Tone.Transport.bpm.value = tempo;
-                
+                });
+
+                stopButton.addEventListener("click", () => {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+
+                    pauseButton.style.display = "none";
+                    playButton.style.display = "inline-block";
+                });
+
+                pauseButton.addEventListener("click", () => {
+                    Tone.Transport.pause();
+
+                    pauseButton.style.display = "none";
+                    playButton.style.display = "inline-block";
+
                 });
 
 
