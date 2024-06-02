@@ -1,6 +1,6 @@
 @charset "UTF-8";
 tone-keyboard {
-  margin: 10px 10px 20px 10px;
+  margin: 30px 10px 20px 10px;
   display: flex;
   position: relative;
   align-items: center;
@@ -33,7 +33,7 @@ tone-keyboard {
   /* この辺から黒鍵を白鍵の上部に重ねて書く設定 */
   position: absolute;
   top: 0px;
-  margin-left: 6px;
+  margin-left: 5px;
 }
 .black-notes tone-keyboard-note {
   width: 12px;
@@ -46,7 +46,67 @@ tone-keyboard {
   height: 65px;
 }
 .black-notes .dummy {
-  flex-grow: 0.5;
   visibility: hidden;
   pointer-events: none;
+}
+
+@media screen and (min-width: 580px) and (max-width: 768px) {
+  .white-notes tone-keyboard-note {
+    width: 10px;
+  }
+  .white-notes tone-keyboard-note button {
+    width: 10px;
+    padding: 0px;
+    border-color: white;
+  }
+  .black-notes {
+    margin-left: 5px;
+  }
+  .black-notes tone-keyboard-note {
+    width: 10px;
+  }
+  .black-notes tone-keyboard-note button {
+    width: 10px;
+    padding: 0px;
+  }
+}
+@media screen and (min-width: 450px) and (max-width: 579px) {
+  .white-notes tone-keyboard-note {
+    width: 8px;
+  }
+  .white-notes tone-keyboard-note button {
+    width: 8px;
+    padding: 0px;
+    border-color: white;
+  }
+  .black-notes {
+    margin-left: 4px;
+  }
+  .black-notes tone-keyboard-note {
+    width: 8px;
+  }
+  .black-notes tone-keyboard-note button {
+    width: 8px;
+    padding: 0px;
+  }
+}
+@media screen and (max-width: 449px) {
+  .white-notes tone-keyboard-note {
+    width: 7px;
+  }
+  .white-notes tone-keyboard-note button {
+    width: 7px;
+    padding: 0px;
+    border-color: white;
+  }
+  .black-notes {
+    margin-left: 3px;
+  }
+  .black-notes tone-keyboard-note {
+    width: 7px;
+  }
+  .black-notes tone-keyboard-note button {
+    width: 7px;
+    padding: 0px;
+  }
 }/*# sourceMappingURL=piano-88keys.css.map */

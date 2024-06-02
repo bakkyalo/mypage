@@ -7,6 +7,7 @@ body {
     margin-right: 5%;
      */
     margin: auto;
+    padding: 10px 0px 10px 0px;
     /*
     margin-left: auto;
     margin-right: auto;
@@ -97,9 +98,22 @@ dd {
         width: 100%;
         flex-wrap: wrap;
     }
+    /*
     .side {
         width: 0%;
         display: none;
+    }
+     */
+    .two-column {
+        flex-direction: column;
+    }
+    .side {
+        margin-top: 50px;
+        border-left: none;
+        border-top: 1px solid darkgray;
+        padding-top: 10px;
+        padding-left: 5px;
+        width: 90%;
     }
 }
 
