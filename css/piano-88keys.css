@@ -57,7 +57,7 @@ tone-keyboard {
   .white-notes tone-keyboard-note button {
     width: 10px;
     padding: 0px;
-    border-color: white;
+    border-color: lightgray;
   }
   .black-notes {
     margin-left: 5px;
@@ -77,7 +77,7 @@ tone-keyboard {
   .white-notes tone-keyboard-note button {
     width: 8px;
     padding: 0px;
-    border-color: white;
+    border-color: lightgray;
   }
   .black-notes {
     margin-left: 4px;
@@ -97,7 +97,7 @@ tone-keyboard {
   .white-notes tone-keyboard-note button {
     width: 7px;
     padding: 0px;
-    border-color: white;
+    border-color: lightgray;
   }
   .black-notes {
     margin-left: 3px;
