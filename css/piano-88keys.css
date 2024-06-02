@@ -18,8 +18,9 @@ tone-keyboard {
 .white-notes tone-keyboard-note button {
   background-color: white;
   border-width: thin;
-  border-color: lightgray;
+  border: 1px solid lightgray;
   width: 12px;
+  padding: 0px;
   /*
   box-shadow: -2px -2px 5px gray, 2px 2px 5px gray;
    */
@@ -44,6 +45,7 @@ tone-keyboard {
   border-width: thin;
   display: inline-block;
   width: 12px;
+  padding: 0px;
   z-index: 10;
   height: 65px;
 }
