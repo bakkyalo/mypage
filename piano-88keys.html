@@ -28,7 +28,17 @@
     <div class="two-column">
         <div class="main">
 
-            <p>※あなたはこのピアノは弾けません</p>
+            <p>※あなたはこのピアノは弾けません 
+                <span style="font-size: small;">
+                &nbsp; (→ ソース 
+                <a href="https://github.com/bakkyalo/mypage/blob/master/piano-88keys.html">html</a>
+                , 
+                <a href="https://github.com/bakkyalo/mypage/blob/master/css/piano-88keys.scss">scss</a>
+                )
+                &nbsp; 
+                <a href="https://github.com/bakkyalo/mypage/tree/master/json">(→ 楽譜の json)</a>
+                </span>
+            </p>
 
             <div id="original">
                 <tone-keyboard>
@@ -416,6 +426,11 @@
             <br>
             <input type="button" value="Play" id="playButton">
             <input type="button" value="Stop" id="stopButton">
+            <select id="selectMusic">
+                <option value="mondschein3">Mondschein III - Ludwig van Beethoven</option>
+                <option value="skyhigh">Skyhigh - Kirby Super Star</option>
+                <option value="twinkleStarDdur">Twinkle, Twinkle, Little Star (D dur)</option>
+            </select>
 
         </div>
 
@@ -432,67 +447,73 @@
 
         stopButton.style.display = "none";
 
-        // JSON の楽譜を取り出す
-        // fetch("./json/mondschein3.json")
-        fetch("./json/skyhigh.json")
-            .then( response => {
-                if(!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then( json => {
-                const rightHandScore = json.rightHandScore;
-                const leftHandScore = json.leftHandScore;
-                const tempo = json.tempo;
 
-                // ここに addEventListener 書くのキモくね？
-                // Play button が押された時の操作
-                playButton.addEventListener("click", function() {
-                    playButton.style.display = "none";
-                    stopButton.style.display = "inline-block";
+        // ここに addEventListener 書くのキモくね？
+        // Play button が押された時の操作
+        playButton.addEventListener("click", function() {
+            playButton.style.display = "none";
+            stopButton.style.display = "inline-block";
+
+            // プルダウンメニュー操作
+            const selectedMusic = document.getElementById("selectMusic").value;
+            const jsonURL = `./json/${selectedMusic}.json`;
+            // console.log(jsonURL);
+            
+            // JSON の楽譜を取り出す
+            // fetch("./json/mondschein3.json")
+            // fetch("./json/skyhigh.json")
+            fetch(jsonURL)
+                .then( response => {
+                    if(!response.ok) {
+                        throw new Error(`Network response was not ok: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then( json => {
+                    const rightHandScore = json.rightHandScore;
+                    const leftHandScore = json.leftHandScore;
+                    const tempo = json.tempo;
                     
-                
                     const piano = new Tone.Sampler({
                         urls: {
-                        	A0: "A0.mp3",
-        					C1: "C1.mp3",
-        					"D#1": "Ds1.mp3",
-        					"F#1": "Fs1.mp3",
-        					A1: "A1.mp3",
-        					C2: "C2.mp3",
-        					"D#2": "Ds2.mp3",
-        					"F#2": "Fs2.mp3",
-        					A2: "A2.mp3",
-        					C3: "C3.mp3",
-        					"D#3": "Ds3.mp3",
-        					"F#3": "Fs3.mp3",
-        					A3: "A3.mp3",
-        					C4: "C4.mp3",
-        					"D#4": "Ds4.mp3",
-        					"F#4": "Fs4.mp3",
-        					A4: "A4.mp3",
-        					C5: "C5.mp3",
-        					"D#5": "Ds5.mp3",
-        					"F#5": "Fs5.mp3",
-        					A5: "A5.mp3",
-        					C6: "C6.mp3",
-        					"D#6": "Ds6.mp3",
-        					"F#6": "Fs6.mp3",
-        					A6: "A6.mp3",
-        					C7: "C7.mp3",
-        					"D#7": "Ds7.mp3",
-        					"F#7": "Fs7.mp3",
-        					A7: "A7.mp3",
-        					C8: "C8.mp3",
+                            A0: "A0.mp3",
+                            C1: "C1.mp3",
+                            "D#1": "Ds1.mp3",
+                            "F#1": "Fs1.mp3",
+                            A1: "A1.mp3",
+                            C2: "C2.mp3",
+                            "D#2": "Ds2.mp3",
+                            "F#2": "Fs2.mp3",
+                            A2: "A2.mp3",
+                            C3: "C3.mp3",
+                            "D#3": "Ds3.mp3",
+                            "F#3": "Fs3.mp3",
+                            A3: "A3.mp3",
+                            C4: "C4.mp3",
+                            "D#4": "Ds4.mp3",
+                            "F#4": "Fs4.mp3",
+                            A4: "A4.mp3",
+                            C5: "C5.mp3",
+                            "D#5": "Ds5.mp3",
+                            "F#5": "Fs5.mp3",
+                            A5: "A5.mp3",
+                            C6: "C6.mp3",
+                            "D#6": "Ds6.mp3",
+                            "F#6": "Fs6.mp3",
+                            A6: "A6.mp3",
+                            C7: "C7.mp3",
+                            "D#7": "Ds7.mp3",
+                            "F#7": "Fs7.mp3",
+                            A7: "A7.mp3",
+                            C8: "C8.mp3",
                         },
                         baseUrl: "https://tonejs.github.io/audio/salamander/", 
                         onload: () => {
-
+                        
                             // 右手
                             const rightHandPart = new Tone.Part(((time, note) => {
                                 piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
-
+                            
                                 // 鍵盤に反映させる
                                 // 単音の場合
                                 if(!(note.note instanceof Array)) {
@@ -506,8 +527,8 @@
                                         previousBGColor = "white";
                                         keyElem.style.backgroundColor = "#51dff2";
                                     }
-
-
+                                
+                                
                                     const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
                                     setTimeout( () => {
                                         keyElem.style.backgroundColor = previousBGColor;
@@ -526,8 +547,8 @@
                                             previousBGColor = "white";
                                             keyElem.style.backgroundColor = "#51dff2";
                                         }
-
-
+                                    
+                                    
                                         // duration も配列かどうかで分かれる
                                         if (!(note.duration instanceof Array)) {
                                             const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
@@ -541,35 +562,8 @@
                                                 keyElem.style.backgroundColor = previousBGColor;
                                             }, noteLengthInSeconds * 1000);
                                         }
-
-
+                                    
                                     }
-
-
-                                    // async function processElements(elements) {
-                                    //     const processData = await Promise.all(
-                                    //         elements.map(async(item) => {
-                                    //             // ここで各要素の処理を行う
-
-                                    //             const keyElem  = document.getElementById(item);
-                                    //             const computedStyle = window.getComputedStyle(keyElem);
-                                    //             const previousBGColor = computedStyle.backgroundColor;
-
-                                    //             keyElem.style.backgroundColor = "red";
-
-                                    //             // 押下する秒数の計算
-                                    //             const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
-
-                                    //             setTimeout( () => {
-                                    //                 keyElem.style.backgroundColor = previousBGColor;
-                                    //             }, noteLengthInSeconds * 800);
-
-                                    //             return item.toUpperCase();
-
-                                    //         })
-                                    //     );
-                                    // }
-                                    // processElements(note.note);
                                 }
                             }), rightHandScore).start();
                         
@@ -577,7 +571,7 @@
                             // 左手
                             const leftHandPart = new Tone.Part(((time, note) => {
                                 piano.triggerAttackRelease(note.note, note.duration, time, note.velocity);
-
+                            
                                 // 鍵盤に反映させる
                                 // 単音の場合
                                 if(!(note.note instanceof Array)) {
@@ -591,8 +585,8 @@
                                         previousBGColor = "white";
                                         keyElem.style.backgroundColor = "#92eca2";
                                     }
-
-
+                                
+                                
                                     const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
                                     setTimeout( () => {
                                         keyElem.style.backgroundColor = previousBGColor;
@@ -611,8 +605,8 @@
                                             previousBGColor = "white";
                                             keyElem.style.backgroundColor = "#92eca2";
                                         }
-
-
+                                    
+                                    
                                         // duration も配列かどうかで分かれる
                                         if (!(note.duration instanceof Array)) {
                                             const noteLengthInSeconds = Tone.Time(note.duration).toSeconds();
@@ -626,11 +620,11 @@
                                                 keyElem.style.backgroundColor = previousBGColor;
                                             }, noteLengthInSeconds * 1000);
                                         }
-
+                                    
                                     }
                                 }
                             }), leftHandScore).start();
-                            
+
                             Tone.Transport.start();
                         }
                     
@@ -638,22 +632,22 @@
                 
                     Tone.Transport.bpm.value = tempo;
                 
+                })
+                    
+                .catch( error => {
+                    console.error("Fetch Error:", error);
                 });
-
-                stopButton.addEventListener("click", function() {
-                    stopButton.style.display = "none";
-                    playButton.style.display = "inline-block";
-
-                    Tone.Transport.stop();
-                    Tone.Transport.cancel();
-
-                });
-
 
             })
-            .catch( error => {
-                console.error("Fetch Error:", error);
-            });
+
+        stopButton.addEventListener("click", function() {
+            stopButton.style.display = "none";
+            playButton.style.display = "inline-block";
+
+            Tone.Transport.stop();
+            Tone.Transport.cancel();
+
+        });
         // const data = JSON.parse(rawData);
 
 
