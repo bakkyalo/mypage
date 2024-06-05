@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.mjs" type="module"></script>
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script src="https://raw.githubusercontent.com/mozilla/pdf.js/master/web/text_layer_builder.js"></script>
+    <!--
+    <script src="http://vivin.net/pub/pdfjs/textlayerbuilder.js"></script>
+    -->
+    <title>Test of pdf.js</title>
+    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
+    <link href="./css/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="./js/include.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            include_html('side-bar.html', [["sub", "page"]]);
+        });
+    </script>
+</head>
+<body>
+    <h1>pdf.js のテスト (工事中)</h1>
+
+
+    <div class="two-column">
+        <div class="main">
+            <p>pdf.js で最低限の機能だけ作っています。しおりの表示、テキスト選択などはできません...</p>
+
+            <button id="first">&lt;&lt;</button>
+            <button id="prev">Prev</button>
+            <button id="next">Next</button>
+            <button id="last">&gt;&gt;</button>
+            <span>Page: <span id="page_num">1</span> / <span id="page_count"></span></span>
+            <div id="pdf-container" style="width: 100%; max-width: 750px; line-height: 1; height: 600px; max-height: 60vh; border: 1px solid; background-color: lightgray; overflow-y:scroll;"></div>
+
+
+
+            <p><a href="https://raw.githubusercontent.com/bakkyalo/special_function/main/main/main.pdf">ここからダウンロードできます。(3.5 MB)</a></p>
+            <p>LaTeX のリポジトリは<a href="https://github.com/bakkyalo/special_function/tree/main">こちら</a></p>
+
+            <span class="textLayer"></span>
+        </div>
+
+        <div class="side">
+            <div id="page">dst</div>
+        </div>
+    </div>
+
+    <script>
+
+        let numPages = null;
+        // Deprecated API usage: No "GlobalWorkerOptions.workerSrc" specified.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+
+        // Warning: Error during font loading: The CMap "baseUrl" parameter must be specified, ensure that the "cMapUrl" and "cMapPacked" API parameters are provided.
+        // https://qiita.com/ReiTsukikazu/items/2d6627b3987535526814
+        const pdfUrl = "https://raw.githubusercontent.com/bakkyalo/special_function/main/main/main.pdf";
+        const container = document.getElementById('pdf-container');
+
+        let pageNumPending = null;
+
+        const computedStyle = window.getComputedStyle(container);
+        const lineHeightValue = computedStyle.getPropertyValue("line-height");
+        console.log("lihe-height", lineHeightValue);
+
+        const loadingTask = pdfjsLib.getDocument({
+            url: pdfUrl,
+            cMapUrl: "https://unpkg.com/pdfjs-dist@2.16.105/cmaps/",
+            cMapPacked: true,
+        });
+        loadingTask.promise.then((pdf) => {
+            // const numPages = pdf.numPages;
+            numPages = pdf.numPages;
+
+            document.getElementById("page_count").textContent = numPages;
+
+            for (let pageNum = 1; pageNum <= numPages; pageNum++){
+                pdf.getPage(pageNum).then((page) => {
+                    // console.log("page_view:", page.view);
+                    const scrolltop = document.getElementById("pdf-container").scrollTop;
+
+                    const scale = 1.0;
+                    console.log(page.getViewport());
+                    const viewport = page.getViewport({ scale: scale });
+
+
+                    console.log("width: ", viewport.width);
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    // canvas.style.margin = "auto";
+                    console.log("height: ", canvas.height);
+
+                    //  let outputScale = window.devicePixelRatio || 1;
+                    // let transform = outputScale !== 1
+                    //     ? [outputScale, 0, 0, outputScale, 0, 0]
+                    //     : null;
+
+                    canvas.id = pageNum;
+                    container.appendChild(canvas);
+                    let renderTask = page.render({
+                        canvasContext: context,
+                        // transform: transform,
+                        viewport,
+                    });
+
+
+                    /*
+                    page.getTextContent().then( function(textContent) {
+                        let textLayer = new TextLayerBuilder({
+                            textLayerDiv: $textLayerDiv.get(0),
+                            viewport: viewport
+                        });
+                        textLayer.setTextContent(textContent);
+                        textLayer.render();
+                    })
+
+                    // Wait for rendering to finish
+                    renderTask.promise.then(function() {
+                        pageRendering = false;
+                        if (pageNumPending !== null) {
+                            // New page rendering is pending
+                            renderPage(pageNumPending);
+                            pageNumPending = null;
+                        }
+                        }).then(function() {
+                        // Returns a promise, on resolving it will return text contents of the page
+                        return page.getTextContent();
+                        }).then(function(textContent) {
+
+                        // Assign CSS to the textLayer element
+                        var textLayer = document.querySelector(".textLayer");
+
+                        textLayer.style.left = canvas.offsetLeft + 'px';
+                        textLayer.style.top = canvas.offsetTop + 'px';
+                        textLayer.style.height = canvas.offsetHeight + 'px';
+                        textLayer.style.width = canvas.offsetWidth + 'px';
+
+                        // Pass the data to the method for rendering of text over the pdf canvas.
+                        pdfjsLib.renderTextLayer({
+                            textContent: textContent,
+                            container: textLayer,
+                            viewport: viewport,
+                            textDivs: []
+                        });
+                    });
+                     */
+                });
+            }
+        });
+
+
+        // id へとスクロール
+        function scrollToCanvas(canvasID) {
+            const canvas = document.getElementById(canvasID);
+            console.log(canvas);
+            if(canvas) {
+                // 神がいる...
+                // https://stackoverflow.com/questions/56688002/javascript-scrollintoview-only-in-immediate-parent
+                canvas.scrollIntoView( { 
+                    behavior: 'smooth', 
+                    block: "nearest",
+                    inline: "nearest",
+                });
+
+            }
+        }
+
+        document.getElementById("first").addEventListener("click", () => {scrollToCanvas("1");});
+        document.getElementById("prev").addEventListener("click", () => {
+            let prevPage = parseInt(document.getElementById("page_num").textContent) - 1;
+            if (prevPage < 1) {
+                console.error("First page.");
+                return;
+            }
+            scrollToCanvas(prevPage);
+        });
+        document.getElementById("next").addEventListener("click", () => {
+            let nextPage = parseInt(document.getElementById("page_num").textContent) + 1;
+            if(nextPage > numPages) {
+                console.error("Last page.");
+                return;
+            }
+            scrollToCanvas(nextPage);
+        });
+        document.getElementById("last").addEventListener("click", () => {
+            scrollToCanvas(numPages);
+        });
+
+        // スクロール毎の処理
+        container.addEventListener("scroll", () => {
+            let scrolltop = container.scrollTop;
+            // console.log(scrolltop);
+            document.getElementById("page_num").textContent = Math.floor(scrolltop / 929) + 1;
+        });
+
+    </script>
+    
+</body>
+<footer>
+    Powered by GitHub Pages<br>
+    (C) bakkyalo
+</footer>
+</html>
