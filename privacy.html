@@ -42,15 +42,56 @@
                 <input type="button" value="送信">
             </div>
 
+
             <div>
                 <input type="file">
             </div>
+
+            <div id="spam">
+            <h2>あなたの情報</h2>
+            あなたの IP アドレスは <span id="yourIP"></span> です。
+            <span id="yourRegion"></span> にお住まいですね。
+            </div>
+            <div id="annoying-spam" style="margin-top: 50px;"></div>
+
 
         </div>
 
         <div class="side">
             <div id="page">dst</div>
         </div>
+
+        <script>
+            fetch('https://ipinfo.io?callback')
+                .then(response => {
+                    if(!response.ok) {
+                        console.error("Some error occured.");
+                        document.getElementById("spam").style.display = "none";
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    console.log(json);
+                    document.getElementById("yourIP").textContent = json.ip;
+                    document.getElementById("yourRegion").textContent = json.region + ", " + json.country;
+                })
+                .catch( error => {
+                    console.error("Fetch error with: ", error);
+                    document.getElementById("spam").style.display = "none";
+                    document.getElementById("annoying-spam").textContent = "あなた、広告ブロックを使いましたね。小癪な。";
+
+                    fetch("https://api.ipify.org/?format=json")
+                        .then(response => {return response.json(); })
+                        .then(json => {
+                            // console.log(json.ip)
+                            document.getElementById("annoying-spam").innerHTML += `<br>IP address: ${json.ip}`;
+                        })
+                        .catch(error => {
+                        })
+
+                })
+            
+        </script>
 
     </div>
 
