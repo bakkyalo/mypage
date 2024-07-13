@@ -93,6 +93,11 @@ dd {
     padding-bottom: 10px;
 }
 
+/* 画像 */
+img {
+    max-width: 100%;
+}
+
 /* スマホでサイドバー非表示 */
 @media screen and (max-width: 768px) {
     html {
