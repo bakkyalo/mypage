@@ -69,6 +69,7 @@ dd {
 }
 
 
+/* 2 段組み */
 .two-column {
     width: 100%;
     display: flex;
@@ -77,6 +78,9 @@ dd {
 
 .main {
     width: 700px;
+
+    line-height: normal;
+    text-align: justify;
     /*
     padding-left: 1%;
     padding-right: 1%;
@@ -84,9 +88,11 @@ dd {
 }
 
 .side {
-    width: 200px;
+    width: 240px;
     padding-left: 20px;
     border-left: 1px solid darkgrey;
+
+    text-align: justify;
 }
 
 .profile {
@@ -96,6 +102,16 @@ dd {
 /* 画像 */
 img {
     max-width: 100%;
+}
+figure {
+    margin-inline-start: 5%;
+    margin-inline-end: 5%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+figcaption {
+    text-align: center; 
+    color: #444444;
 }
 
 /* スマホでサイドバー非表示 */
@@ -108,17 +124,21 @@ img {
         gap: 0px;
     }
     .main {
-        width: 95%;
+        width: 100%;
         flex-wrap: wrap;
         margin-bottom: 20px;
+
+        text-align: justify;
     }
     .side {
         margin-top: 50px;
         border-left: none;
         border-top: 1px solid darkgray;
         padding-top: 10px;
-        padding-left: 5px;
-        width: 95%;
+        padding-left: 0px;
+        width: 100%;
+
+        text-align: justify;
     }
 }
 
