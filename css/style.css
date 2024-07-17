@@ -85,6 +85,8 @@ dd {
     padding-left: 1%;
     padding-right: 1%;
     */
+
+    flex-grow: 1;
 }
 
 .side {
@@ -148,4 +150,9 @@ footer {
     margin-bottom: 5%;
     text-align: center;
     color: darkgrey;
+}
+
+/* GitHub のロゴ */
+footer img {
+    width: 32px;
 }

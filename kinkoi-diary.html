@@ -11,11 +11,14 @@
     <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/tetris.css" rel="stylesheet" />
     <link href="./css/kinkoi.css" rel="stylesheet" />
+    <link href="./css/kinkoi-toc.css" rel="stylesheet" />
     <script type="text/javascript" src="./js/include.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
+            include_html('kinkoi-toc.html', [["kinkoi-toc", "toc"]]);
+
         });
     </script>
 </head>
@@ -39,7 +42,7 @@
             <div style="margin-top: 1200px; margin-bottom: 1000px;">margin 1000px</div>
             
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-            <h2>全般</h2>
+            <h2 id="general">全般</h2>
             <p>体験版, プロローグ, 4 人のルート, Golden Time で理亜に対する印象が 360° 変わるゲームです。</p>
 
             <table>
@@ -77,13 +80,14 @@
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-            <h2>2024/06/09</h2>
+            <h2 id="20240609">2024/06/09</h2>
             <p>はてなブログに書いた時の記録.</p>
 
             <a href="https://bakkyalo.hatenablog.jp/entry/2024/06/09/222846">エロゲクリア後の喪失感がやばすぎる【金色ラブリッチェ】 - あかり描像のブログ</a>
 
+            <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-            <h2>その間</h2>
+            <h2 id="meanwhile">その間</h2>
 
             <p>シルヴィ編の喪失感から抜け出すのに 2 週間、<a href="https://bakkyalo.hatenablog.jp/entry/2024/06/13/133019">1 週間強の PC 使えない期間</a> を経たのち、玲奈編でのア〇ルプレイと茜ちゃんのあまりの重さ (←) にしんどくなり、かれこれ 1 ヶ月半ほどでエロイナと理亜もクリア。(全編 1 周のみ。選択肢全巡回はこれから。)</p>
 
@@ -93,7 +97,7 @@
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
 
-            <h2>2024/07/14 Sun</h2>
+            <h2 id="20240714">2024/07/14 Sun</h2>
             <p>ひょっとして俺、やってしまったのか...?</p>
 
             <br>
@@ -135,7 +139,7 @@
 
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-            <h2>2024/07/16 Tue</h2>
+            <h2 id="20240716">2024/07/16 Tue</h2>
             <p>試しに別の選択肢も選んでみたけどやはり展開は変わらなかったよ。</p>
             <p>まぁ知ってた。こんなんで生存になるほど理亜の病態は軽いもんじゃない。でもやっぱり悔しいよ。生きているのが嫌になったと普段から言い続けるもんじゃない。健康体ってだけでありがたいと思うべきなんだよな。</p>
 
@@ -241,6 +245,7 @@
 
         <div class="side">
             <div id="page">dst</div>
+            <div id="toc">toc</div>
         </div>
 
     </div>
@@ -248,7 +253,8 @@
 </body>
 <footer>
     Powered by GitHub Pages<br>
-    (C) bakkyalo
+    &#x00A9; bakkyalo<br>
+    <a href="https://github.com/bakkyalo/mypage"><img src="./github-mark/github-mark.svg"></a>
 </footer>
 
 </html>

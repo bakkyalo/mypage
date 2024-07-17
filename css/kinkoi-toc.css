@@ -1,0 +1,36 @@
+#toc {
+    padding-top: 10px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+}
+
+/*
+.side-toc  {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 10px;
+}
+ */
+
+/*
+.side {
+    display: flex;
+    flex-direction: column;
+}
+     */
+.side-toc ul {
+    padding-left: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.side-toc ul li {
+    list-style: none;
+}
+
+/* スマホで目次非表示 */
+@media screen and (max-width: 768px) {
+    #toc {
+        display: none;
+    }
+}
