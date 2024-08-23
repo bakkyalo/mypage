@@ -1,9 +1,19 @@
 <!Doctype html>
 
 <html lang="ja">
-    <head>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- OGP -->
+        <meta property="og:title" content="あかり描像のページ" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://bakkyalo.github.io/mypage/" />
+        <meta property="og:image" content="./favicons/icon-512x512.png" />
+        <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き" />
+        <meta property="og:site_name" content="あかり描像のページ" />
+        <!-- OGP end -->
+
         <title>あかり描像のページ</title>
         <link rel="canonical" href="https://bakkyalo.github.io/mypage/">
         <link rel="stylesheet" href="css/style.css">
@@ -15,10 +25,21 @@
         -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
         <script type="text/javascript">
-            $(function() {
-                include_html('side-bar.html', [["sub", "page"]]);
-                console.log('hello');
+            document.addEventListener("DOMContentLoaded", () => {
+                $(function() {
+                    include_html('side-bar.html', [["sub", "page"]]);
+                    // console.log('hello');
+                });
             });
+
+            // footer の挿入
+            fetch("./footer.html")
+                .then(response => {
+                    return response.text()
+                })
+                .then(data => {
+                    document.querySelector("footer").innerHTML = data;
+                });
         </script>
 
         <!-- GA4 -->
@@ -74,9 +95,16 @@
 
                 <h2>リンク</h2>
                 <ul>
-                    <li><a href="https://twitter.com/bakkyalo">Twitter</a></li>
-                    <li><a href="https://bakkyalo.hatenablog.jp/">はてなブログ</a></li>
-                    <li><a href="https://github.com/bakkyalo/mypage">このページのレポジトリ (GitHub)</a></li>
+                    <li><a href="https://github.com/bakkyalo">GitHub</a></li>
+                    <ul>
+                        <li><a href="https://github.com/bakkyalo/mypage">このページのリポジトリ</a></li>
+                    </ul>
+                    <li><a href="https://bakkyalo.hatenablog.jp/archive">はてなブログ</a></li>
+                    <li><a href="https://musescore.com/user/72315877">MuseScore</a></li>
+                    <li><a href="https://medibang.com/u/bakkyalo/activities/">ART street</a></li>
+                    <li><a href="https://www.youtube.com/@bakkyalo">YouTube</a></li>
+                    <li><a href="https://twitter.com/bakkyalo">Twitter (凍結済)</a></li>
+                    <li><a href="https://x.com/_Akari_Picture">&#x1D54F;</a></li>
                 </ul>
 
                 <h2>JavaScript のお勉強</h2>
@@ -102,9 +130,6 @@
         </div>
     </body>
 
+    <footer></footer>
 
-    <footer>
-        Powered by GitHub Pages<br>
-        (C) bakkyalo
-    </footer>
 </html>

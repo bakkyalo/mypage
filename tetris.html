@@ -14,11 +14,21 @@
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
         });
+
+        // footer の挿入
+        fetch("./footer.html")
+            .then(response => {
+                return response.text()
+            })
+            .then(data => {
+                document.querySelector("footer").innerHTML = data;
+            });
     </script>
 </head>
 
 <body>
     <h1>Welcome to Basic Tetris Game!</h1>
+
 
     <!--
     <div id = "gameCanvas"></div>
@@ -42,6 +52,7 @@
             <div id="scoreArea"></div>
             <div id="lineArea"></div>
 
+            <p>w, a, s, d ... ↑←↓→, &nbsp; m, k ... rotate</p>
 
             <div id="akari" class="aa" style="font-size: 40%;"></div>
             <!--
@@ -56,9 +67,7 @@
     </div>
 
 </body>
-<footer>
-    Powered by GitHub Pages<br>
-    (C) bakkyalo
-</footer>
+
+<footer></footer>
 
 </html>

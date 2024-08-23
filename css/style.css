@@ -101,6 +101,19 @@ dd {
     padding-bottom: 10px;
 }
 
+
+/* 備忘録 */
+.memorandum {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+.memorandum table th, td {
+    padding: 0px 5px;
+}
+.shout {
+    padding: 5px 0px;
+}
+
 /* 画像 */
 img {
     max-width: 100%;
