@@ -2,9 +2,21 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<head prefix="og: https://ogp.me/ns# fb: https://ogp.me/ns/fb# article: https//ogp.me/ns/article# music: https://ogp.me/ns/music#">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- OGP -->
+    <meta property="og:title" content="あかり描像のページ">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bakkyalo.github.io/mypage/">
+    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
+    <meta property="og:site_name" content="あかり描像のページ">
+    <!-- OGP end -->
+
+    <meta property="twitter:card" content="summary">
+
     <title>Document</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
@@ -16,15 +28,17 @@
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
         });
+    </script>
 
-        // footer の挿入
-        fetch("./footer.html")
-            .then(response => {
-                return response.text()
-            })
-            .then(data => {
-                document.querySelector("footer").innerHTML = data;
-            });
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN2HBGH84X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YN2HBGH84X');
     </script>
 </head>
 

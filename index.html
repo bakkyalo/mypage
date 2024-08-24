@@ -6,13 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- OGP -->
-        <meta property="og:title" content="あかり描像のページ" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://bakkyalo.github.io/mypage/" />
-        <meta property="og:image" content="./favicons/icon-512x512.png" />
-        <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き" />
-        <meta property="og:site_name" content="あかり描像のページ" />
+        <meta property="og:title" content="あかり描像のページ">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://bakkyalo.github.io/mypage/">
+        <meta property="og:image" content="./favicons/icon-512x512.png">
+        <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
+        <meta property="og:site_name" content="あかり描像のページ">
         <!-- OGP end -->
+
+        <meta property="twitter:card" content="summary">
 
         <title>あかり描像のページ</title>
         <link rel="canonical" href="https://bakkyalo.github.io/mypage/">
@@ -31,15 +33,6 @@
                     // console.log('hello');
                 });
             });
-
-            // footer の挿入
-            fetch("./footer.html")
-                .then(response => {
-                    return response.text()
-                })
-                .then(data => {
-                    document.querySelector("footer").innerHTML = data;
-                });
         </script>
 
         <!-- GA4 -->
@@ -90,7 +83,7 @@
                 <ul>
                     <li><a href="./algebraic_coding_theory/index.html">符号理論のノート</a></li>
                     <li><a href="https://github.com/bakkyalo/mypage/tree/master/suken">第358回 数検1級 2次試験</a></li>
-                    <li><a href="./tokyotech-phys.html">院試の解答</a></li>
+                    <li><a href="./scitokyo-phys.html">院試の解答</a></li>
                 </ul>
 
                 <h2>リンク</h2>

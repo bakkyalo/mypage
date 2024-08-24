@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head prefix="og: https://ogp.me/ns# fb: https://ogp.me/ns/fb# article: https//ogp.me/ns/article# music: https://ogp.me/ns/music#">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- OGP -->
+    <meta property="og:title" content="Test of pdf.js | あかり描像のページ">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bakkyalo.github.io/mypage/pdfjs-test.html">
+    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
+    <meta property="og:site_name" content="あかり描像のページ">
+    <!-- OGP end -->
+
+    <meta property="twitter:card" content="summary">
+
     <!--
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="https://unpkg.com/pdfjs-dist/build/pdf.mjs" type="module"></script>
@@ -12,7 +24,7 @@
     <!--
     <script src="http://vivin.net/pub/pdfjs/textlayerbuilder.js"></script>
     -->
-    <title>Test of pdf.js</title>
+    <title>Test of pdf.js | あかり描像のページ</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
     <link href="./css/style.css" rel="stylesheet" />
@@ -23,9 +35,23 @@
             include_html('side-bar.html', [["sub", "page"]]);
         });
     </script>
+
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN2HBGH84X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YN2HBGH84X');
+    </script>
 </head>
 <body>
-    <h1>pdf.js のテスト (工事中)</h1>
+    <header>
+        <p><a href="./">Home</a> &gt; pdf.js のテスト (工事中)</p>
+        <h1>pdf.js のテスト (工事中)</h1>
+    </header>
 
 
     <div class="two-column">
@@ -206,8 +232,7 @@
     </script>
     
 </body>
-<footer>
-    Powered by GitHub Pages<br>
-    (C) bakkyalo
-</footer>
+
+<footer></footer>
+
 </html>

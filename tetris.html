@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
     <meta charset="utf-8">
-    <title>Basic Tetris Game</title>
+
+    <!-- OGP -->
+    <meta property="og:title" content="Basic Tetris Game | あかり描像のページ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bakkyalo.github.io/mypage/tetris.html">
+    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:description" content="Welcome to basic tetris game!">
+    <meta property="og:site_name" content="あかり描像のページ">
+    <!-- OGP end -->
+
+    <meta property="twitter:card" content="summary">
+
+    <title>Basic Tetris Game | あかり描像のページ</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon-180x180.png">
     <link href="./css/style.css" rel="stylesheet" />
@@ -14,19 +26,25 @@
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
         });
+    </script>
 
-        // footer の挿入
-        fetch("./footer.html")
-            .then(response => {
-                return response.text()
-            })
-            .then(data => {
-                document.querySelector("footer").innerHTML = data;
-            });
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN2HBGH84X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YN2HBGH84X');
     </script>
 </head>
 
 <body>
+    <header>
+        <a href="./">Home</a> &gt; Tetris
+    </header>
+
     <h1>Welcome to Basic Tetris Game!</h1>
 
 
@@ -53,6 +71,8 @@
             <div id="lineArea"></div>
 
             <p>w, a, s, d ... ↑←↓→, &nbsp; m, k ... rotate</p>
+
+            <a style="display: none;" id="tweet-link", target="_blank">Post to &#x1D54F;</a>
 
             <div id="akari" class="aa" style="font-size: 40%;"></div>
             <!--

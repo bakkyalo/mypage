@@ -32,3 +32,15 @@ let include_html = function(html_url, insert_into_arr) {
         }
     });
 };
+
+// footer の挿入
+document.addEventListener('DOMContentLoaded', () => {
+    fetch("./footer.html")
+        .then(response => {
+            return response.text()
+        })
+        .then(data => {
+            document.querySelector("footer").outerHTML = data;
+            // console.log(document.querySelector("footer").outerHTML);
+        });
+});

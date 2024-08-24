@@ -7,6 +7,12 @@ let context = canvas.getContext("2d");
 let nextCanvas = document.getElementById("nextCanvas");
 let nextContext = nextCanvas.getContext("2d");
 
+let tweetLinkElem = null;
+document.addEventListener("DOMContentLoaded", () => {
+    tweetLinkElem = document.getElementById("tweet-link");
+    console.log(tweetLinkElem);
+})
+
 
 let isGameStarted = new Boolean(false);
 
@@ -381,6 +387,18 @@ class Board {
                 }
             }
         }
+
+        // X で自慢するボタンの生成
+        tweetLinkElem.style.display = "inline-block";
+        const shareLink = "https://bakkyalo.github.io/mypage/tetris.html";
+        let postText = `Basic Tetris Game!%0AScore: ${this.score}%0ALines: ${this.line}%0A`;
+        if(this.score >= 50000) {
+            postText += "%0ACongratulations! You are Akkarinned!!%0A";
+        }
+        const hashtags = "bakkyalo";
+
+        tweetLinkElem.href = `https://x.com/intent/post?url=${shareLink}&text=${postText}&hashtags=${hashtags}`;
+        // tweetLinkElem.target = "_blank";
     }
 
     showNext(id) {

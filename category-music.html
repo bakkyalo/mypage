@@ -2,10 +2,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category - Music</title>
+
+    <!-- OGP -->
+    <meta property="og:title" content="Category - Music | あかり描像のページ">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bakkyalo.github.io/mypage/category-music.html">
+    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
+    <meta property="og:site_name" content="あかり描像のページ">
+    <!-- OGP end -->
+
+    <meta property="twitter:card" content="summary">
+
+    <title>Category - Music | あかり描像のページ</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
     <link href="./css/style.css" rel="stylesheet" />
@@ -16,6 +28,17 @@
         $(function() {
             include_html('side-bar.html', [["sub", "page"]]);
         });
+    </script>
+
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN2HBGH84X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YN2HBGH84X');
     </script>
 </head>
 
@@ -31,7 +54,7 @@
                 <li><a href="./play-kadenz.html">Tone.js でカデンツを弾く</a></li>
                 <li><a href="./play-mondschein3.html">Tone.js で月光 3 楽章を弾く</a></li>
                 <li><a href="./piano.html">ピアノのテスト</a></li>
-                <li><a href="./piano-88keys.html">88 キーのピアノのテスト</a></li>
+                <li><a href="./piano-88keys.html">88 キーピアノの自動演奏</a></li>
                 <li><a href="./tonejs-ui-piano.html">Tone-ui.js で作れるもんならやりたいってやつ。よく分かってない</a></li>
             </ul>
 
@@ -44,9 +67,7 @@
     </div>
 
 </body>
-<footer>
-    Powered by GitHub Pages<br>
-    (C) bakkyalo
-</footer>
+
+<footer></footer>
 
 </html>

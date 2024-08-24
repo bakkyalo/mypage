@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<head prefix="og: https://ogp.me/ns# fb: https://ogp.me/ns/fb# article: https//ogp.me/ns/article# music: https://ogp.me/ns/music#">
     <meta charset="utf-8">
-    <title>はてなブログ用整形器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- OGP -->
+    <meta property="og:title" content="画像挿入のはてな記法を HTML に変える君 | あかり描像のページ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bakkyalo.github.io/mypage/hatena-image.html">
+    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
+    <meta property="og:site_name" content="あかり描像のページ">
+    <!-- OGP end -->
+
+    <meta property="twitter:card" content="summary">
+
+    <title>画像挿入のはてな記法を HTML に変える君 | あかり描像のページ</title>
     <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
     <link href="./css/style.css" rel="stylesheet" />
@@ -16,9 +29,28 @@
         });
     </script>
 
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YN2HBGH84X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YN2HBGH84X');
+    </script>
+
     <style>
         #hatena-notation::placeholder {
             color: #bbbbbb;
+        }
+        @media screen and (max-width: 768px) {
+            #hatena-notation {
+                max-width: 100%;
+            }
+            #html-notation {
+                max-width: 100%;
+            }
         }
     </style>
 
@@ -289,15 +321,18 @@
 </head>
 
 <body>
-    <h1>画像挿入のはてな記法を HTML に変える君</h1>
-
-    <p>画像挿入時に自動で入力されるはてな記法を HTML に書き直します。
-        <a style="font-size: small;" href="https://github.com/bakkyalo/mypage/blob/master/hatena-image.html">(ソースコード)</a>
-        <br> Markdown 記法も文法は同じなので動きますが、caption のない形式ではうまく動きません。
-    </p>
+    <header>
+        <p><a href="./">Home</a> &gt; 画像挿入のはてな記法を HTML に変える君</p>
+        <h1>画像挿入のはてな記法を HTML に変える君</h1>
+    </header>
 
     <div class="two-column">
         <div class="main">
+
+            <p>画像挿入時に自動で入力されるはてな記法を HTML に書き直します。
+                <a style="font-size: small;" href="https://github.com/bakkyalo/mypage/blob/master/hatena-image.html">(ソースコード)</a>
+                <br> Markdown 記法も文法は同じなので動きますが、caption のない形式ではうまく動きません。
+            </p>
 
             <h2>はてな記法</h2>
             <textarea id="hatena-notation" rows="10" cols="80"></textarea>
@@ -342,7 +377,7 @@
             <h2>外部リンク</h2>
             <ul>
                 <li><a href="https://bakkyalo.hatenablog.jp/entry/2024/03/07/145144">はてなブログのメモ - あかり描像のブログ</a> &nbsp; (元ブログ)</li>
-                <li><a href="https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js">https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js</a></li>
+                <li><a href="https://stackoverflow.com/questions/10585029/parse-an-html-string-with-js">javascript - Parse an HTML string with JS - Stack Overflow</a></li>
                 <li><a href="https://nixeneko.hatenablog.com/entry/2016/05/29/025438">HTMLのある要素の直下のテキストだけを取り出す - にせねこメモ</a></li>
                 <li><a href="https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboar">クリップボードとのやりとり - Mozilla | MDN</a></li>
                 <li><a href="https://developer.mozilla.org/ja/docs/Web/API/MutationObserver">MutationObserver - Web API | MDN</a></li>
@@ -357,9 +392,7 @@
     </div>
 
 </body>
-<footer>
-    Powered by GitHub Pages<br>
-    (C) bakkyalo
-</footer>
+
+<footer></footer>
 
 </html>
