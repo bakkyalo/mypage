@@ -1,0 +1,174 @@
+body {
+    font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    width: 100%;
+    max-width: 1340px;
+    /*
+    margin-left: 5%;
+    margin-right: 5%;
+     */
+    margin: auto;
+    padding: 10px 0px 10px 0px;
+    /*
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url("../favicons/icon-72x72.png");
+    */
+}
+
+h1 {
+    width: 96%;
+    padding: 2%;
+    background-color: aquamarine;
+}
+
+li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ul.links {
+    list-style: none;
+    padding-left: 0px;
+}
+
+ul.links li {
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+ul.histories {
+    list-style: none;
+    padding-left: 0px;
+}
+
+ul.histories li {
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+dl {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 2.5em;
+}
+
+dt {
+    display: list-item;
+    list-style-type: disc;
+    padding-left: 0px;
+}
+
+dd { 
+    margin-left: 0px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+
+/* 2 段組み */
+.two-column {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.main {
+    width: 1080px;
+    /*
+    width: 700px;
+     */
+
+    line-height: normal;
+    text-align: justify;
+    /*
+    padding-left: 1%;
+    padding-right: 1%;
+    */
+
+    flex-grow: 1;
+}
+
+.side {
+    width: 240px;
+    padding-left: 20px;
+    border-left: 1px solid darkgrey;
+
+    text-align: justify;
+}
+
+.profile {
+    padding-bottom: 10px;
+}
+
+
+/* 備忘録 */
+.memorandum {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+.memorandum table th, td {
+    padding: 0px 5px;
+}
+.shout {
+    padding: 5px 0px;
+}
+
+/* 画像 */
+img {
+    max-width: 100%;
+}
+figure {
+    margin-inline-start: 5%;
+    margin-inline-end: 5%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+figcaption {
+    text-align: center; 
+    color: #444444;
+}
+
+/* スマホでサイドバー非表示 */
+@media screen and (max-width: 768px) {
+    html {
+        padding: 0px 10px;
+    }
+    .two-column {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .main {
+        width: 100%;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+
+        text-align: justify;
+    }
+    .side {
+        margin-top: 50px;
+        border-left: none;
+        border-top: 1px solid darkgray;
+        padding-top: 10px;
+        padding-left: 0px;
+        width: 100%;
+
+        text-align: justify;
+    }
+}
+
+
+footer {
+    margin-top: 12%;
+    margin-bottom: 5%;
+    text-align: center;
+    color: darkgrey;
+}
+
+/* GitHub のロゴ */
+footer img {
+    width: 32px;
+}

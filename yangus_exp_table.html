@@ -1,0 +1,160 @@
+---
+title: 少年ヤンガス 経験値テーブル
+layout: wide
+isHome: false
+first: <a href="./">Home</a>
+---
+
+<style>
+    #csv-table {
+        font-size: small;
+        border-collapse: collapse;
+        white-space: nowrap;
+
+        width: 100%;
+        /*
+        margin-top: 60px;
+        margin-bottom: 80px;
+        */
+
+    }
+    .level {background-color: white;}
+    .type-yangus { background-color: white;}
+    .type-a { background-color: #8ea9db; }
+    .type-b { background-color: #ff0000; }
+    .type-c { background-color: #0070c0; }
+    .type-d { background-color: #bf8f00; }
+    .type-e { background-color: #66ff33; }
+    .type-f { background-color: #ff9966; }
+    .type-g { background-color: #aeaaaa; }
+    .type-h { background-color: #ff00ff; }
+    .type-i { background-color: #ffff99; }
+    .type-j { background-color: #d60093; }
+
+    tr {
+        height: 20px;
+    }
+
+    /* 最初の 2 行を固定 */
+    th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    tr:nth-child(2) th {
+        top: 20px;
+        z-index:1;
+    }
+
+    /* 1列を固定 */
+    th.fixed-column.level {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+    }
+    td.fixed-column {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background-color: white;
+    }
+
+    /*
+    .sticky-row {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+     */
+    .table-container {
+        margin-top: 60px;
+        margin-bottom: 80px;
+        width: 100%;
+        height: 70vh;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+</style>
+
+<p>色は <a href="https://yangus.web.fc2.com/">https://yangus.web.fc2.com/</a> 様に合わせています。<br>
+    css の知識が皆無のため、表示や操作性が酷いかもしれませんがご了承願います。可能な限り善処する所存です。</p>
+
+<p>.csv は <a href="https://github.com/bakkyalo/mypage/tree/master/csv">こちら</a> からどうぞ。</p>
+
+<div class="table-container">
+    <table id="csv-table"></table>
+</div>
+
+<figure style="margin-top: 20px; margin-bottom: 30px;">
+    <img style="margin: 0 auto; width: 95%; display: block;" src="./svg/yangus_exp.svg">
+</figure>
+
+
+<h2>外部リンク</h2>
+<ul>
+    <li><a href="http://getupsteam.jp/">http://getupsteam.jp/</a></li>
+    <li><a href="https://yangus.web.fc2.com/">https://yangus.web.fc2.com/</a></li>
+    <li><a href="http://miya.sp.land.to/bbs/thbbs.cgi?id=yangus&mode=vwth&lgnm=39&thre=2636&actn=all">No.2636／過去ログ39／少年ヤンガス掲示板</a></li>
+    <li><a href="https://itest.5ch.net/medaka/test/read.cgi/goverrpg/1651048928">少年ヤンガス【魔導】3 - 5ちゃんねる掲示板</a></li>
+</ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<script>
+    // サーバー上のCSVファイルのURL
+    const csvUrl = './csv/yangus_exp_table.csv';
+
+    // PapaParseを使用してCSVファイルをダウンロードして解析
+    Papa.parse(csvUrl, {
+        download: true,
+        complete: function(results) {
+            const data = results.data;
+            const table = document.getElementById('csv-table');
+            
+            // CSVデータをHTMLテーブルに変換
+            data.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, colIndex) => {
+                    const cellElement = rowIndex < 2 ? document.createElement('th') : document.createElement('td');
+                    cellElement.textContent = cell;
+
+                    if (colIndex === 0) {
+                        cellElement.classList.add('fixed-column')
+                    }
+
+
+                    // 最初の 2 行の background-color を変える
+                    if (rowIndex < 2) {
+                        if (colIndex === 0) {
+                            cellElement.classList.add('level');
+                        } else if (colIndex === 1) {
+                            cellElement.classList.add('type-yangus');
+                        } else if (colIndex === 2) {
+                            cellElement.classList.add('type-a');
+                        } else if (colIndex === 3) {
+                            cellElement.classList.add('type-b');
+                        } else if (colIndex === 4) {
+                            cellElement.classList.add('type-c');
+                        } else if (colIndex === 5) {
+                            cellElement.classList.add('type-d');
+                        } else if (colIndex === 6) {
+                            cellElement.classList.add('type-e');
+                        } else if (colIndex === 7) {
+                            cellElement.classList.add('type-f');
+                        } else if (colIndex === 8) {
+                            cellElement.classList.add('type-g');
+                        } else if (colIndex === 9) {
+                            cellElement.classList.add('type-h');
+                        } else if (colIndex === 10) {
+                            cellElement.classList.add('type-i');
+                        } else if (colIndex === 11) {
+                            cellElement.classList.add('type-j');
+                        }
+                        tr.classList.add('sticky-row');
+                    }
+                    tr.appendChild(cellElement);
+                });
+                table.appendChild(tr);
+            });
+        }
+    });
+</script>
