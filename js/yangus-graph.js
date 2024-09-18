@@ -1,0 +1,214 @@
+// SVGの設定
+const margin = {top: 20, right: 10, bottom: 40, left: 60},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+const parseTime = d3.timeParse("%d-%b-%y");
+
+const x = d3.scaleLinear().range([0, width]);
+const y = d3.scaleLinear().range([height, 0]);
+
+// const color = d3.scaleOrdinal(d3.schemeCategory10);
+const color = d3.scaleOrdinal()
+    .domain(["Yangus", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"])
+    .range(["#000000", "#8ea9db", "#ff0000", "#0070c0", "#bf8f00", "#66ff33", "#ff9966", "#aeaaaa", "#ff00ff", "#ffff99", "#d60093"]);
+
+const xAxis = d3.axisBottom(x);
+const yAxis = d3.axisLeft(y);
+
+const line = d3.line()
+    .x(d => x(d.Lv))
+    .y(d => y(d.value));
+
+const svg = d3.select("svg")
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// CSVファイルの読み込み
+d3.csv("./csv/yangus_exp_table_backup.csv").then(data => {
+    const keys = data.columns.slice(1);
+
+    color.domain(keys);
+
+    const series = keys.map(key => {
+        return {
+            name: key,
+            values: data.map(d => {
+                return {Lv: +d.Lv, value: +d[key]};
+            })
+        };
+    });
+
+    x.domain(d3.extent(data, d => +d.Lv));
+    y.domain([
+        d3.min(series, c => d3.min(c.values, d => d.value)),
+        d3.max(series, c => d3.max(c.values, d => d.value))
+    ]);
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", `translate(0,${height})`)
+        .call(xAxis)
+        .append("text") // 横軸ラベルの追加
+        .attr("fill", "#000")
+        .attr("x", width / 2)
+        .attr("y", margin.bottom)
+        .attr("text-anchor", "middle")
+        .style("font-size", "20px") // 文字サイズを大きく
+        .text("Lv");
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text") // 縦軸ラベルの追加
+        .attr("fill", "#000")
+        // .attr("transform", "rotate(-90)")
+        // .attr("x", -height / 2)
+        .attr("x", -height)
+        // .attr("y", -margin.left + 15)
+        .attr("y", -margin.left + 30)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px") // 文字サイズを大きく
+        .text("Exp");
+    
+
+    // sub grid
+    function make_x_gridlines() {   
+        return d3.axisBottom(x)
+            .ticks(10);
+    }
+
+    function make_y_gridlines() {   
+        return d3.axisLeft(y)
+            .ticks(10);
+    }
+    // X軸のサブグリッドを追加
+    svg.append("g")            
+        .attr("class", "grid")
+        .attr("transform", `translate(0,${height})`)
+        .call(make_x_gridlines()
+            .tickSize(-height)
+            .tickFormat(""));
+
+    // Y軸のサブグリッドを追加
+    svg.append("g")            
+        .attr("class", "grid")
+        .call(make_y_gridlines()
+            .tickSize(-width)
+            .tickFormat(""));
+
+    const serie = svg.selectAll(".serie")
+        .data(series)
+        .enter().append("g")
+        .attr("class", "serie");
+
+    serie.append("path")
+        .attr("class", "line")
+        .attr("d", d => line(d.values))
+        .style("stroke", d => color(d.name));
+
+    
+    // 凡例の追加
+    const legend = svg.selectAll(".legend")
+        .data(color.domain())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+    legend.append("rect")
+        .attr("x", 64)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color)
+        .style("z-index", "10");
+
+    legend.append("text")
+        .attr("x", 60)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(d => d);
+
+    // Tooltipの設定
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    const focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+    focus.append("line")
+        .attr("class", "x-hover-line hover-line")
+        .attr("y1", 0)
+        .attr("y2", height)
+        .style("stroke", "black")
+        .style("stroke-dasharray", "3,3");
+
+    const circles = focus.selectAll("circle")
+        .data(keys)
+        .enter().append("circle")
+        .attr("r", 4.5)
+        .style("fill", d => color(d));
+
+
+    focus.append("text")
+        .attr("x", 15)
+        .attr("dy", ".31em");
+
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", () => focus.style("display", null))
+        .on("mouseout", () => {
+            focus.style("display", "none");
+            tooltip.transition().duration(500).style("opacity", 0);
+        })
+        .on("mousemove", mousemove);
+
+    function mousemove(event) {
+        const x0 = x.invert(d3.pointer(event)[0]);
+        const i = d3.bisector(d => d.Lv).left(data, x0, 1);
+        const d0 = data[i - 1];
+        const d1 = data[i];
+
+        if (!d0 || !d1) return; // d0, d1 が undefined の時は強制終了
+        const d = x0 - d0.Lv > d1.Lv - x0 ? d1 : d0;
+
+        focus.attr("transform", `translate(${x(d.Lv)},0)`);
+
+        circles.attr("cy", key => y(d[key]));
+
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .95);
+
+        // マウスポインターが右側にある時の処理
+        const tooltipWidth = 140;
+        const viewportWidth = window.innerWidth;
+        const mouseX = event.pageX;
+
+        if (viewportWidth - mouseX < 175) {
+            // ビューポートの右端から175px以内の場合、左側に表示
+            tooltip.style("left", `${mouseX - tooltipWidth - 10}px`)
+               .style("top", `${event.pageY + 10}px`);
+        } else {
+            // 通常は右側に表示
+            tooltip.style("left", `${mouseX + 10}px`)
+                   .style("top", `${event.pageY + 10}px`);
+        }
+
+        tooltip.html(`Lv: ${d.Lv}<br/>` +
+            keys.map(key => `<span style="color:${color(key)}">${key}: ${d[key]}</span>`).join("<br/>"));
+        
+        /*
+        tooltip.html(`Lv: ${d.Lv}<br/>` +
+            keys.map(key => `<span style="color:${color(key)}">${key}: ${d[key]}</span>`).join("<br/>"))
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY + 20}px`);
+         */
+    }
+});
+    
