@@ -6,6 +6,17 @@ first: <a href="./">Home</a>
 ---
 
 <style>
+    .table-container {
+        margin-top: 60px;
+        margin-bottom: 80px;
+
+        width: 100%;
+        height: 65vh;
+
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
     #csv-table {
         font-size: small;
         border-collapse: collapse;
@@ -15,6 +26,7 @@ first: <a href="./">Home</a>
         /*
         margin-top: 60px;
         margin-bottom: 80px;
+        table-layout: fixed;
         */
 
     }
@@ -36,14 +48,22 @@ first: <a href="./">Home</a>
     }
 
     /* 最初の 2 行を固定 */
-    th {
+    tr.sticky-row th {
         position: sticky;
         top: 0;
         z-index: 2;
+
+        text-align: center;
+
+        /* 横幅 */
+        min-width: 90px;
     }
     tr:nth-child(2) th {
-        top: 20px;
+        top: 22px;
         z-index:1;
+    }
+    th.description {
+        font-size: small;
     }
 
     /* 1列を固定 */
@@ -51,11 +71,28 @@ first: <a href="./">Home</a>
         position: sticky;
         left: 0;
         z-index: 3;
+
+        min-width: 30px;
+    }
+
+    td {
+        text-align: right;
     }
     td.fixed-column {
         position: sticky;
         left: 0;
         z-index: 2;
+        /*
+        background-color: white;
+         */
+
+        min-width: 30px;
+    }
+
+    tr.odd-row td.fixed-column {
+        background-color: #f5f5f5;
+    }
+    tr.even-row td.fixed-column {
         background-color: white;
     }
 
@@ -66,14 +103,21 @@ first: <a href="./">Home</a>
         z-index: 1;
     }
      */
-    .table-container {
-        margin-top: 60px;
-        margin-bottom: 80px;
-        width: 100%;
-        height: 70vh;
-        overflow-x: auto;
-        overflow-y: auto;
+    #csv-table tr:nth-child(odd) {
+        background-color: white;
     }
+    #csv-table tr:nth-child(even) {
+        background-color: #f5f5f5;
+    }
+
+    /*
+    tr.odd-row {
+        background-color: #eeeeee;
+    }
+    tr.even-row {
+        background-color: white;
+    }
+     */
 </style>
 
 <p>色は <a href="https://yangus.web.fc2.com/">https://yangus.web.fc2.com/</a> 様に合わせています。<br>
@@ -85,8 +129,8 @@ first: <a href="./">Home</a>
     <table id="csv-table"></table>
 </div>
 
-<figure style="margin-top: 20px; margin-bottom: 30px;">
-    <img style="margin: 0 auto; width: 95%; display: block;" src="./svg/yangus_exp.svg">
+<figure style="margin: 20px 5px 30px 5px;">
+    <img style="margin: 0 auto; width: 100%; max-width: 920px; display: block;" src="./svg/yangus_exp.svg">
 </figure>
 
 
@@ -117,8 +161,14 @@ first: <a href="./">Home</a>
                     const cellElement = rowIndex < 2 ? document.createElement('th') : document.createElement('td');
                     cellElement.textContent = cell;
 
+                    // 1 列目を左端で sticky するためだけの class
                     if (colIndex === 0) {
-                        cellElement.classList.add('fixed-column')
+                        cellElement.classList.add('fixed-column');
+                    }
+
+                    // 2 行目の文字を小さくするためだけの class
+                    if (rowIndex === 1) {
+                        cellElement.classList.add('description');
                     }
 
 
@@ -150,6 +200,14 @@ first: <a href="./">Home</a>
                             cellElement.classList.add('type-j');
                         }
                         tr.classList.add('sticky-row');
+                    }
+                    // 縞縞にする
+                    if (rowIndex >= 2) {
+                        if (rowIndex % 2 === 0) {
+                            tr.classList.add('even-row');
+                        } else {
+                            tr.classList.add('odd-row');
+                        }
                     }
                     tr.appendChild(cellElement);
                 });
