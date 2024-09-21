@@ -110,6 +110,18 @@ dd {
 .memorandum table th, td {
     padding: 0px 5px;
 }
+
+/* 開発記録 */
+.dev-diary {
+    font-size: small;
+}
+.dev-diary ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+
+/* 叫び */
 .shout {
     padding: 5px 0px;
 }
