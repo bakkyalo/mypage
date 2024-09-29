@@ -103,12 +103,35 @@ first: <a href="./">Home</a>
         background-color: #f5f5f5;
     }
 
+
+    /* 成長型別 仲間モンスター */
+    #monster-table {
+        /*
+        font-size: small;
+         */
+        border: 1px solid darkgray;
+        border-collapse: collapse;
+    }
+    #monster-table tr {
+        border: 1px solid darkgray;
+    }
+    #monster-table th {
+        text-align: center;
+        border: 1px solid darkgray;
+        white-space:nowrap;
+    }
+    #monster-table td {
+        text-align: left;
+        font-size: small;
+    }
+
 </style>
 
 <p>色は <a href="https://yangus.web.fc2.com/">https://yangus.web.fc2.com/</a> 様に合わせています。<br>
-    css の知識が皆無のため、表示や操作性が酷いかもしれませんがご了承願います。可能な限り善処する所存です。</p>
+    css の知識が皆無のため、表示や操作性が酷いかもしれませんがご了承願います。可能な限り善処する所存です。
+    → <a href="./d3js-test.html">D3.js test</a></p>
 
-<p>.csv は <a href="https://github.com/bakkyalo/mypage/blob/master/csv/yangus_exp_table.csv">こちら</a> からどうぞ。 → <a href="./d3js-test.html">D3.js test</a></p>
+<p>.csv は <a href="https://github.com/bakkyalo/mypage/blob/master/csv/yangus_exp_table.csv">こちら</a> からどうぞ。</p>
 
 <div class="table-container">
     <table id="csv-table"></table>
@@ -132,8 +155,22 @@ first: <a href="./">Home</a>
 <!-- Interactive Graph End -->
 
 
+<h2 style="margin-top: 100px;">成長型別 仲間モンスター</h2>
+<table id="monster-table">
+    <thead>
+        <tr>
+            <th>成長タイプ</th>
+            <th>モンスター</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 下の JavaScript でここに挿入される -->
+    </tbody>
+</table>
 
-<h2>外部リンク</h2>
+
+
+<h2 style="margin-top: 80px;">外部リンク</h2>
 <ul>
     <li><a href="http://getupsteam.jp/">http://getupsteam.jp/</a></li>
     <li><a href="https://yangus.web.fc2.com/">https://yangus.web.fc2.com/</a></li>
@@ -147,6 +184,7 @@ first: <a href="./">Home</a>
     const csvUrl = './csv/yangus_exp_table.csv';
 
     // PapaParseを使用してCSVファイルをダウンロードして解析
+    // 経験値表の処理
     Papa.parse(csvUrl, {
         download: true,
         complete: function(results) {
@@ -214,4 +252,70 @@ first: <a href="./">Home</a>
             });
         }
     });
+</script>
+<script>
+    // 成長タイプ表
+    document.addEventListener('DOMContentLoaded', function() {
+        const csvNakamaUrl = "./csv/yangus_nakama.csv";
+
+        // 成長タイプ表
+        const growthTypes = {
+            A: [], B: [], C: [], D: [], E: [], F: [], G: [], H: [], I: [], J: []
+        };
+
+        Papa.parse(csvNakamaUrl, {
+            download: true,
+            complete: function(results) {
+                const data = results.data;
+
+                let typeColIndex = 0;  // 成長型の列
+                let nameColIndex = 0;  // モンスター名の列
+
+                // csv を分析
+                data.forEach((row, rowIndex) => {
+                    // 1行目で列数を取得
+                    if (rowIndex === 0) {
+                        row.forEach( (cell, colIndex) => {
+                            if (cell === "モンスター名") {
+                                nameColIndex = colIndex;
+                            } else if (cell === "成長型") {
+                                typeColIndex = colIndex;
+                            }
+                        });
+                    }
+
+                    // 2 行目以降
+                    let type = row[typeColIndex];   // 成長型
+                    let name = row[nameColIndex];   // モンスター名
+
+                    if(growthTypes[type]) {
+                        growthTypes[type].push(name);
+                    }
+                })
+
+                // table 作成
+                const tableBody = document.querySelector('#monster-table tbody')
+                Object.keys(growthTypes).forEach(type => {
+                    const row = document.createElement('tr');
+                    const typeCell = document.createElement('th');
+                    const nameCell = document.createElement('td');
+
+                    console.log(type);
+
+                    typeCell.textContent = type;
+                    typeCell.classList.add(`type-${type.toLowerCase()}`);
+                    nameCell.textContent = growthTypes[type].join(', ');
+
+                    console.log(growthTypes[type]);
+
+                    row.appendChild(typeCell);
+                    row.appendChild(nameCell);
+                    tableBody.appendChild(row);
+                })
+            }
+        });
+
+
+    });
+
 </script>

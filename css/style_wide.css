@@ -17,9 +17,17 @@ body {
 
 h1 {
     width: 96%;
-    padding: 2%;
+    padding: max(2%, 10px);
     background-color: aquamarine;
 }
+
+/* view on github */
+.github-link {
+    font-size: small;
+    float: right;
+    margin-bottom: 5px;
+}
+
 
 li {
     padding-top: 5px;
