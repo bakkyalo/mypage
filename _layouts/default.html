@@ -9,7 +9,7 @@
     <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://bakkyalo.github.io/mypage/">
-    <meta property="og:image" content="./favicons/icon-512x512.png">
+    <meta property="og:image" content="/favicons/icon-512x512.png">
     <meta property="og:description" content="わぁい GitHub Pages あかり GitHub Pages 大好き">
     <meta property="og:site_name" content="あかり描像のページ">
     <!-- OGP end -->
@@ -18,14 +18,15 @@
     <meta property="twitter:image" content="https://raw.githubusercontent.com/bakkyalo/mypage/master/favicons/icon-512x512.png">
 
     <title>{{ page.title }} | {{ site.title }}</title>
-    <link rel="icon" type="image/x-icon" href="./favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon-180x180.png">
-    <link href="./css/style.css" rel="stylesheet" />
-    <script type="text/javascript" src="./js/include.js"></script>
+    <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/breadcrumb.css" rel="stylesheet" />
+    <script type="text/javascript" src="/js/include.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script type="text/javascript">
         $(function() {
-            include_html('side-bar.html', [["sub", "page"]]);
+            include_html('/side-bar.html', [["sub", "page"]]);
         });
     </script>
 
@@ -34,11 +35,45 @@
 
 <body>
     <!-- パンくずリスト -->
+    <nav aria-label="Breadcrum" class="breadcrumb">
+        <ul>
+            {% if page.tree %}
+                <!-- html で tree が定義されている時 -->
+                {% for item in page.tree %}
+                    {% if item.name == "this" %}
+                        <!-- name が this, つまりこのサイトの時 -->
+                        <li>{{ page.title }}</li>
+                    {% elsif item.url %}
+                        <!-- URL の指定が存在する時 -->
+                        <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                    {% else %}
+                        <li>{{ item.name }}</li>
+                    {% endif %}
+                {% endfor %}
+
+
+            {% else %}
+                <!-- html で tree が定義されていない時 -->
+                <li><a href="/">Home</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!--
     {% if page.isHome != true %}
     {{ page.first }} &gt; {{ page.title }}
     {% endif %}
+-->
+
     <h1>{{ page.title }}</h1>
+    
+    {% if page.date %}
+        <time class="postDate" datetime='{{ page.date | date: "%Y-%-m-%d"}}'>{{ page.date | date: "%Y-%-m-%d"}}</time>
+    {% endif %}
+
     <a class="github-link" href="https://github.com/bakkyalo/mypage/blob/master/{{ page.path }}">View on GitHub</a>
+
+
 
     <div class="two-column">
         <div class="main">
@@ -53,6 +88,6 @@
 
 </body>
 
-{% include footer.html %}
 
+    {% include footer.html %}
 </html>

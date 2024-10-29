@@ -1,0 +1,15 @@
+---
+layout: default
+title: ブログ
+---
+
+<h2>記事一覧</h2>
+
+<ul>
+    {% for post in site.posts %}
+        <li>
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+            {{ post.excerpt }}
+        </li>
+    {% endfor %}
+</ul>

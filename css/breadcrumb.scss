@@ -1,0 +1,23 @@
+// https://developer.mozilla.org/ja/docs/Web/CSS/Layout_cookbook/Breadcrumb_Navigation
+.breadcrumb {
+    padding: 0 0.2rem;
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    li:not(:last-child)::after {
+        display: inline-block;
+        margin: 0 0.5rem;
+        content: ">";
+    }
+}

@@ -35,7 +35,7 @@ let include_html = function(html_url, insert_into_arr) {
 
 // footer の挿入
 document.addEventListener('DOMContentLoaded', () => {
-    fetch("./footer.html")
+    fetch("/footer.html")
         .then(response => {
             return response.text()
         })
