@@ -1,4 +1,6 @@
 title: あかり描像のページ
+url: https://bakkyalo.github.io
+baseurl: /mypage
 plugins:
  - jekyll-sitemap
  - jekyll-seo-tag
