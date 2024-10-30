@@ -1,0 +1,16 @@
+.jekyll-tag-test {
+  margin: 50px 0px;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+.jekyll-tag-test thead {
+  background-color: lightgray;
+}
+.jekyll-tag-test th {
+  padding: 1px 10px;
+  border: 1px solid darkgray;
+}
+.jekyll-tag-test td {
+  padding: 1px 10px;
+  border: 1px solid darkgray;
+}/*# sourceMappingURL=jekyll_test.css.map */

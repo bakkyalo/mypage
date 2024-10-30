@@ -1,0 +1,19 @@
+.jekyll-tag-test {
+    margin: 50px 0px;
+    border-collapse: collapse;
+    white-space: nowrap;
+
+    thead {
+        background-color: lightgray;
+    }
+
+    th {
+        padding: 1px 10px;
+        border: 1px solid darkgray;
+    }
+
+    td {
+        padding: 1px 10px;
+        border: 1px solid darkgray;
+    }
+}

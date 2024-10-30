@@ -7,19 +7,28 @@ tree:
     - name: this
 ---
 
+<link href="./css/jekyll_test.css" rel="stylesheet" />
+<link href="./css/blog.css" rel="stylesheet" />
+
 <h2>記事一覧</h2>
 
 
 
-<ul>
     {% for post in site.posts %}
-        {{ post.url }} : {{ post.url | absolute_url }}
-        <li>
-            <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
-            {{ post.excerpt }}
-        </li>
+        <!-- {{ post.url }} : {{ post.url | absolute_url }} -->
+        <section class="post-section">
+            <div class="description-wrapper">
+                <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+                <time class="postDate">{{ post.date | date: "%Y-%-m-%d" }}</time>
+                {{ post.excerpt }}
+            </div>
+            <div class="thumbnail-wrapper">
+            {% if post.thumbnail %}
+                <a href="{{ site.baseurl }}{{ post.url }}"><img src="{{ post.thumbnail }}"></a>
+            {% endif %}
+            </div>
+        </section>
     {% endfor %}
-</ul>
 
 <div style="margin: 200px 0;"></div>
 
