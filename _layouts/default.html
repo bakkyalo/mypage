@@ -52,7 +52,7 @@
                         <!-- URL の指定が存在する時 -->
                         {% if item.name == "Home" %}
                             <!-- Home が指定された時 -->
-                            <li><a href="{{ site.url }}">Home</a></li>
+                            <li><a href="{{ site.url }}{{ site.baseurl }}">Home</a></li>
                         {% else %}
                             <!-- Home 以外で URL の指定がある場合 -->
                             <li><a href="{{ site.baseurl }}{{ item.url }}">{{ item.name }}</a></li>
@@ -65,7 +65,7 @@
 
             {% else %}
                 <!-- html で tree が定義されていない時 -->
-                <li><a href="/">Home</a></li>
+                <li><a href="{{ site.url }}{{ site.baseurl }}">Home</a></li>
             {% endif %}
         </ul>
     </nav>
