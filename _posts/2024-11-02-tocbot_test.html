@@ -10,15 +10,46 @@ tree:
     - name: this
 ---
 <!-- highlight.js  -->
+<!--
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="https://raw.githubusercontent.com/highlightjs/highlight.js/refs/heads/main/src/styles/github-dark.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 <!-- and it's easy to individually load additional languages -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/latex.min.js"></script>
 
-<script>hljs.highlightAll();</script>
+<!-- 
+https://wcoder.github.io/highlightjs-line-numbers.js/
+-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.9.0/highlightjs-line-numbers.min.js"></script>
+
+
+<!--
+https://github.com/arronhunt/highlightjs-copy
+-->
+<script src="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/highlightjs-copy/dist/highlightjs-copy.min.css"
+/>
+
+<script>
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+
+    hljs.addPlugin(new CopyButtonPlugin( {autohide: false, lang: "en"} ));
+</script>
 <!--  -->
+
+<style>
+    td.hljs-ln-code {
+        padding-left: 1em;
+    }
+</style>
 
 <a href="https://tscanlin.github.io/tocbot/">Tocbot</a>
 
@@ -63,12 +94,31 @@ tree:
     <h3 id="c">めちゃくちゃ離れたセクション</h3>
     <div style="margin-bottom: 600vh;">c</div>
     <h2 id="program">プログラムも書いてみよう</h2>
+
+    <iframe class="hatenablogcard" style="width:100%;height:155px;max-width:680px;" title="Examples - highlight.js" src="https://hatenablog-parts.com/embed?url=https://highlightjs.org/examples" width="300" height="150" frameborder="0" scrolling="no"></iframe>
+    <p>ここから好きなテーマを拾ってこよう</p>
+
     <h3 id="javascript-example">JavaScript</h3>
-    <pre style="padding-left: 2em; padding-right: 2em; overflow-x: auto;"><code class="language-javascript">
-for ( ; ; ) {
+
+    <div style="display: flex; justify-content: space-between;">
+    <pre style="width: calc(100% - 44px); display: block; margin: 0;"><code class="language-javascript">for ( ; ; ) {
 window.alert("　∧_∧　ババババ\n（ ・ω・)=つ≡つ\n（っ ≡つ=つ\n`/　　)\n(ノΠＵ\n何回閉じても無駄ですよ～ww\nm9（＾Д＾）プギャー！！")
-}
-    </code></pre>
+}</code></pre>
+    <div style="width: 44px; z-index: -99;"></div>
+    </div>
+    <style>
+        .hljs-copy-container {
+            right: 0px;
+            top: 10px;
+            opacity: 1;
+        }
+        .hljs-copy-button {
+            z-index: 2;
+            position: relative;
+        }
+    </style>
+
+
     <a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E3%83%AB%E3%83%BC%E3%83%97%E4%BA%8B%E4%BB%B6">source</a>
 
     <p>※ 開発者ツールのコンソールでこれをやると CPU が死にます。絶対にやるなよ？絶対だぞ？？w</p>
@@ -78,14 +128,12 @@ window.alert("　∧_∧　ババババ\n（ ・ω・)=つ≡つ\n（っ ≡つ=
 
     <p>神が降りてきた。</p>
 
-    <pre style="padding-left: 2em; padding-right: 2em; overflow-x: auto;"><code class="language-lua">
-$$
+    <pre><code class="language-lua">$$
 \frac{1}{\pi} =
 \frac{ 2 \sqrt{2} }{ 99^2 }
     \sum_{n=0}^{\infty}
         \frac{ (4n)! (1103 + 26390 n) }{ (4^n 99^n n!)^4 }
-$$
-    </code></pre>
+$$</code></pre>
 
 
     $$
@@ -96,9 +144,8 @@ $$
     $$
 
 
-    ※ KaTeX を使うとこんなのが出る。
-    <pre><code>
-tocbot.min.js:1 
+    ※ Edge では KaTeX を使うとこんなのが出る。
+    <pre><code>tocbot.min.js:1 
  [Deprecation]-ms-high-contrast-adjust is in the process of being deprecated. Please see https://blogs.windows.com/msedgedev/2024/04/29/deprecating-ms-high-contrast/ for tips on updating to the new Forced Colors Mode standard.
     </code></pre>
 
@@ -106,10 +153,26 @@ tocbot.min.js:1
     なーほーね
 
 
-    <h2 id="olul">ol とか ul とか</h2>
+    <h3 id="cpp">C++</h3>
+    <pre><code class="code-block-with-number language-cpp">#include &lt;iostream&gt;
+int main()
+{
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "ばーか" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+
+
 </div>
 
 
+<h2 id="olul">ol とか ul とか</h2>
 
 <ul>
     <li>aaaaaa</li>
