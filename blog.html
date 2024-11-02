@@ -19,8 +19,12 @@ tree:
             <!-- 左半分 -->
             <div class="description-wrapper">
                 <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
-                <time class="postDate">{{ post.date | date: "%Y-%-m-%d" }}</time>
-                {{ post.excerpt }}
+                <time class="postDate">{{ post.date | date: "%Y-%-m-%d" }}</time><br>
+                {% if post.abstract %}
+                    <p>{{ post.abstract }}</p>
+                {% else %}
+                    {{ post.excerpt }}
+                {% endif %}
             </div>
             <!-- 右半分 -->
             <div class="thumbnail-wrapper">
