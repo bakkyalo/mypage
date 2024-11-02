@@ -7,7 +7,6 @@ tree:
     - name: this
 ---
 
-<link href="./css/jekyll_test.css" rel="stylesheet" />
 <link href="./css/blog.css" rel="stylesheet" />
 
 <h2>記事一覧</h2>
@@ -17,11 +16,13 @@ tree:
     {% for post in site.posts %}
         <!-- {{ post.url }} : {{ post.url | absolute_url }} -->
         <section class="post-section">
+            <!-- 左半分 -->
             <div class="description-wrapper">
                 <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
                 <time class="postDate">{{ post.date | date: "%Y-%-m-%d" }}</time>
                 {{ post.excerpt }}
             </div>
+            <!-- 右半分 -->
             <div class="thumbnail-wrapper">
             {% if post.thumbnail %}
                 <a href="{{ site.baseurl }}{{ post.url }}"><img src="{{ post.thumbnail }}"></a>
@@ -30,61 +31,8 @@ tree:
         </section>
     {% endfor %}
 
-<div style="margin: 200px 0;"></div>
+<div style="margin: 100vh 0;"></div>
 
-<table class="jekyll-tag-test">
-    <thead>
-        <tr>
-            <th>tag</th>
-            <th>rendering</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>&#123;&#123; site.url &#125;&#125;</code></td>
-            <td>{{ site.url }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; site.baseurl &#x7D;&#x7D;</code></td>
-            <td>{{ site.baseurl }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; site.title &#x7D;&#x7D;</code></td>
-            <td>{{ site.title }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.url &#x7D;&#x7D;</code></td>
-            <td> {{ page.url }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.baseurl &#x7D;&#x7D;</code></td>
-            <td>{{ page.baseurl }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.url | absolute_url &#x7D;&#x7D;</code></td>
-            <td> {{ page.url | absolute_url }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.title &#x7D;&#x7D;</code></td>
-            <td>{{ page.title }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.id &#x7D;&#x7D;</code></td>
-            <td>{{ page.id }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.dir &#x7D;&#x7D;</code></td>
-            <td>{{ page.dir }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.name &#x7D;&#x7D;</code></td>
-            <td>{{ page.name }}</td>
-        </tr>
-        <tr>
-            <td><code>&#x7B;&#x7B; page.path &#x7D;&#x7D;</code></td>
-            <td>{{ page.path }}</td>
-        </tr>
-    </tbody>
-
-
-</table>
+<!--
+{% include jekyll-tags-table.html %}
+    -->

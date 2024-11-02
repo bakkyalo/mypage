@@ -1,0 +1,56 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.30.0/tocbot.min.js"></script>
+
+<script>
+    tocbot.init( {
+        tocSelector: '.js-toc',
+        contentSelector: '.js-toc-content',
+        headingSelector: 'h2, h3, h4, h5',
+        hasInnerContainers: false,
+        orderedList: false      // <ul>
+    });
+</script>
+
+<style>
+    .js-toc {
+        font-size: smaller;
+        /*
+        padding-right: .5em;
+        */
+    }
+    .js-toc ul {
+        padding-left: .8em;
+        line-height: 1.8em;
+    }
+    .js-toc ul:first-child {
+        padding-left: 0;
+    }
+    .js-toc ul li {
+        list-style-type: none;
+        padding: 0;
+    }
+    .js-toc a {
+        text-decoration: none; 
+        display: block;     /* <a> の当たり判定を <li> に広げる */
+        padding-left: .3em;
+        padding-right: .3em;
+        color: #111111;
+    }
+    .js-toc a:hover {
+        /*
+        text-decoration: underline;
+         */
+        background-color: #eeeeee;
+        color: black;
+    }
+
+    /* いつもの */
+    nav.side-toc {
+        top: 2em;
+        position: sticky;
+    }
+    .js-toc {
+        height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+</style>

@@ -2,10 +2,16 @@
     margin: 50px 0px;
     border-collapse: collapse;
     white-space: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    
+    display: block;     // めっちゃ大事
+
 
     thead {
         background-color: lightgray;
     }
+
 
     th {
         padding: 1px 10px;

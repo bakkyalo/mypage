@@ -1,3 +1,7 @@
+@charset "UTF-8";
+/*
+ * 主にブログ一覧のカードを調整
+ */
 section.post-section {
   border: 1px solid #555555;
   padding: 2% 3% 10% 3%;

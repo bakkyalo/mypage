@@ -1,0 +1,155 @@
+---
+title: "tocbot のテストをしてみたよ"
+layout: post
+thumbnail: https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g1nii1mki6j30n80bf3yz.jpg
+tree:
+    - name: Home
+      url: /
+    - name: ブログ
+      url: /blog.html
+    - name: this
+---
+<!-- highlight.js  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/latex.min.js"></script>
+
+<script>hljs.highlightAll();</script>
+<!--  -->
+
+<a href="https://tscanlin.github.io/tocbot/">Tocbot</a>
+
+<p>Qiita の CSS をパクったりして色々調整してみたよ</p>
+
+
+<h2>目次</h2>
+
+<!--
+<div class="js-toc"></div>
+-->
+
+
+
+<div class="js-toc-content">
+    <h2 id="tocbot_test">tocbot のテストだよ</h2>
+    <h3 id="tocbot_interesting">楽しいね</h3>
+    <h4 id="id_boring">id を振らないといけないのが怠いね</h4>
+    <h4 id="日本語でおk">id は日本語でもいいんすね</h4>
+    <h5 id="ai-katsu">うんうんそれもまたアイカツだね</h5>
+    <h2 id="oppai">おっぱい</h2>
+    <h2 id="omanko">おまんこ</h2>
+    <h2 id="nagato-yuki">対有機生命体コンタクト用ヒューマノイドインターフェース</h2>
+    <h3 id="its-me">それが私</h3>
+    <div style="margin-bottom: 100vh;">a</div>
+    <h2 id="yo">よ</h2>
+    <h2 id="ku">く</h2>
+    <h2 id="ki">聞</h2>
+    <h2 id="ke">け</h2>
+    <h2 id="wa">我</h2>
+    <h2 id="ga">が</h2>
+    <h2 id="na">名</h2>
+    <h2 id="ha">は</h2>
+    <h2 id="sa">さ</h2>
+    <h2 id="da">だ</h2>
+    <h2 id="ma">ま</h2>
+    <h2 id="sa2">さ</h2>
+    <h2 id="shi">し</h2>
+    <div style="margin-top: 100vh; margin-bottom: 100vh;">a</div>
+    <h2 id="b">やや離れたセクション</h2>
+    <div style="margin-top:100vh; margin-bottom: 300vh;">b</div>
+    <h3 id="c">めちゃくちゃ離れたセクション</h3>
+    <div style="margin-bottom: 600vh;">c</div>
+    <h2 id="program">プログラムも書いてみよう</h2>
+    <h3 id="javascript-example">JavaScript</h3>
+    <pre style="padding-left: 2em; padding-right: 2em; overflow-x: auto;"><code class="language-javascript">
+for ( ; ; ) {
+window.alert("　∧_∧　ババババ\n（ ・ω・)=つ≡つ\n（っ ≡つ=つ\n`/　　)\n(ノΠＵ\n何回閉じても無駄ですよ～ww\nm9（＾Д＾）プギャー！！")
+}
+    </code></pre>
+    <a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%A9%E3%83%BC%E3%83%88%E3%83%AB%E3%83%BC%E3%83%97%E4%BA%8B%E4%BB%B6">source</a>
+
+    <p>※ 開発者ツールのコンソールでこれをやると CPU が死にます。絶対にやるなよ？絶対だぞ？？w</p>
+
+    <h3 id="katex">KaTeX</h3>
+    <a href="https://katex.org/">KaTeX – The fastest math typesetting library for the web</a>
+
+    <p>神が降りてきた。</p>
+
+    <pre style="padding-left: 2em; padding-right: 2em; overflow-x: auto;"><code class="language-lua">
+$$
+\frac{1}{\pi} =
+\frac{ 2 \sqrt{2} }{ 99^2 }
+    \sum_{n=0}^{\infty}
+        \frac{ (4n)! (1103 + 26390 n) }{ (4^n 99^n n!)^4 }
+$$
+    </code></pre>
+
+
+    $$
+    \frac{1}{\pi} =
+    \frac{ 2 \sqrt{2} }{ 99^2 }
+        \sum_{n=0}^{\infty}
+            \frac{ (4n)! (1103 + 26390 n) }{ (4^n 99^n n!)^4 }
+    $$
+
+
+    ※ KaTeX を使うとこんなのが出る。
+    <pre><code>
+tocbot.min.js:1 
+ [Deprecation]-ms-high-contrast-adjust is in the process of being deprecated. Please see https://blogs.windows.com/msedgedev/2024/04/29/deprecating-ms-high-contrast/ for tips on updating to the new Forced Colors Mode standard.
+    </code></pre>
+
+    Brave では出なかったので、どうやら Edge で何か非推奨なものに触れたんだろう。<br>
+    なーほーね
+
+
+    <h2 id="olul">ol とか ul とか</h2>
+</div>
+
+
+
+<ul>
+    <li>aaaaaa</li>
+    <li>bbbbb</li>
+    <ul>
+        <li>ccc</li>
+        <li>dd</li>
+    </ul>
+    <li>3</li>
+
+</ul>
+
+<ol>
+    <li>aaaaaa</li>
+    <li>bbbbb</li>
+    <ol>
+        <li>ccc</li>
+        <li>dd</li>
+    </ol>
+    <li>3</li>
+</ol>
+
+
+<div class="js-toc-content">
+    <h2 id="division-ok">分割してもいけるかな</h2>
+    <h3 id="oh-my">むりじゃん</h3>
+    <p><code>class</code> の癖して <code>querySelectorAll()</code> になってないので、一か所の content しか読み取れないし、一か所にしか挿入できない。</p>
+</div>
+
+<!--
+{% include create_toc.html  %}
+-->
+
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
