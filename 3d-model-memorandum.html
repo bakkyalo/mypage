@@ -1,0 +1,65 @@
+---
+title: コイカツモデルを VRC 化したり pmx を vrm 化したり
+layout: default
+tree:
+    - name: Home
+      url: /
+    - name: 備忘録
+      url: /memorandum.html
+    - name: this
+      url: this
+---
+
+<p>グレー寄りのブラックな話題なのでこっちに書きます</p>
+
+
+<h2>必要なソフト等</h2>
+
+<ul>
+    <li>共通</li>
+    <ul>
+        <li><a href="https://unity.com/ja/unity-hub">Unity Hub</a></li>
+        <li><a href="https://www.blender.org/download/">Blender</a></li>
+        <li><a href="https://kkhk22.seesaa.net/category/14045227-1.html">PmxEditor</a> (optional)</li>
+    </ul>
+
+    <li>VRC 関連</li>
+        
+    <ul>
+        <li><a href="https://vcc.docs.vrchat.com/">VRChat Creator Companion (VCC)</a></li>
+        <li><a href="https://creators.vrchat.com/sdk/upgrade/current-unity-version/">VRChat SDK 対応の Unity</a>
+                 (2025年1月時点では <a href="https://unity.com/releases/editor/whats-new/2022.3.22">2022.3.22f1</a>)</li>
+    </ul>
+</ul>
+
+
+<h2>pmx → vrm</h2>
+
+<p>Unity にいくつか unitypackage を入れて編集する。</p>
+
+<ul>
+    <li><a href="https://github.com/vrm-c/UniVRM/releases">UniVRM</a></li>
+    <li><a href="https://stereoarts.jp/">MMD4Mecanim</a></li>
+</ul>
+
+
+大まかな流れ
+
+<pre><code>PMX -- (MMD4Mecanim) -> FBX  -- (UniVRM) -> VRM
+</code></pre>
+
+
+<p>また、Blender に <a href="https://extensions.blender.org/add-ons/mmd-tools/">MMD Tools</a> を入れて .pmx を読み込んで .fbx で出力し、それを Unity で編集するという手もある。<br>
+<a href="https://extensions.blender.org/add-ons/vrm/">VRM format</a> Add-ons で Blender のみで直接 .vrm にできるかもしれませんが、設定が複雑そうなので私は諦めました。</p>
+
+
+<p>他にも試してないですが <a href="https://github.com/hobosore/PMX2VRMConverterEXE/tree/master">PMX2VRMConverterEXE</a> というものもあるらしいです。</p>
+
+
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/88vpqFHCMFA?si=ALEHX9wBaJ2O2fNn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dax5GM3PAyU?si=bL1YxGA7PHgLJ0rR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KljbPfAM_s0?si=47EfnYo6ABx1LJHG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
