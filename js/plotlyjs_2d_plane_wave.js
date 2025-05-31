@@ -200,6 +200,6 @@ stopButton.addEventListener('click', stopAnimation);
 // 初期描画
 window.addEventListener('DOMContentLoaded', () => {
     updateGraph();
+    // 初期アニメーション再生が必要な場合は、ここで startAnimation(); を呼び出す
+    // startAnimation(); // 必要であればコメントアウトを外す
 });
-// 初期アニメーション再生が必要な場合は、ここで startAnimation(); を呼び出す
-// startAnimation(); // 必要であればコメントアウトを外す

@@ -9,6 +9,26 @@ first: <a href="./">Home</a>
 
 <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+       onload="renderMathInElement(document.body);"></script>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false},
+                  {left: '\\[', right: '\\]', display: true}
+              ],
+              throwOnError : false
+            });
+        });
+</script>
+
 
 <style>
         /*
@@ -18,20 +38,8 @@ first: <a href="./">Home</a>
         #app-container {
             margin: 0 auto;
             padding: 20px;
-
-            /*
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-             */
         }
 
-        #plane-wave-graph, #plane-wave-graph .main-svg {
-            /*
-            width: 100% !important;
-             */
-            box-sizing: border-box;
-        }
         #controls {
             margin-top: 20px;
             padding: 15px;
@@ -40,7 +48,6 @@ first: <a href="./">Home</a>
             background-color: #f9f9f9;
         }
 
-        /* 修正点: スライダーグループのFlexbox設定 */
         .slider-group {
             display: flex; /* Flexboxを有効にする */
             align-items: center; /* 縦方向の中央揃え */
@@ -108,6 +115,9 @@ first: <a href="./">Home</a>
         #stop-button { background-color: #dc3545; color: white; }
     </style>
 
+<p>
+    $u(t, x_1, x_2) = \cos (\omega t - k_1 x_1 - k_2 x_2)$
+</p>
 <div id="app-container">
 
         <div id="plane-wave-graph" style="height: 500px;"></div>
