@@ -5,9 +5,6 @@ const Y_MIN = -5;
 const Y_MAX = 5;
 const NUM_POINTS = 100; // X_RANGE, Y_RANGE の点数
 
-// 時間ステップ (Dashアプリと同じ50ステップ)
-const TIME_STEPS = Array.from({length: 50}, (_, i) => (i / (50 - 1)) * 2 * Math.PI); // 0から2πまで
-
 // スライダー要素と値表示要素の取得
 const omegaSlider = document.getElementById('omega-slider-js');
 const k1Slider = document.getElementById('k1-slider-js');
@@ -73,11 +70,9 @@ function generateSurfaceData(omega, k1, k2, t) {
     return Z;
 }
 
-// let currentCamera = null;
 
 // --- グラフの初期描画と更新関数 ---
 function updateGraph() {
-    // const current_t = TIME_STEPS[currentTimeIndex];
     const Z = generateSurfaceData(currentOmega, currentK1, currentK2, currentTime);
 
     // タイトル文字列を生成
@@ -97,15 +92,8 @@ function updateGraph() {
         titleString = `u(t, x₁, x₂) = cos(0) | t = ${currentTime.toFixed(1)}`;
     }
 
-    // 既存のグラフのレイアウトからカメラ視点を取得する
-    // if (graphDiv.layout && graphDiv.layout.scene && graphDiv.layout.scene.camera) {
-    //     currentCamera = graphDiv.layout.scene.camera;
-    // }
-    // console.log(currentCamera);
-
 
     const layout = {
-        // title: `Plane Wave: ω=${currentOmega.toFixed(2)}, k1=${currentK1.toFixed(2)}, k2=${currentK2.toFixed(2)}, t=${currentTime.toFixed(2)}`,
         title: {
             text: titleString,
             font: { size: 16 , color: '#333' },
@@ -114,11 +102,9 @@ function updateGraph() {
             xaxis: { title: {text: 'x₁'} },
             yaxis: { title: {text: 'x₂'} },
             zaxis: { title: {text: 'u'}, range: [-2.0, 2.0] },
-            // 既存のカメラ視点があればそれを設定する
-            // camera: currentCamera || {} // なければ空オブジェクトでデフォルトが適用される
         },
-        margin: { l: 0, r: 0, b: 0, t: 40 },
-        // autosize: true, // コンテナサイズに合わせて自動調整
+        margin: { l: 0, r: 0, b: 0, t: 80 },
+        autosize: true, // コンテナサイズに合わせて自動調整
         uirevision: 'static'
     };
 
@@ -132,27 +118,25 @@ function updateGraph() {
         cmax: 1
     }];
 
-    // グラフがまだ存在しない場合は新規作成、存在する場合は更新
-    if (graphDiv.data) {
-        // Plotly.react('plane-wave-graph', data, layout);
-        Plotly.react(graphDiv, data, layout); // これでも良いが、カメラリセットの問題が起きる場合がある
-        // より確実な方法: layoutをrestyleで更新する (cameraだけを更新)
-        // Plotly.restyle(graphDiv, {z: [Z]}); // データだけ更新
-        // Plotly.relayout(graphDiv, layout); // レイアウトを更新 (titleやcameraなど)
-    } else {
-        // Plotly.newPlot('plane-wave-graph', data, layout);
-        Plotly.newPlot(graphDiv, data, layout);
+    const config = {
+        responsive: true, // レスポンシブ対応
+        displayModeBar: true, // モードバーを表示
+        displaylogo: true, // Plotlyロゴ非表示
+        // modeBarButtonsToRemove: ['toImage', 'sendDataToCloud', 'editInChartStudio', 'zoom2d', 'select2d', 'pan2d', 'lasso2d', 'autoScale2d', 'resetScale2d'], // 不要なボタンを削除
     }
 
+    // グラフがまだ存在しない場合は新規作成、存在する場合は更新
+    if (graphDiv.data) {
+        Plotly.react(graphDiv, data, layout, config);
+    } else {
+        Plotly.newPlot(graphDiv, data, layout, config);
+    }
 
 
     // スライダーの値表示を更新
     omegaValueSpan.textContent = currentOmega.toFixed(1);
     k1ValueSpan.textContent = currentK1.toFixed(1);
     k2ValueSpan.textContent = currentK2.toFixed(1);
-    // timeValueSpan.textContent = current_t.toFixed(2);
-    // timeValueSpan.textContent = currentTime.toFixed(2);
-    // timeSlider.value = currentTimeIndex; // 時間スライダーも現在の時間に同期
 }
 
 // --- アニメーションループ関数 ---
@@ -169,29 +153,6 @@ function animate(timestamp) {
 
     animationFrameId = requestAnimationFrame(animate); // Request the next frame
 }
-
-// --- アニメーション制御関数 ---
-/*
-function startAnimation() {
-    if (animationInterval) {
-        // 既にアニメーションが実行中の場合、何もしない（多重起動防止）
-        return;
-        // clearInterval(animationInterval); // 既存のアニメーションをクリア
-    }
-    animationInterval = setInterval(() => {
-        // currentTimeIndex = (currentTimeIndex + 1) % TIME_STEPS.length;
-        currentTime += timeStepIncrement; // 時刻を連続的に増加
-        updateGraph();
-    }, animationSpeed);
-}
-
-function stopAnimation() {
-    if (animationInterval) {
-        clearInterval(animationInterval);
-        animationInterval = null;
-    }
-}
-*/
 
 // --- アニメーション制御関数 ---
 function startAnimation() {
@@ -231,11 +192,6 @@ k2Slider.addEventListener('input', (e) => {
     updateGraph();
 });
 
-// timeSlider.addEventListener('input', (e) => {
-//     currentTimeIndex = parseInt(e.target.value);
-//     stopAnimation(); // 手動で時間を動かしたらアニメーション停止
-//     updateGraph();
-// });
 
 // Play/Stopボタン
 playButton.addEventListener('click', startAnimation);

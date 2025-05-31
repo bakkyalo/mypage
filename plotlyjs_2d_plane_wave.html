@@ -38,21 +38,14 @@ first: <a href="./">Home</a>
             margin-bottom: 15px;
         }
         .slider-group label {
-            /* 修正点: ラベルの固定幅を設定 */
-
-            /*
-            flex-basis: 80px; /* ラベルの最大幅を設定。文字の長さに合わせて調整 
-            min-width: 60px; /* 最小幅も設定し、文字がはみ出さないように 
-             */
-            margin-right: 15px; /* ラベルとスライダーの間隔 */
-            font-weight: bold;
-            /*
-            text-align: right; /* ラベルを右揃えにする 
-            */
 
             display: flex;
             justify-content: space-between;
             width: 85px;
+            min-width: 60px;
+
+            margin-right: 15px; /* ラベルとスライダーの間隔 */
+            font-weight: bold;
         }
         .slider-group label .key {
             text-align: left;
@@ -63,7 +56,6 @@ first: <a href="./">Home</a>
 
         .slider-group input[type="range"] {
             flex-grow: 1; /* スライダーが利用可能なスペースを全て使う */
-            /* -webkit-appearance: none; */
             height: 8px;
             border-radius: 5px;
             background: #d3d3d3;
@@ -143,152 +135,3 @@ first: <a href="./">Home</a>
 
 
 <script src="./js/plotlyjs_2d_plane_wave.js"></script>
-
-
-
- <script>
-
-    // // HTMLファイル内、または外部JSファイル
-
-
-// // 3. JavaScriptコード
-
-// const X_MIN = -5;
-// const X_MAX = 5;
-// const Y_MIN = -5;
-// const Y_MAX = 5;
-// const NUM_POINTS = 100; // X_RANGE, Y_RANGE の点数
-
-// const TIME_STEPS = Array.from({length: 50}, (_, i) => (i / 49) * 2 * Math.PI); // 0から2πまで50ステップ
-
-// let INITIAL_OMEGA = 1.0;
-// let INITIAL_K1 = 0.5;
-// let INITIAL_K2 = 2.0;
-
-// // X, Y のメッシュグリッドを生成
-// function createMeshgrid(xMin, xMax, yMin, yMax, numPoints) {
-    // const xRange = Array.from({length: numPoints}, (_, i) => xMin + (xMax - xMin) * i / (numPoints - 1));
-    // const yRange = Array.from({length: numPoints}, (_, i) => yMin + (yMax - yMin) * i / (numPoints - 1));
-
-    // const X = [];
-    // const Y = [];
-    // for (let i = 0; i < numPoints; i++) {
-        // X.push(xRange);
-        // Y.push(Array(numPoints).fill(yRange[i]));
-    // }
-    // return { X, Y };
-// }
-
-// const { X, Y } = createMeshgrid(X_MIN, X_MAX, Y_MIN, Y_MAX, NUM_POINTS);
-
-// // Z値を計算する関数 (NumPyのcosに相当)
-// function generateSurfaceData(omega, k1, k2, t) {
-    // const Z = [];
-    // for (let i = 0; i < NUM_POINTS; i++) {
-        // const row = [];
-        // for (let j = 0; j < NUM_POINTS; j++) {
-            // row.push(Math.cos(omega * t - k1 * X[i][j] - k2 * Y[i][j]));
-        // }
-        // Z.push(row);
-    // }
-    // return Z;
-// }
-
-// // 初期データの生成
-// let current_t_index = 0;
-// let current_t = TIME_STEPS[current_t_index];
-// let initial_Z = generateSurfaceData(INITIAL_OMEGA, INITIAL_K1, INITIAL_K2, current_t);
-
-// // レイアウトの定義
-// const layout = {
-    // title: `Plane Wave: ω=${INITIAL_OMEGA.toFixed(2)}, k1=${INITIAL_K1.toFixed(2)}, k2=${INITIAL_K2.toFixed(2)}, t=${current_t.toFixed(2)}`,
-    // scene: {
-        // xaxis: { title: 'X' },
-        // yaxis: { title: 'Y' },
-        // zaxis: { title: 'u', range: [-1.5, 1.5] }
-    // },
-    // margin: { l: 0, r: 0, b: 0, t: 40 },
-    // // アニメーションコントロールの追加 (Plotly.jsの標準機能)
-    // updatemenus: [{
-        // x: 0,
-        // y: 0,
-        // yanchor: "top",
-        // xanchor: "left",
-        // showactive: false,
-        // buttons: [{
-            // method: "animate",
-            // args: [null, {
-                // fromcurrent: true,
-                // transition: { duration: 50, easing: "linear" },
-                // frame: { duration: 50, redraw: true }
-            // }],
-            // label: "Play"
-        // }, {
-            // method: "animate",
-            // args: [[null], {
-                // mode: "immediate",
-                // transition: { duration: 0 },
-                // frame: { duration: 0, redraw: false }
-            // }],
-            // label: "Pause"
-        // }]
-    // }],
-    // sliders: [{
-        // steps: TIME_STEPS.map((t_val, idx) => ({
-            // method: "animate",
-            // label: t_val.toFixed(2),
-            // args: [[`frame_${idx}`], {
-                // mode: "immediate",
-                // transition: { duration: 0 },
-                // frame: { duration: 0, redraw: true }
-            // }]
-        // })),
-        // transition: { duration: 0 },
-        // x: 0.1,
-        // len: 0.9,
-        // currentvalue: {
-            // font: { size: 12 },
-            // prefix: "Time: ",
-            // visible: true,
-            // xanchor: "right"
-        // },
-        // pad: { t: 50, b: 10 },
-        // y: 0,
-    // }]
-// };
-
-// // フレームの定義
-// const frames = TIME_STEPS.map((t_val, idx) => ({
-    // name: `frame_${idx}`,
-    // data: [{ z: generateSurfaceData(INITIAL_OMEGA, INITIAL_K1, INITIAL_K2, t_val),
-             // x: X, y: Y,
-             // type: 'surface',
-             // colorscale: 'viridis',
-             // cmin: -1, cmax: 1
-          // }]
-// }));
-
-// // グラフの初期化と描画
-// Plotly.newPlot('plane-wave-graph', [{
-    // z: initial_Z,
-    // x: X,
-    // y: Y,
-    // type: 'surface',
-    // colorscale: 'viridis',
-    // cmin: -1,
-    // cmax: 1
-// }], layout, { frames: frames, responsive: true });
-
-// // スライダーやPlay/Pauseボタンの更新コールバック (HTMLの各要素にイベントリスナーを追加)
-// // たとえば、omegaスライダーが変更されたら、新しいZデータを計算して Plotly.restyle() を呼び出す。
-// // これは上記の `updatemenus` と `sliders` の定義で自動的に行われるため、手動でイベントリスナーを追加する必要は少ないです。
-
-// // もしomega, k1, k2スライダーもJavaScriptで実装したい場合
-// // HTMLにinput range要素を作成し、それらの'input'イベントでPlotly.restyleを呼び出す
-// document.getElementById('omega-slider-js').addEventListener('input', function(e) {
-    // INITIAL_OMEGA = parseFloat(e.target.value);
-    // const new_Z = generateSurfaceData(INITIAL_OMEGA, INITIAL_K1, INITIAL_K2, current_t); // current_tはアニメーションの現在の時間
-    // Plotly.restyle('plane-wave-graph', {z: [new_Z]});
-    // // タイトルの更新など
-// });
-// </script>
